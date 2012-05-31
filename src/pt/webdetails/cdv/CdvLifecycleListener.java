@@ -23,7 +23,7 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     public static void reInit() {
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
-        scope.executeScript("system/cdv/js/cdv.js");
+        scope.executeScript("system/cdv/js/bootstrap.js");
     }
 
     public void loaded() throws PluginLifecycleException {
