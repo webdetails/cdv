@@ -3,6 +3,6 @@ nbproject/private/
 bin/
 dist/
 build/
-lib/
+/lib/
 runtime-lib/
 override.properties
