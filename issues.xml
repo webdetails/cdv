@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues type="array">
+  <issue>
+    <id>790</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="CDA Integration" id="42"/>
+    <fixed_version name="12w24" id="164"/>
+    <subject>Move dashboards into system</subject>
+    <description>Move dashboards from playground to system plugin</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 16:54:59 +0100 2012</created_on>
+    <updated_on>Tue May 29 16:54:59 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>789</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="CDA Integration" id="42"/>
+    <fixed_version name="12w24" id="164"/>
+    <subject>Report errors and slow queries on CDA from CDV</subject>
+    <description>Report errors and slow queries on CDA from CDV</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 16:46:41 +0100 2012</created_on>
+    <updated_on>Tue May 29 16:46:41 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>788</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="CDA Integration" id="42"/>
+    <fixed_version name="12w24" id="164"/>
+    <subject>Build CDV support for cda calls</subject>
+    <description>Build CDV support for cda calls so that we can send failed queries and slow queries</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 16:46:03 +0100 2012</created_on>
+    <updated_on>Tue May 29 16:46:03 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>787</id>
+    <project name="CDA" id="3"/>
+    <tracker name="Feature" id="2"/>
+    <status name="In Progress" id="2"/>
+    <priority name="Low" id="3"/>
+    <author name="Tiago Ferreira" id="6"/>
+    <assigned_to name="Tiago Ferreira" id="6"/>
+    <subject>use cde ext-editor for cda files</subject>
+    <description></description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 14:49:18 +0100 2012</created_on>
+    <updated_on>Tue May 29 14:49:18 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>786</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Frontend" id="39"/>
+    <fixed_version name="12w24" id="164"/>
+    <subject>CDA status dashboard</subject>
+    <description>Build dashboard for CDA status: Failed and duration</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 13:06:51 +0100 2012</created_on>
+    <updated_on>Tue May 29 16:42:14 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>785</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Frontend" id="39"/>
+    <fixed_version name="12w23" id="163"/>
+    <subject>Build Create / Edit / Delete tests dashboard</subject>
+    <description>Build the main CRUD dashboard</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 13:06:02 +0100 2012</created_on>
+    <updated_on>Tue May 29 13:06:20 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>784</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Frontend" id="39"/>
+    <fixed_version name="12w23" id="163"/>
+    <subject>Build Monitorization dashboard</subject>
+    <description>Build initial dashboard for monitoring results</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 13:04:27 +0100 2012</created_on>
+    <updated_on>Tue May 29 16:41:36 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>783</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w23" id="163"/>
+    <subject>Email notifications</subject>
+    <description>Build email settings and notifications</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:47:29 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:47:29 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>782</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Ricardo Fradinho" id="47"/>
+    <category name="Externals" id="40"/>
+    <fixed_version name="12w23" id="163"/>
+    <subject>Build external api calls for nagios</subject>
+    <description>Build external calls to be able to connect to nagios</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:45:33 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:45:33 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>781</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build persistence</subject>
+    <description>Build persistence layer for storing the results of the tests</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:42:08 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:48:25 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>780</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w23" id="163"/>
+    <subject>Build scheduler</subject>
+    <description>Build scheduler for execution of the tests</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:41:35 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:42:36 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>779</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Frontend" id="39"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build Show Tests dashboard</subject>
+    <description>Build initial dashboard for showing tests</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>16.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:26:03 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:49:42 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>778</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Validators" id="41"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build sample validators</subject>
+    <description>Build sample validators</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:22:35 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:28:41 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>777</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="In Progress" id="2"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build sample CDVs</subject>
+    <description>Build sample .cdv's </description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:19:12 +0100 2012</created_on>
+    <updated_on>Tue May 29 17:04:10 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>776</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Write and register CDV api calls</subject>
+    <description>This is the main CDV js api</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:11:07 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:51:59 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>775</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build CDV api</subject>
+    <description>This is the main CDV js api</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:08:02 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:08:02 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>774</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Build connector with js calls</subject>
+    <description>We need a way to be able to have js backends to be answering the content generator calls. This will allow us a more rapid development cycle</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>24.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 12:06:33 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:06:33 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>773</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Pedro Pinheiro" id="3"/>
+    <category name="Backend" id="38"/>
+    <fixed_version name="12w21" id="162"/>
+    <subject>Build CDV plugin</subject>
+    <description>Build plugin / git structure / etc</description>
+    <start_date>2012-05-29</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Tue May 29 11:59:10 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:08:38 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>771</id>
+    <project name="CDF" id="2"/>
+    <tracker name="Bug" id="1"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Kleyson Rios" id="66"/>
+    <assigned_to name="Tiago Ferreira" id="6"/>
+    <subject>selectMultiComponent does't change its values if no item is selected</subject>
+    <description>I have more than one Button component that fire a change in the selectMultiComponent.
+
+When I click for the first time in any Button, selectMultiComponent work fine, but new button clicks only work if at least one item in Selection is selected.
+
+In the Pentaho 3.7-CE I am able to change MultiSelection without select any item, but in the Pentaho 4.5-CE it didn't work.</description>
+    <start_date>2012-05-28</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Mon May 28 16:51:45 +0100 2012</created_on>
+    <updated_on>Wed May 30 10:46:10 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>761</id>
+    <project name="CDV" id="62"/>
+    <tracker name="Task" id="5"/>
+    <status name="In Progress" id="2"/>
+    <priority name="Normal" id="4"/>
+    <author name="Ricardo Fradinho" id="47"/>
+    <assigned_to name="Pedro Alves" id="4"/>
+    <category name="Planning" id="43"/>
+    <fixed_version name="12w22" id="161"/>
+    <subject>Planning</subject>
+    <description></description>
+    <start_date>2012-05-25</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours>36.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Fri May 25 19:09:37 +0100 2012</created_on>
+    <updated_on>Tue May 29 12:00:19 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>728</id>
+    <project name="CDC" id="20"/>
+    <tracker name="Bug" id="1"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Pedro Alves" id="4"/>
+    <subject>CDC admin interface for clean cache doesn't report when there's an error</subject>
+    <description>With Issue #727 I noticed that the frontend always reports "Done" even when there's an error</description>
+    <start_date>2012-05-21</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Mon May 21 17:27:05 +0100 2012</created_on>
+    <updated_on>Mon May 21 17:27:05 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>727</id>
+    <project name="CDC" id="20"/>
+    <tracker name="Bug" id="1"/>
+    <status name="Resolved" id="3"/>
+    <priority name="High" id="5"/>
+    <author name="Pedro Alves" id="4"/>
+    <assigned_to name="Tiago Ferreira" id="6"/>
+    <subject>Clean cache at schema level doesn't work</subject>
+    <description>Always get 'ERROR' in the resulting json.
+
+</description>
+    <start_date>2012-05-21</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Mon May 21 17:25:43 +0100 2012</created_on>
+    <updated_on>Fri May 25 19:08:58 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>722</id>
+    <project name="Helpdesk" id="59"/>
+    <tracker name="Support" id="3"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Ricardo Fradinho" id="47"/>
+    <assigned_to name="Ricardo Fradinho" id="47"/>
+    <subject>Install OSTicket</subject>
+    <description></description>
+    <start_date>2012-05-09</start_date>
+    <due_date></due_date>
+    <done_ratio>100</done_ratio>
+    <estimated_hours>8.0</estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Thu May 17 17:38:11 +0100 2012</created_on>
+    <updated_on>Thu May 17 17:38:11 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>721</id>
+    <project name="CDE" id="1"/>
+    <tracker name="Bug" id="1"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Marcello Pontes" id="62"/>
+    <assigned_to name="Tiago Ferreira" id="6"/>
+    <category name="Renderer" id="2"/>
+    <subject>SelectMulti Isn't populated, feeded by another SelectMulti Component</subject>
+    <description>I have some multiSelect Filters which have to be dependent from each other and i'm experiencing a serious problem implementing this behavior.
+
+I made two example dashboards to reproduce the problem.
+
+First uses MDX over SampleData.
+Second uses SQL.
+
+In both examples, if you select, for example, Japan, after Dashboard loads, you're gonna see both Country (select and multiselect) parameters being populated. No problem untill there.
+
+But on second attempt to update the Territory parameter, you're not gonna see the CountryMulti parameter being updated.
+
+Is there a workaround for that?
+
+Still, if you click on the CountryMulti, making some choice, and then go back to change choices on the first parameter (Teritory), the CountryMulti starts to work again, but just on first attempt after that.
+
+And, for some reason, when the SelectMulti Component has got the JQuery Plugin = 'chosen', it works FINE!</description>
+    <start_date>2012-05-17</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Thu May 17 15:59:23 +0100 2012</created_on>
+    <updated_on>Fri May 18 09:56:02 +0100 2012</updated_on>
+  </issue>
+  <issue>
+    <id>715</id>
+    <project name="CDE" id="1"/>
+    <tracker name="Task" id="5"/>
+    <status name="New" id="1"/>
+    <priority name="Normal" id="4"/>
+    <author name="Gonçalo Neto" id="13"/>
+    <subject>Tutorial</subject>
+    <description></description>
+    <start_date>2012-05-16</start_date>
+    <due_date></due_date>
+    <done_ratio>0</done_ratio>
+    <estimated_hours></estimated_hours>
+    <custom_fields>
+    </custom_fields>
+    <created_on>Wed May 16 15:47:37 +0100 2012</created_on>
+    <updated_on>Wed May 16 15:47:37 +0100 2012</updated_on>
+  </issue>
+</issues>
