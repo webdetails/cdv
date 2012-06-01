@@ -104,7 +104,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
      * Specific specs
      */
     var _spec = {
-        name: 'Community Data Validation'
+        name: 'Community Data Validation',
+        shortName: 'CDV'
     };
     
     spec = _.extend({},_spec,spec);
@@ -115,17 +116,133 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     wd.cdv.exceptionsMixin(myself);
     wd.cdv.alertMixin(myself);
     
-
     
-    myself.makeTest = function(test){
-        
-        debugger;
-        wd.log("Making test");
-        
-        
+    // Get CDA
+    myself.cda = wd.cda.cda();
+
+
+    myself.log = function(msg,level){
+        wd.log("["+spec.shortName+"] " + msg,level);
     }
     
     
+    
+    // Main function to make the tests
+    
+    myself.makeTest = function(test){
+        
+        // 1. Make CDA calls
+        // 2. Store time
+        // 3. Compose the results into a single vector of arays
+        // 4. Run tests
+        // 5. Evaluate
+       
+        myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
+    
+
+        var queryExecution = myself.executeQuery(test, myself.makeTestCallback);
+        
+        
+    };
+
+
+    // Process the test restults
+    
+    myself.makeTestCallback = function(test,result){
+         
+        var duration = result.duration;
+        var rs = result.resultset;
+        
+        
+        // 1. Parse duration
+        // 2. make test
+        // 3. return
+        
+        var parseDuration = function(test,duration){
+
+            if (!test.executionTimeValidation){
+                console.log("No info");
+                return "OK";
+            }
+    
+            var t = test.executionTimeValidation;
+    
+            var isDurationAgainstPercentageValid = function(perc){
+        
+                var v = duration/t.expected - 1;
+                return v < 0 && !t.errorOnLow ? true:Math.abs(v)<=perc;
+            }
+    
+    
+            // check if we're within the values
+            if(!isDurationAgainstPercentageValid(t.errorPercentage)){
+                return "ERROR";
+            }
+            if(!isDurationAgainstPercentageValid(t.warnPercentage)){
+                return "WARN";
+            }
+
+            return "OK";
+        }
+
+        var durationResult =  parseDuration(cdvFile,duration);
+        
+        myself.log("Duration result: " + parseDuration(cdvFile,duration),durationResult==="OK"?'debug':durationResult);
+    }
+    
+
+    // Given a test, execute the query and returns the result and the length
+    
+    myself.executeQuery = function(test, callback){
+        
+        var startTime = new Date().getTime();
+        
+        
+        // Make the queries asynchronosly
+        var count = 0,
+        total= test.validation.length,
+        rs = [];
+        
+        var wrapUpCalls = function(){
+            
+            var duration = (new Date().getTime()) - startTime;
+            
+            myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
+            callback(test, {
+                duration: duration, 
+                resultset: rs
+            });
+        }
+        
+        _.map(test.validation, function(cdaInfo, idx){
+            
+            
+            // Define callback function
+            myself.log("Making cda test " + idx, "debug");
+            
+            
+            var validationCallback = function(json){
+
+                myself.log("In validation callback",'debug');
+                count++;
+                rs[idx] = json;
+                
+                if(count===total){
+                    wrapUpCalls();
+                }
+                
+            };
+            
+            
+            // Make CDA call
+            myself.cda.doQuery(cdaInfo.cdaFile,cdaInfo.dataAccessId,cdaInfo.parameters,validationCallback);
+            
+            
+        })
+        
+    }
+
+
     return myself;
 
 

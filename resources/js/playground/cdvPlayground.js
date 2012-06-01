@@ -11,25 +11,38 @@ var cdvFile = {
     group: "CDV Sample Tests",
     validation: [ 
     {
-        cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda&dataAccessId=1", 
+        cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 
         dataAccessId: "1" , 
         parameters: {}
     },
+    {
+        cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 
+        dataAccessId: "1" , 
+        parameters: {
+            status:"Cancelled"
+        }
+    }
     ],
     tests:[ 
     {
         validationType: "custom",
         validationFunction:  function(rs, conf) {
-            var exists = rs.map(function(r){
-                return r.length > 0
+            
+            var _conf = {testAll: true};
+            conf = _.extend({},_conf,conf);
+            var exists = !!conf.testAll;
+
+            return rs.map(function(r){
+                return r.resultset.length > 0
             }).reduce(function(prev, curr){
                 return conf.testAll ? (curr && prev) : (curr || prev);
             });
             return exists ? "ERROR" : "OK";
+        
         }
     }],
     executionTimeValidation: {
-        expected: 500,
+        expected: 150,
         warnPercentage: 0.30,
         errorPercentage: 0.70,
         errorOnLow: true

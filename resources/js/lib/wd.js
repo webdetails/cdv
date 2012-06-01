@@ -123,7 +123,7 @@ wd.loglevel = 'debug';
 
 wd.log = function (m, type){
     
-    type = type || "info";
+    type = type?type.toLowerCase():"info";
     if (wd.loglevels.indexOf(type) < wd.loglevels.indexOf(wd.loglevel)) {
         return;
     }
