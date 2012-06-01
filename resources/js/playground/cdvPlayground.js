@@ -42,7 +42,7 @@ var cdvFile = {
         }
     }],
     executionTimeValidation: {
-        expected: 150,
+        expected: 100,
         warnPercentage: 0.30,
         errorPercentage: 0.70,
         errorOnLow: true
