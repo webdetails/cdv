@@ -22,7 +22,7 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
 
 
     var myself = {};
-
+    
     myself.getType = function(){
         return spec.type;
     }
@@ -38,6 +38,88 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
     return myself;
 }
 
+
+wd.cdv.testResult = wd.cdv.testResult || function(spec){
+
+
+    /**
+     * Specific specs
+     */
+    var _spec = {
+        type: "testResult",
+        description: "Test result",
+        test: undefined,
+        alert: undefined,
+        date: new Date(),
+        duration: -1, 
+        durationAlert: undefined, 
+        expectedDuration: -1
+    };
+    
+    spec = _.extend({},_spec,spec);
+
+
+    var translationLogMap = {
+        OK: "debug", 
+        WARN: "warn",
+        ERROR: "error",
+        CRITICAL: "error"
+    };
+    
+    var myself = {};
+
+    myself.getType = function(){
+        return spec.type;
+    }
+    
+    myself.getDescription = function(){
+        return spec.description;
+    }
+    
+    myself.getAlert = function(){
+        return spec.alert;
+    };
+    
+    myself.getTest = function(){
+        return spec.test;
+    };
+
+    myself.getDuration = function(){
+        return spec.duration
+    };
+    
+    myself.getExpectedDuration = function(){
+        return spec.expectedDuration;
+    };
+
+    myself.getDurationAlert = function(){
+        return spec.durationAlert
+    };
+    
+    
+    myself.getLogType = function(){
+        
+        return translationLogMap[myself.getAlert().getType()] || "debug";
+        
+    }
+    
+    myself.toString = function(){
+        
+        var str = "[" + myself.getAlert().getType() +"] Test: '" + 
+        myself.getTest().name + "', Result: " + 
+        myself.getAlert().getDescription();
+        
+        if(myself.getExpectedDuration() > 0){
+            str += "; Duration: [" + myself.getDurationAlert().getType() +"] " + myself.getDuration() + "ms (expected: " + myself.getExpectedDuration() + "ms)";
+        }
+    
+        return str;
+        
+    }
+    
+
+    return myself;
+}
 
 
 wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
@@ -57,6 +139,10 @@ wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
 wd.cdv.alertMixin = wd.cdv.alertMixin || function(myself,spec){
 
     var alerts = {
+        NA:  wd.cdv.alert({
+            type: "NA", 
+            description: "Not Applicable"
+        }),
         OK:  wd.cdv.alert({
             type: "OK", 
             description: "Test passed successfully"
@@ -84,6 +170,7 @@ wd.cdv.alertMixin = wd.cdv.alertMixin || function(myself,spec){
     
     // Parse function
     myself.parseAlert = function(alertType){
+        
         if (!alerts[alertType]){
             throw new myself.exceptions.UnknowAlertTypeError(alertType);
         }
@@ -137,6 +224,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         // 4. Run tests
         // 5. Evaluate
        
+       
         myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
     
 
@@ -152,7 +240,10 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
          
         var duration = result.duration;
         var rs = result.resultset;
-        
+
+        var resultSpec = {
+            test:test
+        };
         
         // 1. Parse duration
         // 2. make test
@@ -162,10 +253,13 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
             if (!test.executionTimeValidation){
                 console.log("No info");
-                return "OK";
+                return "NA";
             }
     
             var t = test.executionTimeValidation;
+            
+            resultSpec.duration = duration;
+            resultSpec.expectedDuration = t.expected;
     
             var isDurationAgainstPercentageValid = function(perc){
         
@@ -182,12 +276,25 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
                 return "WARN";
             }
 
+
             return "OK";
         }
 
         var durationResult =  parseDuration(cdvFile,duration);
         
-        myself.log("Duration result: " + parseDuration(cdvFile,duration),durationResult==="OK"?'debug':durationResult);
+
+        resultSpec.durationAlert = myself.parseAlert(durationResult);
+        
+        // Make the test
+        resultSpec.alert = myself.parseAlert("WARN");
+        
+        
+        // Build result object
+        
+        var testResult = wd.cdv.testResult(resultSpec);
+        myself.log( testResult.toString(), testResult.getLogType());
+        
+        return testResult;
     }
     
 

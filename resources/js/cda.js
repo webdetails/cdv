@@ -63,8 +63,6 @@ wd.cda.cda = wd.cda.cda || function(spec){
         var cd = {
             path: cdaFile,
             dataAccessId: dataAccessId,
-            userid: "joe",
-            password: "password",
             bypassCache: true
         };
         
