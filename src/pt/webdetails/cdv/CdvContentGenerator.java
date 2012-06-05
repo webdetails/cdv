@@ -58,16 +58,6 @@ public class CdvContentGenerator extends BaseContentGenerator {
         }
     }
 
-    private void setResponseHeaders(final String mimeType, final String attachmentName) {
-        // Make sure we have the correct mime type
-        final HttpServletResponse response = (HttpServletResponse) parameterProviders.get("path").getParameter("httpresponse");
-        response.setHeader("Content-Type", mimeType);
-        if (attachmentName != null) {
-            response.setHeader("content-disposition", "attachment; filename=" + attachmentName);
-        } // We can't cache this requests
-        response.setHeader("Cache-Control", "max-age=0, no-store");
-    }
-
     private void refresh(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
         CdvLifecycleListener.reInit();
     }
