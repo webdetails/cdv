@@ -25,6 +25,7 @@ var cdvFile = {
     ],
     tests:[ 
     {
+        validationName: "Test Existence",
         validationType: "custom",
         validationFunction:  function(rs, conf) {
             
@@ -32,9 +33,9 @@ var cdvFile = {
             conf = _.extend({},_conf,conf);
             var exists = !!conf.testAll;
 
-            return rs.map(function(r){
+            exists = rs.map(function(r){
                 return r.resultset.length > 0
-            }).reduce(function(prev, curr){
+            }).reduce(function(prev, curr, exists){
                 return conf.testAll ? (curr && prev) : (curr || prev);
             });
             return exists ? "ERROR" : "OK";
