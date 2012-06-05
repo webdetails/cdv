@@ -15,7 +15,8 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
      */
     var _spec = {
         type: "overrideme",
-        description: "Default alert description"
+        description: "Default alert description",
+        level: 0
     };
     
     spec = _.extend({},_spec,spec);
@@ -29,6 +30,10 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
     
     myself.getDescription = function(){
         return spec.description;
+    }
+    
+    myself.getLevel = function(){
+        return spec.level;
     }
     
     myself.toString = function(){
@@ -49,7 +54,7 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         type: "testResult",
         description: "Test result",
         test: undefined,
-        alert: undefined,
+        validationResults: [],
         date: new Date(),
         duration: -1, 
         durationAlert: undefined, 
@@ -76,13 +81,72 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         return spec.description;
     }
     
-    myself.getAlert = function(){
-        return spec.alert;
+    myself.getValidationResults = function(){
+        return spec.validationResults;
+    };
+    
+    myself.addValidationResult = function(validationResult){
+        spec.validationResults.push(validationResult);
     };
     
     myself.getTest = function(){
         return spec.test;
     };
+    
+    
+    myself.getTestResult = function(){
+    
+        // Test result will be the bigger alert level of the ones we have
+        return myself.getValidationResults().slice(0).sort(function(a,b){
+            return b.getAlert().getLevel()-a.getAlert().getLevel()
+        })[0].getAlert();
+    };
+    
+    
+    myself.getTestResultDescription = function(){
+    
+    
+        var resultMap = {},keys=[];
+        var count = myself.getValidationResults().length;
+        
+        _.each(myself.getValidationResults().sort(function(a,b){
+            return b.getAlert().getLevel() - a.getAlert().getLevel()
+        }),function(r){
+             
+            var alert = r.getAlert();
+            if(!resultMap[alert.getType()]){
+                resultMap[alert.getType()] = 1;
+                
+                // Manually building the keys array to guarantee correct order
+                keys.push(alert.getType());
+            }
+            else{
+                resultMap[alert.getType()]++;
+            }
+           
+        });
+        
+
+        if(keys.length == 1 && keys[0]==="OK"){
+            return "All " + resultMap.OK + " test(s) passed successfully";
+ 
+        }       
+        
+        var lowercaseFirstLetter = function(str){
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+            
+        var r = _.map(keys, function(type){
+            var count = resultMap[type];
+            return count + " tests " + lowercaseFirstLetter(myself.alerts[type].getDescription());
+        });
+        
+        return r.join(", ");
+            
+        
+        
+    };
+
 
     myself.getDuration = function(){
         return spec.duration
@@ -99,15 +163,18 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
     
     myself.getLogType = function(){
         
-        return translationLogMap[myself.getAlert().getType()] || "debug";
+        return translationLogMap[myself.getTestResult().getType()] || "debug";
         
     }
     
     myself.toString = function(){
         
-        var str = "[" + myself.getAlert().getType() +"] Test: '" + 
-        myself.getTest().name + "', Result: " + 
-        myself.getAlert().getDescription();
+        var testResult = myself.getTestResult();
+        
+        var description = myself.getTestResultDescription();
+        
+        
+        var str = "[" + testResult.getType() +"] " + myself.getTest().name + ", Result: " + description;
         
         if(myself.getExpectedDuration() > 0){
             str += "; Duration: [" + myself.getDurationAlert().getType() +"] " + myself.getDuration() + "ms (expected: " + myself.getExpectedDuration() + "ms)";
@@ -119,6 +186,48 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
     
 
     return myself;
+}
+
+
+wd.cdv.validationResult = wd.cdv.validationResult || function(spec){
+
+
+    /**
+     * Specific specs
+     */
+    var _spec = {
+        name: "overrideMe",
+        type: "overrideMe",
+        description: "",
+        alert: undefined
+    };
+    
+    spec = _.extend({},_spec,spec);
+
+    var myself = {};
+
+    myself.getType = function(){
+        return spec.type;
+    }
+    
+    myself.getName = function(){
+        return spec.name;
+    }
+    
+    myself.getDescription = function(){
+        return spec.description;
+    }
+    
+    myself.getAlert = function(){
+        return spec.alert;
+    }
+    
+    myself.setAlert = function(alert){
+        spec.alert = alert;
+    }
+    
+    return myself;
+
 }
 
 
@@ -141,23 +250,28 @@ wd.cdv.alertMixin = wd.cdv.alertMixin || function(myself,spec){
     var alerts = {
         NA:  wd.cdv.alert({
             type: "NA", 
-            description: "Not Applicable"
+            description: "Not Applicable",
+            level: -1
         }),
         OK:  wd.cdv.alert({
             type: "OK", 
-            description: "Test passed successfully"
+            description: "Passed successfully",
+            level: 10
         }),
         WARN:  wd.cdv.alert({
             type: "WARN", 
-            description: "Test failed with WARN"
+            description: "Failed with WARN",
+            level: 20
         }),
         ERROR:  wd.cdv.alert({
             type: "ERROR", 
-            description: "Test failed with ERROR"
+            description: "Failed with ERROR",
+            level: 30
         }),
         CRITICAL:  wd.cdv.alert({
             type: "CRITICAL", 
-            description: "Test failed with CRITICAL"
+            description: "Failed with CRITICAL",
+            level: 40
         })
     }
 
@@ -209,7 +323,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
 
     myself.log = function(msg,level){
-        wd.log("["+spec.shortName+"] " + msg,level);
+        wd.log("["+spec.shortName+"] " + msg,level || "debug");
     }
     
     
@@ -228,7 +342,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
     
 
-        var queryExecution = myself.executeQuery(test, myself.makeTestCallback);
+        myself.executeQuery(test, myself.makeTestCallback);
         
         
     };
@@ -280,18 +394,32 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             return "OK";
         }
 
-        var durationResult =  parseDuration(cdvFile,duration);
-        
 
+        // Add duration information
+        var durationResult =  parseDuration(cdvFile,duration);
         resultSpec.durationAlert = myself.parseAlert(durationResult);
         
-        // Make the test
-        resultSpec.alert = myself.parseAlert("WARN");
         
-        
-        // Build result object
-        
+        // Build result object and process validations
         var testResult = wd.cdv.testResult(resultSpec);
+
+        
+        //
+        // Make the actual test. 
+        // this can either be a custom validation or a call to a preset validation
+        //
+
+        _.each(test.tests,function(validation){
+            try{            
+                testResult.addValidationResult(myself.performValidation(validation,rs));
+            }
+            catch(e){
+                myself.log("Found error while doing validation" ,"error")
+            }
+
+        })
+        
+        
         myself.log( testResult.toString(), testResult.getLogType());
         
         return testResult;
@@ -314,7 +442,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             var duration = (new Date().getTime()) - startTime;
             
-            myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
+            // myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
             callback(test, {
                 duration: duration, 
                 resultset: rs
@@ -330,7 +458,6 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             var validationCallback = function(json){
 
-                myself.log("In validation callback",'debug');
                 count++;
                 rs[idx] = json;
                 
@@ -346,6 +473,27 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             
         })
+        
+    }
+    
+    
+    myself.performValidation = function(validation, rs){
+        
+        var validationResult = wd.cdv.validationResult({
+            name: validation.validationName, 
+            type: validation.validationType
+        })
+        
+        
+        // Call test!
+        wd.warn("TODO: Call preexisting validation here");
+        wd.warn("TODO: Pass validation arguments");
+        
+        var result = validation.validationFunction.call(myself,rs,[]);
+        
+        
+        validationResult.setAlert(myself.parseAlert("OK"));
+        return validationResult;
         
     }
 
