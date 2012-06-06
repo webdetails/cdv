@@ -5,10 +5,11 @@
 package pt.webdetails.cdv.scripts;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -35,6 +36,7 @@ public class GlobalScope extends ImporterTopLevel {
     private static GlobalScope _instance;
     private static ContextFactory contextFactory;
     private final static String systemPath = "/system/cdv/js/";
+    private final static String testPath = "/cdv/tests/";
 
     public static synchronized GlobalScope getInstance() {
         if (_instance == null) {
@@ -48,7 +50,7 @@ public class GlobalScope extends ImporterTopLevel {
         return _instance;
     }
 
-    private GlobalScope() {
+    public GlobalScope() {
         super();
         init();
     }
@@ -58,7 +60,7 @@ public class GlobalScope extends ImporterTopLevel {
         try {
             cx.initStandardObjects(this);
             String[] names = {
-                "registerHandler", "print","lib","load"};
+                "registerHandler", "print", "lib", "load", "loadTests"};
             defineFunctionProperties(names, GlobalScope.class,
                     ScriptableObject.DONTENUM);
             Object wrappedFactory = Context.javaToJS(new DatasourceFactory(), this);
@@ -91,11 +93,62 @@ public class GlobalScope extends ImporterTopLevel {
         }
         return Context.toBoolean(true);
     }
+    /*
+    public static Object setTimeout(Context cx, Scriptable thisObj,
+    Object[] args, Function funObj) {
+    
+    String method = args[0].toString();
+    String path = args[1].toString();
+    Function handler = (Function) args[2];
+    try {
+    Router.getBaseRouter().registerHandler(Router.HttpMethod.valueOf(method), path, handler);
+    //BaseScope scope = (BaseScope) thisObj;
+    //cx.evaluateReader(scope, new FileReader(scope.systemPath + "/" + file), file, 1, null);
+    } catch (Exception e) {
+    return Context.toBoolean(false);
+    }
+    
+    public static Object clearTimeout(Context cx, Scriptable thisObj,
+    Object[] args, Function funObj) {
+    
+    String method = args[0].toString();
+    String path = args[1].toString();
+    Function handler = (Function) args[2];
+    try {
+    Router.getBaseRouter().registerHandler(Router.HttpMethod.valueOf(method), path, handler);
+    //BaseScope scope = (BaseScope) thisObj;
+    //cx.evaluateReader(scope, new FileReader(scope.systemPath + "/" + file), file, 1, null);
+    } catch (Exception e) {
+    return Context.toBoolean(false);
+    }
+     */
 
     public static InputStream readFile(String path) throws FileNotFoundException {
         final ISolutionRepository solutionRepository = PentahoSystem.get(ISolutionRepository.class, PentahoSessionHolder.getSession());
         // Get the paths ot the necessary files: dependencies and the main script.
         return solutionRepository.getResourceInputStream(path, false, 0);
+
+    }
+
+    public static Object loadTests(Context cx, Scriptable thisObj,
+            Object[] args, Function funObj) {
+        /* Get the repository, and get a listing of all the files in the test dir from it*/
+        final ISolutionRepository solutionRepository = PentahoSystem.get(ISolutionRepository.class, PentahoSessionHolder.getSession());
+        ISolutionFile dir = solutionRepository.getSolutionFile(testPath, ISolutionRepository.ACTION_EXECUTE);
+        ISolutionFile files[] = dir.listFiles();
+
+        /* For each test file, read it into a stream and execute it. */
+        for (ISolutionFile file : files) {
+            String path = file.getFullPath();
+            try {
+                InputStream stream = solutionRepository.getResourceInputStream(path, false, 0);
+                cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+            } catch (IOException e) {
+                logger.error(e);
+            }
+        }
+        // Get the paths ot the necessary files: dependencies and the main script.
+        return Context.toBoolean(true);
 
     }
 
@@ -110,7 +163,7 @@ public class GlobalScope extends ImporterTopLevel {
         try {
             InputStream stream = readFile(path);
             cx.evaluateReader(scope, new InputStreamReader(stream), path, 1, null);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error(e);
         }
     }

@@ -307,7 +307,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     var _spec = {
         name: 'Community Data Validation',
         shortName: 'CDV'
-    };
+    },
+    _tests = {};
     
     spec = _.extend({},_spec,spec);
 
@@ -497,6 +498,20 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         
     }
 
+
+
+    myself.registerTest = function(test) {
+        if (!_tests[test.group]) _tests[test.group] = {};
+        _tests[test.group][test.name] = test;
+    };
+
+    myself.listTests = function(group){
+      if(group) {
+        return _tests[group];
+      } else {
+        return _tests;
+      }
+    };
 
     return myself;
 

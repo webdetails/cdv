@@ -1,32 +1,46 @@
+lib("lib/json2.js");
 lib("lib/underscore.js");
-registerHandler("GET", "/hi", function(out){
-  var datasource = datasourceFactory.createDatasource('cda');
-  datasource.setDefinitionFile("/plugin-samples/cda/cdafiles/mondrian-jndi.cda");
-  datasource.setDataAccessId('1');
+lib("lib/timers.js");
+lib("lib/later.js");
+lib("lib/wd.js");
+lib("scheduler.js");
+lib("cdv.js");
+lib("cda.js");
 
-  //datasource.setParameter('referenceDateParameter', paramreferenceDateParameter);
-  this.setOutputType(this.MIME_JSON);
-  out.write(datasource.execute().toString().getBytes("utf-8"));
+cdv = wd.cdv.cdv();
+loadTests();
+
+var timerUp = true;
+
+//scheduler.scheduleTask(function(){print("Every 7!")},"0/7 * * * * *");
+//scheduler.scheduleTask(function(){print("Every 5!")},"1-59/5 * * * * *");
+
+registerHandler("GET", "/restartTimer", function(out){
+  this.setOutputType(this.MIME_TEXT);
+  timerUp = true;
+  scheduler.restart();
+  out.write(new java.lang.String("Timer turned on").getBytes("utf-8"));
 });
 
-registerHandler("GET", "/underscore", function(out){
+registerHandler("GET", "/stopTimer", function(out){
+  try { 
   this.setOutputType(this.MIME_TEXT);
-  _.each([1,2,3],function(e){
-  out.write(new java.lang.String(e + "\n").getBytes("utf-8"));
-    
-  });
-  out.write(new java.lang.String("Hello there mate!").getBytes("utf-8"));
-  //out.write(datasource.execute().toString().getBytes("utf-8"));
-  return "";
+  timerUp = false;
+  print("Turning timer off");
+  scheduler.pause();
+  out.write(new java.lang.String("Timer turned off").getBytes("utf-8"));
+  print("Timer turned off");
+
+ } catch(e) {
+  print(e);
+ }
 });
 
-registerHandler("GET", "/foobar", function(out){
-  this.setOutputType(this.MIME_TEXT);
-  _.each([1,2,3],function(e){
-  out.write(new java.lang.String(e * 2 + "\n").getBytes("utf-8"));
-    
-  });
-  out.write(new java.lang.String("Hello there mate!").getBytes("utf-8"));
-  //out.write(datasource.execute().toString().getBytes("utf-8"));
-  return "";
+registerHandler("GET", "/listTests", function(out){
+  try { 
+    this.setOutputType(this.MIME_JSON);
+    out.write(new java.lang.String(JSON.stringify(cdv.listTests())).getBytes("utf-8"));
+  } catch(e) {
+    print(e);
+  }
 });
