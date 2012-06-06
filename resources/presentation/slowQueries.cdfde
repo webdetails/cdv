@@ -1,0 +1,13 @@
+{
+ "layout": {
+  "title": "CDF - Sample structure",
+  "rows": []
+ },
+ "components": {
+  "rows": []
+ },
+ "datasources": {
+  "rows": []
+ },
+ "filename": "/system/cdv/presentation/slowQueries.cdfde"
+}
