@@ -95,11 +95,12 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
     
     
     myself.getTestResult = function(){
-    
         // Test result will be the bigger alert level of the ones we have
-        return myself.getValidationResults().slice(0).sort(function(a,b){
+        var result =  myself.getValidationResults().slice(0);
+        result = result.sort(function(a,b){
             return b.getAlert().getLevel()-a.getAlert().getLevel()
-        })[0].getAlert();
+        })[0];
+        return result.getAlert();
     };
     
     
@@ -165,19 +166,32 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         
         return translationLogMap[myself.getTestResult().getType()] || "debug";
         
-    }
-    
+    };
+   
+    myself.toJSON = function(){
+      
+      var result = {
+        tests: {
+          name: myself.getTest().name,
+          type: myself.getTestResult().getType(),
+          description: myself.getDescription()
+        }
+      };
+      if (myself.getExpectedDuration() > 0) {
+        result.duration = {
+          type: myself.getDurationAlert().getType(),
+          duration: myself.getDuration(),
+          expected: myself.getExpectedDuration()
+        };
+      }
+      return result;
+    }; 
     myself.toString = function(){
         
-        var testResult = myself.getTestResult();
-        
-        var description = myself.getTestResultDescription();
-        
-        
-        var str = "[" + testResult.getType() +"] " + myself.getTest().name + ", Result: " + description;
-        
-        if(myself.getExpectedDuration() > 0){
-            str += "; Duration: [" + myself.getDurationAlert().getType() +"] " + myself.getDuration() + "ms (expected: " + myself.getExpectedDuration() + "ms)";
+        var result = myself.toJSON();
+        var str = "[" + result.tests.type +"] " + result.tests.name + ", Result: " + result.tests.description;
+        if(result.duration){
+            str += "; Duration: [" + result.duration.type +"] " + result.duration.duration + "ms (expected: " + result.duration.expected + "ms)";
         }
     
         return str;
@@ -331,7 +345,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     // Main function to make the tests
     
-    myself.makeTest = function(test){
+    myself.runTest = function(test){
         
         // 1. Make CDA calls
         // 2. Store time
@@ -343,7 +357,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
     
 
-        myself.executeQuery(test, myself.makeTestCallback);
+        return myself.executeQuery(test, myself.runTestCallback);
         
         
     };
@@ -351,7 +365,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
     // Process the test restults
     
-    myself.makeTestCallback = function(test,result){
+    myself.runTestCallback = function(test,result){
          
         var duration = result.duration;
         var rs = result.resultset;
@@ -397,7 +411,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
 
         // Add duration information
-        var durationResult =  parseDuration(cdvFile,duration);
+        var durationResult =  parseDuration(test,duration);
         resultSpec.durationAlert = myself.parseAlert(durationResult);
         
         
@@ -409,10 +423,10 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         // Make the actual test. 
         // this can either be a custom validation or a call to a preset validation
         //
-
         _.each(test.tests,function(validation){
-            try{            
-                testResult.addValidationResult(myself.performValidation(validation,rs));
+            try{
+                var res = myself.performValidation(validation,rs);
+                testResult.addValidationResult(res);
             }
             catch(e){
                 myself.log("Found error while doing validation" ,"error")
@@ -423,7 +437,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         
         myself.log( testResult.toString(), testResult.getLogType());
         
-        return testResult;
+        var fn;
+        if(fn = spec.userCallback) fn(testResult);
     }
     
 
@@ -470,7 +485,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             
             // Make CDA call
-            myself.cda.doQuery(cdaInfo.cdaFile,cdaInfo.dataAccessId,cdaInfo.parameters,validationCallback);
+            return myself.cda.doQuery(cdaInfo.cdaFile,cdaInfo.dataAccessId,cdaInfo.parameters,validationCallback);
             
             
         })
@@ -479,7 +494,6 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     
     myself.performValidation = function(validation, rs){
-        
         var validationResult = wd.cdv.validationResult({
             name: validation.validationName, 
             type: validation.validationType
@@ -492,13 +506,16 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         
         var result = validation.validationFunction.call(myself,rs,[]);
         
-        
         validationResult.setAlert(myself.parseAlert("OK"));
         return validationResult;
         
     }
 
 
+
+    myself.setUserCallback = function(fn) {
+      spec.userCallback = fn;
+    };
 
     myself.registerTest = function(test) {
         if (!_tests[test.group]) _tests[test.group] = {};
@@ -513,6 +530,13 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
       }
     };
 
+    myself.getTest = function(group, name) {
+      try {
+        return _tests[group][name];
+      } catch(e) {
+        return undefined;
+      }
+    }
     return myself;
 
 

@@ -44,3 +44,32 @@ registerHandler("GET", "/listTests", function(out){
     print(e);
   }
 });
+
+registerHandler("GET", "/listTests", function(out){
+  try { 
+    this.setOutputType(this.MIME_JSON);
+    out.write(new java.lang.String(JSON.stringify(cdv.listTests())).getBytes("utf-8"));
+  } catch (e) {
+    print(e);
+  }
+});
+
+registerHandler("GET", "/runTests", function(out){
+  try { 
+    this.setOutputType(this.MIME_JSON);
+    var groups = cdv.listTests();
+    var g, t, group, test, results = [];
+    cdv.setUserCallback(function(r){results.push(r.toJSON());})
+    for (g in groups) if (groups.hasOwnProperty(g)) {
+      var group = groups[g];
+      for (t in group) if (group.hasOwnProperty(t)) {
+        var test = group[t];
+        cdv.runTest(test);
+      }
+    }
+    out.write(new java.lang.String(JSON.stringify(results)).getBytes("utf-8"));
+  } catch (e) {
+    print(e);
+  }
+});
+

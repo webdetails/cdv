@@ -77,10 +77,20 @@ wd.cda.cda = wd.cda.cda || function(spec){
                 
     }
     
-    
-    return myself;
-
-
-
+  myself.doQuery = function(cdaFile, dataAccessId, params, callback) {
+    var p, result;
+    var datasource = datasourceFactory.createDatasource('cda');
+      datasource.setDefinitionFile(cdaFile);
+      datasource.setDataAccessId(dataAccessId);
+    for (p in params) if (params.hasOwnProperty(p)) {
+      datasource.setParameter(p, params[p]);
+    }
+    var res = String(datasource.execute());
+    print("Query Result: " + res);
+    result = JSON.parse(res);
+    print(JSON.stringify(result));
+    callback(result);
+  }
+  return myself;
 }
 

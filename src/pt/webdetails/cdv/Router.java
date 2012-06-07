@@ -66,7 +66,7 @@ public class Router implements Handler {
                             rParams = cx.getWrapFactory().wrapAsJavaObject(cx, scope, requestParams, null);
 
                     Object[] params = {out, pParams, rParams};
-                    out.write(handler.call(cx, scope, thiz, params).toString().getBytes("utf-8"));
+                    handler.call(cx, scope, thiz, params).toString().getBytes("utf-8");
                 } finally {
                     Context.exit();
                 }
