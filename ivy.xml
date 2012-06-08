@@ -18,7 +18,7 @@
   <publications>
     <artifact name="${ivy.artifact.id}" type="jar" conf="default" />
     <artifact name="${ivy.artifact.id}" type="zip" conf="zip" />
-	<artifact name="${ivy.artifact.id}" m:classifier="sources" type="source" ext="jar" conf="source"/>
+    <artifact name="${ivy.artifact.id}" m:classifier="sources" type="source" ext="jar" conf="source"/>
   </publications>
 
   <dependencies defaultconf="default->default">
@@ -36,6 +36,8 @@
                 rev="${dependency.bi-platform.revision}" changing="true"/>
     <dependency org="pentaho" name="pentaho-bi-platform-web-servlet"
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
+                
+    <dependency org="webdetails" name="cpf" rev="TRUNK-SNAPSHOT" changing="true"/>
 
     <!--  OrientDB -->
 	<dependency org="com.orientechnologies" name="orient-commons" rev="1.0.1"/>

@@ -16,52 +16,44 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+//import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IParameterProvider;
-import org.pentaho.platform.engine.services.solution.BaseContentGenerator;
 import org.springframework.security.wrapper.SavedRequestAwareWrapper;
 import pt.webdetails.cdv.Router.HttpMethod;
 import pt.webdetails.cpf.InterPluginCall;
+import pt.webdetails.cpf.SimpleContentGenerator;
 
 /**
  *
  * @author pdpi
  */
-public class CdvContentGenerator extends BaseContentGenerator {
+public class CdvContentGenerator extends SimpleContentGenerator {//BaseContentGenerator {
 
+    private static final long serialVersionUID = 1L;
     public static final String CDW_EXTENSION = ".cdw";
     public static final String PLUGIN_NAME = "cdv";
     public static final String PLUGIN_PATH = "system/" + CdvContentGenerator.PLUGIN_NAME + "/";
-    private static final Log logger = LogFactory.getLog(CdvContentGenerator.class);
-    private static final String MIME_XML = "text/xml";
-    private static final String MIME_HTML = "text/html";
-    private static final String MIME_SVG = "image/svg+xml";
-    private static final String MIME_PNG = "image/png";
-
-    private enum methods {
-
-        RUNTEST, REFRESH
-    }
-
-    private enum outputTypes {
-
-        SVG, PNG, PDF
-    }
 
     @Override
     public Log getLogger() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    @Override
+    public String getPluginName() {
+      return PLUGIN_NAME;
+    }
 
     @Override
-    public void createContent() throws Exception {
+    public void createContent() {//throws Exception {
 
+      try{
+      
         final IParameterProvider requestParams = parameterProviders.get(IParameterProvider.SCOPE_REQUEST);
         final IParameterProvider pathParams = parameterProviders.get("path");
-        OutputStream out = outputHandler.getOutputContentItem("response", "content", "", instanceId, MIME_HTML).getOutputStream(null);
+        OutputStream out = outputHandler.getOutputContentItem("response", "content", "", instanceId, MimeType.HTML).getOutputStream(null);
         final String path = pathParams.getStringParameter("path", null);
 
         SavedRequestAwareWrapper wrapper = (SavedRequestAwareWrapper) pathParams.getParameter("httprequest");
@@ -79,6 +71,9 @@ public class CdvContentGenerator extends BaseContentGenerator {
         } else {
             Router.getBaseRouter().route(method, path, out, pathParams, requestParams);
         }
+      } catch(Exception e){
+        logger.error(e);
+      }
     }
 
     private void refresh(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
@@ -142,20 +137,18 @@ public class CdvContentGenerator extends BaseContentGenerator {
 
     private void redirectToCDE(OutputStream out, Map<String, Object> params) throws UnsupportedEncodingException, IOException {
 
-
+        //TODO: use proper redirect
+      
         StringBuilder str = new StringBuilder();
         str.append("<html><head><title>Redirecting</title>");
         str.append("<meta http-equiv=\"REFRESH\" content=\"0; url=../pentaho-cdf-dd/edit?");
 
-        List paramArray = new ArrayList();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-
-            String key = (String) it.next();
-            Object value = params.get(key);
-            if (value instanceof String) {
-                paramArray.add(key + "=" + URLEncoder.encode((String) value, "UTF-8"));
-            }
-
+        List<String> paramArray = new ArrayList<String>();
+        for(String key : params.keySet()){
+          Object value = params.get(key);
+          if (value instanceof String) {
+              paramArray.add(key + "=" + URLEncoder.encode((String) value, "UTF-8"));
+          }
         }
 
         str.append(StringUtils.join(paramArray, "&"));
@@ -165,13 +158,5 @@ public class CdvContentGenerator extends BaseContentGenerator {
         out.write(str.toString().getBytes("UTF-8"));
         return;
 
-    }
-
-    private ServletResponse getResponse() {
-        return (ServletResponse) parameterProviders.get("path").getParameter("httpresponse");
-    }
-
-    private ServletRequest getRequest() {
-        return (ServletRequest) parameterProviders.get("path").getParameter("httprequest");
     }
 }
