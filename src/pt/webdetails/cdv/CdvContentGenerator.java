@@ -71,7 +71,7 @@ public class CdvContentGenerator extends BaseContentGenerator {
         } else if ("/home".equals(path)) {
             home(out, pathParams, requestParams);
         } else if ("/tests".equals(path)) {
-            tests(out, pathParams, requestParams);
+            validations(out, pathParams, requestParams);
         } else if ("/cdaErrors".equals(path)) {
             cdaErrors(out, pathParams, requestParams);
         } else if ("/slowQueries".equals(path)) {
@@ -89,8 +89,8 @@ public class CdvContentGenerator extends BaseContentGenerator {
         callCDE("home.wcdf", out, pathParams, requestParams);
     }
 
-    private void tests(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
-        callCDE("tests.wcdf", out, pathParams, requestParams);
+    private void validations(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
+        callCDE("validations.wcdf", out, pathParams, requestParams);
     }
 
     private void cdaErrors(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
