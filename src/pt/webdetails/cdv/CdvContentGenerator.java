@@ -70,7 +70,7 @@ public class CdvContentGenerator extends BaseContentGenerator {
             refresh(out, pathParams, requestParams);
         } else if ("/home".equals(path)) {
             home(out, pathParams, requestParams);
-        } else if ("/tests".equals(path)) {
+        } else if ("/validations".equals(path)) {
             validations(out, pathParams, requestParams);
         } else if ("/cdaErrors".equals(path)) {
             cdaErrors(out, pathParams, requestParams);
