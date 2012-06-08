@@ -64,7 +64,7 @@ $(function(){
 
         cdv = wd.cdv.cdv();
         
-        cdv.makeTest(cdvFile);
+        cdv.runTest(cdvFile);
         
     
     },100)
