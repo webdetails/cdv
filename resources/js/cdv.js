@@ -16,7 +16,8 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
     var _spec = {
         type: "overrideme",
         description: "Default alert description",
-        level: 0
+        level: 0,
+        isServerSide: true
     };
     
     spec = _.extend({},_spec,spec);
@@ -334,7 +335,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     
     // Get CDA
-    myself.cda = wd.cda.cda();
+    myself.cda = wd.cda.cda({isServerSide:spec.isServerSide});
 
 
     myself.log = function(msg,level){

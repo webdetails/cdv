@@ -34,7 +34,8 @@ wd.cda.cda = wd.cda.cda || function(spec){
     var _spec = {
         name: 'Community Data Access',
         shortName: 'CDA',
-        webAppPath: "/pentaho"
+        webAppPath: "/pentaho",
+        isServerSide: true
     };
     
     spec = _.extend({},_spec,spec);
@@ -51,46 +52,55 @@ wd.cda.cda = wd.cda.cda || function(spec){
     
     myself.doQuery = function(cdaFile, dataAccessId, params, callback){
         
-        myself.log("Making test on " + cdaFile + "["+dataAccessId+"]");
+        if (spec.isServerSide){
+
+
+            var p, result;
+            var datasource = datasourceFactory.createDatasource('cda');
+            datasource.setDefinitionFile(cdaFile);
+            datasource.setDataAccessId(dataAccessId);
+            for (p in params) if (params.hasOwnProperty(p)) {
+                datasource.setParameter(p, params[p]);
+            }
+            var res = String(datasource.execute());
+            print("Query Result: " + res);
+            result = JSON.parse(res);
+            print(JSON.stringify(result));
+            callback(result);
+
+        }
+        else{
+            
+            myself.log("Making client side query on " + cdaFile + "["+dataAccessId+"]");
         
-        var json = {
-            resultset:[],
-            metadata:[]
-        };
+            var json = {
+                resultset:[],
+                metadata:[]
+            };
         
-        // Make CDA call
+            // Make CDA call
         
-        var cd = {
-            path: cdaFile,
-            dataAccessId: dataAccessId,
-            bypassCache: true
-        };
+            var cd = {
+                path: cdaFile,
+                dataAccessId: dataAccessId,
+                bypassCache: true
+            };
         
-        for (param in params) {
-            cd['param' + param] = params[param];
+            for (param in params) {
+                cd['param' + param] = params[param];
+            }
+        
+            $.post(spec.webAppPath + "/content/cda/doQuery?", cd,
+                function(json) {
+                    callback(json);
+                },'json');
+           
+                        
         }
         
-        $.post(spec.webAppPath + "/content/cda/doQuery?", cd,
-            function(json) {
-                callback(json);
-            },'json');
                 
     }
     
-  myself.doQuery = function(cdaFile, dataAccessId, params, callback) {
-    var p, result;
-    var datasource = datasourceFactory.createDatasource('cda');
-      datasource.setDefinitionFile(cdaFile);
-      datasource.setDataAccessId(dataAccessId);
-    for (p in params) if (params.hasOwnProperty(p)) {
-      datasource.setParameter(p, params[p]);
-    }
-    var res = String(datasource.execute());
-    print("Query Result: " + res);
-    result = JSON.parse(res);
-    print(JSON.stringify(result));
-    callback(result);
-  }
-  return myself;
+    return myself;
 }
 

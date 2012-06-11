@@ -62,7 +62,7 @@ $(function(){
 
     setTimeout(function(){
 
-        cdv = wd.cdv.cdv();
+        cdv = wd.cdv.cdv({isServerSide: false});
         
         cdv.runTest(cdvFile);
         
