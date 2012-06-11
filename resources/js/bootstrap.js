@@ -54,16 +54,19 @@ registerHandler("GET", "/listTests", function(out){
 
 
 registerHandler("GET", "/runTests", function(out){
+    
   try { 
     this.setOutputType(this.MIME_JSON);
     var groups = cdv.listTests();
     var g, t, group, test, results = [];
-    cdv.setUserCallback(function(r){results.push(r.toJSON());})
+    
+    var callback = function(r){results.push(r.toJSON());}
+    
     for (g in groups) if (groups.hasOwnProperty(g)) {
       var group = groups[g];
       for (t in group) if (group.hasOwnProperty(t)) {
         var test = group[t];
-        cdv.runTest(test);
+        cdv.runTest(test,{callback: callback});
       }
     }
     out.write(new java.lang.String(JSON.stringify(results)).getBytes("utf-8"));

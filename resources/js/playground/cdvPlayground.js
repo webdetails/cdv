@@ -13,11 +13,13 @@ var cdvFile = {
     group: "CDV Sample Tests",
     validation: [ 
     {
+        type: "cda",
         cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 
         dataAccessId: "1" , 
         parameters: {}
     },
     {
+        type: "cda",
         cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 
         dataAccessId: "1" , 
         parameters: {
@@ -25,13 +27,15 @@ var cdvFile = {
         }
     }
     ],
-    tests:[ 
+    test:
     {
         validationName: "Test Existence",
         validationType: "custom",
         validationFunction:  function(rs, conf) {
             
-            var _conf = {testAll: true};
+            var _conf = {
+                testAll: true
+            };
             conf = _.extend({},_conf,conf);
             var exists = !!conf.testAll;
 
@@ -43,7 +47,7 @@ var cdvFile = {
             return exists ? "ERROR" : "OK";
         
         }
-    }],
+    },
     executionTimeValidation: {
         expected: 100,
         warnPercentage: 0.30,
@@ -64,11 +68,17 @@ $(function(){
 
     setTimeout(function(){
 
-        cdv = wd.cdv.cdv({isServerSide: false});
+        cdv = wd.cdv.cdv({
+            isServerSide: false
+        });
         
-        cdv.runTest(cdvFile);
+        var callback = function(result){
+            debugger;
+            $(".results").text(JSON.stringify(result));
+        }
         
-    
+        cdv.runTest(cdvFile , {callback: callback });
+            
     },100)
     
 
