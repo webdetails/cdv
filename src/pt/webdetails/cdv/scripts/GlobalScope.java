@@ -23,6 +23,7 @@ import org.pentaho.platform.api.engine.ISolutionFile;
 import org.pentaho.platform.api.repository.ISolutionRepository;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.repository.solution.filebased.FileBasedSolutionRepository;
 import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 
@@ -141,8 +142,18 @@ public class GlobalScope extends ImporterTopLevel {
         for (ISolutionFile file : files) {
             String path = file.getFullPath();
             try {
-                InputStream stream = solutionRepository.getResourceInputStream(path, false, 0);
+                
+                InputStream stream;
+                try{
+                    stream = solutionRepository.getResourceInputStream(path, false, 0);
+                }
+                catch(FileNotFoundException e){
+                    // workaround for http://jira.pentaho.com/browse/BISERVER-3538
+                    stream =  solutionRepository.getResourceInputStream(path.replaceFirst("^/solution", ""), false, 0);
+                }
+                
                 cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+                
             } catch (IOException e) {
                 logger.error(e);
             }
