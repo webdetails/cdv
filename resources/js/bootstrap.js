@@ -7,6 +7,13 @@ lib("scheduler.js");
 lib("cdv.js");
 lib("cda.js");
 
+// Wrap up console obj so that logging works
+var console = {
+    log: function(m){print(m)}
+    
+}
+
+
 cdv = wd.cdv.cdv();
 loadTests();
 
@@ -45,14 +52,6 @@ registerHandler("GET", "/listTests", function(out){
   }
 });
 
-registerHandler("GET", "/listTests", function(out){
-  try { 
-    this.setOutputType(this.MIME_JSON);
-    out.write(new java.lang.String(JSON.stringify(cdv.listTests())).getBytes("utf-8"));
-  } catch (e) {
-    print(e);
-  }
-});
 
 registerHandler("GET", "/runTests", function(out){
   try { 

@@ -16,8 +16,7 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
     var _spec = {
         type: "overrideme",
         description: "Default alert description",
-        level: 0,
-        isServerSide: true
+        level: 0
     };
     
     spec = _.extend({},_spec,spec);
@@ -175,7 +174,7 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         tests: {
           name: myself.getTest().name,
           type: myself.getTestResult().getType(),
-          description: myself.getDescription()
+          description: myself.getTestResult().getDescription()
         }
       };
       if (myself.getExpectedDuration() > 0) {
@@ -321,7 +320,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
      */
     var _spec = {
         name: 'Community Data Validation',
-        shortName: 'CDV'
+        shortName: 'CDV',
+        isServerSide: true
     },
     _tests = {};
     
@@ -435,7 +435,6 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
         })
         
-        
         myself.log( testResult.toString(), testResult.getLogType());
         
         var fn;
@@ -459,7 +458,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             var duration = (new Date().getTime()) - startTime;
             
-            // myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
+            myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
             callback(test, {
                 duration: duration, 
                 resultset: rs
@@ -505,9 +504,12 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         wd.warn("TODO: Call preexisting validation here");
         wd.warn("TODO: Pass validation arguments");
         
+        wd.log("Validation function: " + validation.validationFunction);
+
+
         var result = validation.validationFunction.call(myself,rs,[]);
         
-        validationResult.setAlert(myself.parseAlert("OK"));
+        validationResult.setAlert(myself.parseAlert(result));
         return validationResult;
         
     }

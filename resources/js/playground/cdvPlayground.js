@@ -5,6 +5,8 @@
  */
 
 
+
+
 var cdvFile = {
     type: "query",
     name: "Test 1",
@@ -33,9 +35,9 @@ var cdvFile = {
             conf = _.extend({},_conf,conf);
             var exists = !!conf.testAll;
 
-            exists = rs.map(function(r){
+            exists = _.reduce(_.map(rs,function(r){
                 return r.resultset.length > 0
-            }).reduce(function(prev, curr, exists){
+            }),function(prev, curr, exists){
                 return conf.testAll ? (curr && prev) : (curr || prev);
             });
             return exists ? "ERROR" : "OK";
