@@ -65,7 +65,7 @@ public class CdvContentGenerator extends BaseContentGenerator {
         final String path = pathParams.getStringParameter("path", null);
 
         SavedRequestAwareWrapper wrapper = (SavedRequestAwareWrapper) pathParams.getParameter("httprequest");
-        HttpMethod method = HttpMethod.valueOf(wrapper.getMethod());
+        HttpMethod method = wrapper==null?HttpMethod.GET:HttpMethod.valueOf(wrapper.getMethod());
         if ("/refresh".equals(path)) {
             refresh(out, pathParams, requestParams);
         } else if ("/home".equals(path)) {

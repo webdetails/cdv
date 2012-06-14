@@ -27,10 +27,12 @@ public class Request {
     }
 
     public void setResponseHeader(final String header, String value) {
-        response.setHeader(header, value);
+        if (response != null) {
+            response.setHeader(header, value);
+        }
     }
 
     public void setOutputType(String type) {
-      setResponseHeader("Content-Type", type);
+        setResponseHeader("Content-Type", type);
     }
 }

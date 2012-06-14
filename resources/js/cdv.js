@@ -419,22 +419,72 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
 
 
-    myself.setUserCallback = function(fn) {
-        spec.userCallback = fn;
-    };
-
     myself.registerTest = function(test) {
         if (!_tests[test.group]) _tests[test.group] = {};
         _tests[test.group][test.name] = test;
     };
 
+
     myself.listTests = function(group){
         if(group) {
-            return _tests[group];
+            return _.pick(_tests,[group]);
         } else {
             return _tests;
         }
     };
+
+
+    myself.listTestsFlatten = function(group){
+        
+        wd.log("Entering listTestFlatten")
+        
+        function flatten(json){
+            var nj = {},
+            iter = 0,
+            walk = function(j){
+                var jp;
+                for(var prop in j){
+                    if (!j.hasOwnProperty(prop)){
+                        continue;
+                    }
+                    jp = j[prop];
+                    if(_.isObject(jp) && iter <= 20){
+                        iter++;
+                        walk(jp);
+                    }else{
+                        nj[prop] = jp;
+                    }
+                }
+            };
+            
+            walk(json);
+            return nj;
+        }
+
+        var preprocessObj = function(o){
+            
+            // validations will be put here
+            var a = o.validation;
+            o.validation = _.map(a,function(i){
+                return i.cdaFile + "[" + i.dataAccessId+ "] "
+                + " ("+_.map(i.parameters,function(v,k){return k+": "+v}).join(", ")+")";
+                }).join("; ").replace(/\(\)/g,"");
+            
+            
+            return flatten(o);
+        }
+        
+        
+        var t = myself.listTests(group);
+        
+        // Get the keys, deep copying initial obj
+        var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
+        wd.log("Debug: " + arr);
+        return _.map(arr,preprocessObj);
+        
+        
+    };
+
 
     myself.getTest = function(group, name) {
         try {

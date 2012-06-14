@@ -1,7 +1,10 @@
 cdv.registerTest({
+	id: 1,
     type: "query",
     name: "Test 1",
     group: "CDV Sample Tests",
+	createdBy: "Pedro",
+	createdAt: 1339430893246,
     validation: [ 
     {
         cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 

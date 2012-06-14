@@ -1,7 +1,10 @@
 cdv.registerTest({
+	id: 2,
     type: "query",
     name: "Test 2",
     group: "CDV Sample Tests",
+	createdBy: "Pedro",
+	createdAt: 1339430893246,
     validation: [ 
     {
         cdaFile: "/plugin-samples/cda/cdafiles/mondrian-jndi.cda", 
