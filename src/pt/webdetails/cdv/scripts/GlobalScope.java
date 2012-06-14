@@ -88,7 +88,7 @@ public class GlobalScope extends ImporterTopLevel {
         String path = args[1].toString();
         Function handler = (Function) args[2];
         try {
-            Router.getBaseRouter().registerHandler(JavascriptRestRequestHandler.HttpMethod.valueOf(method), path, handler);
+            Router.getBaseRouter().registerHandler(Router.HttpMethod.valueOf(method), path, handler);
             //BaseScope scope = (BaseScope) thisObj;
             //cx.evaluateReader(scope, new FileReader(scope.systemPath + "/" + file), file, 1, null);
         } catch (Exception e) {
