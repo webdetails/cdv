@@ -507,7 +507,7 @@
      },
      {
       "name": "propertyValue",
-      "value": "Home",
+      "value": "Validations",
       "type": "String"
      },
      {
@@ -522,5 +522,5 @@
  "datasources": {
   "rows": []
  },
- "filename": "/system/cdv/presentation/home.cdfde"
+ "filename": "/system/cdv/presentation/validations.cdfde"
 }

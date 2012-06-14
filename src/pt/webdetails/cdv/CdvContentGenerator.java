@@ -18,6 +18,8 @@ import javax.servlet.ServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.pentaho.platform.api.engine.IParameterProvider;
 import pt.webdetails.cpf.InterPluginCall;
+import pt.webdetails.cpf.RestContentGenerator;
+import pt.webdetails.cpf.RestRequestHandler;
 import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
@@ -26,7 +28,7 @@ import pt.webdetails.cpf.annotations.Exposed;
  *
  * @author pdpi
  */
-public class CdvContentGenerator extends SimpleContentGenerator {
+public class CdvContentGenerator extends RestContentGenerator {
 
     private static final long serialVersionUID = 1L;
     public static final String CDW_EXTENSION = ".cdw";
@@ -146,5 +148,10 @@ public class CdvContentGenerator extends SimpleContentGenerator {
 
       urlBuilder.append(StringUtils.join(paramArray, "&"));
       redirect(urlBuilder.toString());
+    }
+
+    @Override
+    public RestRequestHandler getRequestHandler() {
+      return Router.getBaseRouter();
     }
 }

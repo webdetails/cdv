@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -19,7 +20,7 @@ import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.pentaho.platform.api.engine.ISolutionFile;
-import pt.webdetails.cdv.JavascriptRestRequestHandler;
+import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 import pt.webdetails.cpf.repository.RepositoryAccess;
 import pt.webdetails.cpf.repository.RepositoryAccess.FileAccess;
@@ -87,7 +88,7 @@ public class GlobalScope extends ImporterTopLevel {
         String path = args[1].toString();
         Function handler = (Function) args[2];
         try {
-            JavascriptRestRequestHandler.getBaseRouter().registerHandler(JavascriptRestRequestHandler.HttpMethod.valueOf(method), path, handler);
+            Router.getBaseRouter().registerHandler(JavascriptRestRequestHandler.HttpMethod.valueOf(method), path, handler);
             //BaseScope scope = (BaseScope) thisObj;
             //cx.evaluateReader(scope, new FileReader(scope.systemPath + "/" + file), file, 1, null);
         } catch (Exception e) {
@@ -144,10 +145,14 @@ public class GlobalScope extends ImporterTopLevel {
       /* For each test file, read it into a stream and execute it. */
       for (ISolutionFile file : files) {
           String path = file.getFullPath();
+          // workaround for http://jira.pentaho.com/browse/BISERVER-3538
+          path = StringUtils.removeStart(path, "/solution");
           InputStream stream = null;
+
           try {
-              stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);
+              stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);               
               cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+                
           } catch (IOException e) {
               logger.error(e);
           }

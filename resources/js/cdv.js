@@ -40,6 +40,10 @@ wd.cdv.alert = wd.cdv.alert || function(spec){
         return "["+ spec.type + "] " + spec.description;
     }
     
+    myself.toJSON = function(){
+        return spec;
+    }
+    
     return myself;
 }
 
@@ -54,8 +58,8 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         type: "testResult",
         description: "Test result",
         test: undefined,
-        validationResults: [],
         date: new Date(),
+        result: undefined,        
         duration: -1, 
         durationAlert: undefined, 
         expectedDuration: -1
@@ -81,72 +85,17 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
         return spec.description;
     }
     
-    myself.getValidationResults = function(){
-        return spec.validationResults;
-    };
-    
-    myself.addValidationResult = function(validationResult){
-        spec.validationResults.push(validationResult);
-    };
-    
     myself.getTest = function(){
         return spec.test;
     };
     
+    myself.getResult = function(){
+        return spec.result;
+    }
     
-    myself.getTestResult = function(){
-        // Test result will be the bigger alert level of the ones we have
-        var result =  myself.getValidationResults().slice(0);
-        result = result.sort(function(a,b){
-            return b.getAlert().getLevel()-a.getAlert().getLevel()
-        })[0];
-        return result.getAlert();
-    };
-    
-    
-    myself.getTestResultDescription = function(){
-    
-    
-        var resultMap = {},keys=[];
-        var count = myself.getValidationResults().length;
-        
-        _.each(myself.getValidationResults().sort(function(a,b){
-            return b.getAlert().getLevel() - a.getAlert().getLevel()
-        }),function(r){
-             
-            var alert = r.getAlert();
-            if(!resultMap[alert.getType()]){
-                resultMap[alert.getType()] = 1;
-                
-                // Manually building the keys array to guarantee correct order
-                keys.push(alert.getType());
-            }
-            else{
-                resultMap[alert.getType()]++;
-            }
-           
-        });
-        
-
-        if(keys.length == 1 && keys[0]==="OK"){
-            return "All " + resultMap.OK + " test(s) passed successfully";
- 
-        }       
-        
-        var lowercaseFirstLetter = function(str){
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        }
-            
-        var r = _.map(keys, function(type){
-            var count = resultMap[type];
-            return count + " tests " + lowercaseFirstLetter(myself.alerts[type].getDescription());
-        });
-        
-        return r.join(", ");
-            
-        
-        
-    };
+    myself.setResult = function(result){
+        spec.result = result;
+    }
 
 
     myself.getDuration = function(){
@@ -164,32 +113,33 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
     
     myself.getLogType = function(){
         
-        return translationLogMap[myself.getTestResult().getType()] || "debug";
+        return translationLogMap[myself.getResult().getType()] || "debug";
         
     };
    
+   
     myself.toJSON = function(){
       
-      var result = {
-        tests: {
-          name: myself.getTest().name,
-          type: myself.getTestResult().getType(),
-          description: myself.getDescription()
-        }
-      };
-      if (myself.getExpectedDuration() > 0) {
-        result.duration = {
-          type: myself.getDurationAlert().getType(),
-          duration: myself.getDuration(),
-          expected: myself.getExpectedDuration()
+        var result = {
+            
+            test: myself.getTest(),
+            result: myself.getResult()
         };
-      }
-      return result;
+        if (myself.getExpectedDuration() > 0) {
+            result.duration = {
+                type: myself.getDurationAlert().getType(),
+                duration: myself.getDuration(),
+                expected: myself.getExpectedDuration()
+            };
+        }
+        return result;
     }; 
+    
+    
     myself.toString = function(){
         
         var result = myself.toJSON();
-        var str = "[" + result.tests.type +"] " + result.tests.name + ", Result: " + result.tests.description;
+        var str = "[" + myself.getResult().getType() +"] " + result.test.name + ", Result: " + myself.getResult().getDescription();
         if(result.duration){
             str += "; Duration: [" + result.duration.type +"] " + result.duration.duration + "ms (expected: " + result.duration.expected + "ms)";
         }
@@ -202,47 +152,6 @@ wd.cdv.testResult = wd.cdv.testResult || function(spec){
     return myself;
 }
 
-
-wd.cdv.validationResult = wd.cdv.validationResult || function(spec){
-
-
-    /**
-     * Specific specs
-     */
-    var _spec = {
-        name: "overrideMe",
-        type: "overrideMe",
-        description: "",
-        alert: undefined
-    };
-    
-    spec = _.extend({},_spec,spec);
-
-    var myself = {};
-
-    myself.getType = function(){
-        return spec.type;
-    }
-    
-    myself.getName = function(){
-        return spec.name;
-    }
-    
-    myself.getDescription = function(){
-        return spec.description;
-    }
-    
-    myself.getAlert = function(){
-        return spec.alert;
-    }
-    
-    myself.setAlert = function(alert){
-        spec.alert = alert;
-    }
-    
-    return myself;
-
-}
 
 
 wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
@@ -320,7 +229,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
      */
     var _spec = {
         name: 'Community Data Validation',
-        shortName: 'CDV'
+        shortName: 'CDV',
+        isServerSide: true
     },
     _tests = {};
     
@@ -334,7 +244,9 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     
     // Get CDA
-    myself.cda = wd.cda.cda();
+    myself.cda = wd.cda.cda({
+        isServerSide:spec.isServerSide
+    });
 
 
     myself.log = function(msg,level){
@@ -345,19 +257,17 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     // Main function to make the tests
     
-    myself.runTest = function(test){
+    myself.runTest = function(test, opts){
         
-        // 1. Make CDA calls
-        // 2. Store time
-        // 3. Compose the results into a single vector of arays
-        // 4. Run tests
-        // 5. Evaluate
-       
+        // Opts is an object with specific options to this test. 
+        // Supported options:
+        // * callback(result): Function called when the test is done with the result
+        
        
         myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
     
 
-        return myself.executeQuery(test, myself.runTestCallback);
+        return myself.executeQuery(test, opts, myself.runTestCallback);
         
         
     };
@@ -365,7 +275,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
     // Process the test restults
     
-    myself.runTestCallback = function(test,result){
+    myself.runTestCallback = function(test, opts, result){
          
         var duration = result.duration;
         var rs = result.resultset;
@@ -423,28 +333,27 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         // Make the actual test. 
         // this can either be a custom validation or a call to a preset validation
         //
-        _.each(test.tests,function(validation){
-            try{
-                var res = myself.performValidation(validation,rs);
-                testResult.addValidationResult(res);
-            }
-            catch(e){
-                myself.log("Found error while doing validation" ,"error")
-            }
-
-        })
-        
-        
+       
+        try{
+            var res = myself.performValidation(test.test,rs);
+            testResult.setResult(res);
+        }
+        catch(e){
+            myself.log("Found error while doing validation" ,"error")
+        }
+       
         myself.log( testResult.toString(), testResult.getLogType());
         
-        var fn;
-        if(fn = spec.userCallback) fn(testResult);
+        // Do we have a user callback?
+        if(typeof opts.callback === 'function'){
+            opts.callback(testResult);
+        } 
     }
     
 
     // Given a test, execute the query and returns the result and the length
     
-    myself.executeQuery = function(test, callback){
+    myself.executeQuery = function(test, opts, callback){
         
         var startTime = new Date().getTime();
         
@@ -458,8 +367,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             
             var duration = (new Date().getTime()) - startTime;
             
-            // myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
-            callback(test, {
+            myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
+            callback(test, opts, {
                 duration: duration, 
                 resultset: rs
             });
@@ -494,48 +403,95 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     
     
     myself.performValidation = function(validation, rs){
-        var validationResult = wd.cdv.validationResult({
-            name: validation.validationName, 
-            type: validation.validationType
-        })
-        
         
         // Call test!
         wd.warn("TODO: Call preexisting validation here");
         wd.warn("TODO: Pass validation arguments");
         
+        wd.log("Validation function: " + validation.validationFunction);
+
+
         var result = validation.validationFunction.call(myself,rs,[]);
+        return myself.parseAlert(result);
         
-        validationResult.setAlert(myself.parseAlert("OK"));
-        return validationResult;
         
     }
 
 
-
-    myself.setUserCallback = function(fn) {
-      spec.userCallback = fn;
-    };
 
     myself.registerTest = function(test) {
         if (!_tests[test.group]) _tests[test.group] = {};
         _tests[test.group][test.name] = test;
     };
 
+
     myself.listTests = function(group){
-      if(group) {
-        return _tests[group];
-      } else {
-        return _tests;
-      }
+        if(group) {
+            return _.pick(_tests,[group]);
+        } else {
+            return _tests;
+        }
     };
 
+
+    myself.listTestsFlatten = function(group){
+        
+        wd.log("Entering listTestFlatten")
+        
+        function flatten(json){
+            var nj = {},
+            iter = 0,
+            walk = function(j){
+                var jp;
+                for(var prop in j){
+                    if (!j.hasOwnProperty(prop)){
+                        continue;
+                    }
+                    jp = j[prop];
+                    if(_.isObject(jp) && iter <= 20){
+                        iter++;
+                        walk(jp);
+                    }else{
+                        nj[prop] = jp;
+                    }
+                }
+            };
+            
+            walk(json);
+            return nj;
+        }
+
+        var preprocessObj = function(o){
+            
+            // validations will be put here
+            var a = o.validation;
+            o.validation = _.map(a,function(i){
+                return i.cdaFile + "[" + i.dataAccessId+ "] "
+                + " ("+_.map(i.parameters,function(v,k){return k+": "+v}).join(", ")+")";
+                }).join("; ").replace(/\(\)/g,"");
+            
+            
+            return flatten(o);
+        }
+        
+        
+        var t = myself.listTests(group);
+        
+        // Get the keys, deep copying initial obj
+        var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
+        wd.log("Debug: " + arr);
+        return _.map(arr,preprocessObj);
+        
+        
+    };
+
+
     myself.getTest = function(group, name) {
-      try {
-        return _tests[group][name];
-      } catch(e) {
-        return undefined;
-      }
+        try {
+            return _tests[group][name];
+        } catch(e) {
+            return undefined;
+        }
     }
     return myself;
 

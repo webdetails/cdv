@@ -98,6 +98,9 @@
       <fileset dir="${dist.dir}">
         <include name="${ivy.artifact.id}-${project.revision}.jar"/>
       </fileset>
+      <fileset dir="dev-lib">
+        <include name="**/*.jar"/>
+      </fileset>
       <fileset dir="runtime-lib">
         <include name="**/*.jar"/>
         <exclude name="**/batik-js-1.7.jar"/>

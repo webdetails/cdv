@@ -21,27 +21,27 @@ import pt.webdetails.cpf.SimpleContentGenerator.MimeType;
  *
  * @author pdpi
  */
-public class JavascriptRestRequestHandler implements RestRequestHandler {//implements RequestHandler {
+public class Router implements RestRequestHandler {//implements RequestHandler {
 
     private Map<Key, Callable> javaScriptHandlers;
     private Map<Key, RequestHandler> javaHandlers;
-    private static JavascriptRestRequestHandler _instance;
+    private static Router _instance;
 
 
 
-    public static synchronized JavascriptRestRequestHandler getBaseRouter() {
+    public static synchronized Router getBaseRouter() {
         if (_instance == null) {
-            _instance = new JavascriptRestRequestHandler();
+            _instance = new Router();
         }
         return _instance;
     }
 
-    public static synchronized JavascriptRestRequestHandler resetBaseRouter() {
-            _instance = new JavascriptRestRequestHandler();
+    public static synchronized Router resetBaseRouter() {
+            _instance = new Router();
         return _instance;
     }
 
-    public JavascriptRestRequestHandler() {
+    public Router() {
         javaScriptHandlers = new HashMap<Key, Callable>();
         javaHandlers = new HashMap<Key, RequestHandler>();
     }
