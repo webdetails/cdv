@@ -1,24 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdv;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
  * @author pdpi
  */
-public class Request {
+public class ResponseWrapper {
 
     private HttpServletResponse response;
-    public static final String MIME_HTML = "text/html";
-    public static final String MIME_JSON = "application/json";
-    public static final String MIME_XML = "application/xml";
 
-    public Request(HttpServletResponse response) {
+    public ResponseWrapper(HttpServletResponse response) {
         this.response = response;
     }
 

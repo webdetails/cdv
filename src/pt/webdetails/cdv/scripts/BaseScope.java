@@ -1,37 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdv.scripts;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Toolkit;
 import java.io.FileReader;
-import java.io.StringWriter;
 
-import javax.swing.JLabel;
-import javax.swing.text.AttributeSet.FontAttribute;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.apache.batik.bridge.BridgeContext;
-import org.apache.batik.bridge.DocumentLoader;
-import org.apache.batik.bridge.UserAgent;
-import org.apache.batik.bridge.UserAgentAdapter;
-import org.apache.batik.css.engine.CSSEngine;
-import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
-import org.apache.batik.dom.svg.SVGDOMImplementation;
-import org.apache.batik.dom.svg.SVGOMDocument;
-import org.apache.batik.gvt.font.FontFamilyResolver;
-import org.apache.batik.gvt.font.GVTFontFamily;
-import org.apache.batik.gvt.font.UnresolvedFontFamily;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.mozilla.javascript.Context;
@@ -40,15 +14,15 @@ import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.pentaho.reporting.libraries.libsparklines.util.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 /**
  *
  * @author pdpi
  */
 class BaseScope extends ImporterTopLevel {
+
+
+    private static final long serialVersionUID = -1734034618256096974L;
 
     protected static final Log logger = LogFactory.getLog(BaseScope.class);
     protected boolean sealedStdLib = false;

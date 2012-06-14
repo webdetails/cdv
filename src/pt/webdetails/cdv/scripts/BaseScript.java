@@ -1,13 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdv.scripts;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.logging.Log;
@@ -34,7 +32,7 @@ public abstract class BaseScript implements Script {
     }
 
     public void initializeObjects() {
-        ContextFactory.getGlobal().enter();
+        ContextFactory.getGlobal().enterContext();
         Object wrappedFactory = Context.javaToJS(new DatasourceFactory(), scope);
         ScriptableObject.putProperty(scope, "datasourceFactory", wrappedFactory);
     }
@@ -53,7 +51,6 @@ public abstract class BaseScript implements Script {
         // to bytecode. Interpreter mode to the rescue!
         cx.setOptimizationLevel(-1);
         cx.setLanguageVersion(Context.VERSION_1_7);
-        OutputStream bytes = new ByteArrayOutputStream();
 
         Object wrappedParams;
         if (params != null) {

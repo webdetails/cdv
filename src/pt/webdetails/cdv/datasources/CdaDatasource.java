@@ -81,7 +81,7 @@ public class CdaDatasource implements Datasource {
         requestMap.put("param" + param, val);
     }
 
-    public void setParameter(String param, List val) {
+    public void setParameter(String param, List<Object> val) {
         requestMap.put("param" + param, val.toArray());
     }
 
