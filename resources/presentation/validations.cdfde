@@ -708,7 +708,7 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"string\"]",
+      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationButtons\"]",
       "type": "colTypesCustom"
      },
      {

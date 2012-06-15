@@ -42,14 +42,6 @@ wd.cdvUI = wd.cdvUI ||{
 };
 
 
-wd.cdvUI.validationTablePreExec = function(){
-    
-    
-    // Configure addIns
-    
-    
-    }
-
 
 wd.cdvUI.validationFileAddin = {
     name: "validationFile",
@@ -71,12 +63,6 @@ wd.cdvUI.validationFileAddin = {
     sort: function(a,b){
         return this.sumStrArray(a) - this.sumStrArray(b);
     }, 
-    sumStrArray: function(arr){
-        return arr.split(',').reduce(function(prev, curr, index, array){  
-            console.log("Current " + curr +"; prev " +  prev); 
-            return parseFloat(curr) + (typeof(prev)==='number'?prev:parseFloat(prev));
-        });
-    },
 
     implementation: function (tgt, st, opt) {
         
@@ -125,7 +111,7 @@ wd.cdvUI.validationFileAddin = {
                 var n = obj.params.length;
                 var template = " <a title='" + _.map(obj.params,function(p){
                     return p.paramName+": "+p.paramValue;
-                    }).join("<br />") + "' class='params'>(" + n + " param" + (n>1?"s":"") +")</a>";
+                }).join("<br />") + "' class='params'>(" + n + " param" + (n>1?"s":"") +")</a>";
                 
                 return template;
             };
@@ -143,13 +129,95 @@ wd.cdvUI.validationFileAddin = {
 
         $t.html(Mustache.render(template, {
             val: val
-            
         }));
         
-        $t.find("a.params").tipsy({gravity: 's', html:true});
-        $t.find("span.cdaPath").tipsy({gravity: 's', html:true});
-    // 
+        $t.find("a.params").tipsy({
+            gravity: 's', 
+            html:true
+        });
+        $t.find("span.cdaPath").tipsy({
+            gravity: 's', 
+            html:true
+        });
+    
     }
 };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationFileAddin));
+
+
+
+
+wd.cdvUI.validationButtonsAddIn = {
+    name: "validationButtons",
+    label: "ValidationButtons",
+    defaults: {
+        
+        textNameColIndex: 1,
+        buttons: [
+        {
+            name: "Run", 
+            callback: function(testName){
+                Dashboards.log("Clicked on Run for " + testName);
+            }
+        },
+        {
+            name: "Edit", 
+            callback: function(testName){
+                Dashboards.log("Clicked on Edit for " + testName);
+            }
+        },
+        {
+            name: "Delete", 
+            callback: function(testName){
+                Dashboards.log("Clicked on Delete for " + testName);
+            }
+        }
+        ]  
+    },
+    init: function(){
+        
+        // Register this for datatables sort
+        var myself = this;
+        $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
+            return myself.sort(a,b)
+        };
+        $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
+            return myself.sort(b,a)
+        };
+        
+        
+        
+    },
+
+    implementation: function (tgt, st, opt) {
+        
+        // encapsulate this
+        
+        var $t = $(tgt);
+        
+        if($t.find("button").length>0){
+            return; // Done already
+        }
+      
+        var template = "<div class='validationButtons'>{{#buttons}}<button class='validationButton'>{{name}}</button>{{/buttons}}</div>";
+        
+        $t.html(Mustache.render(template, {
+            buttons: opt.buttons
+        }));
+        
+        var testName = $t.parent("tr").find("td:first-child").text();
+        
+        var myself = this;
+        $t.find("> div").on("click","button",function(evt){
+            var $target = $(this);
+            var idx = $target.prevAll("button").length;
+            
+            opt.buttons[idx].callback.call(myself, testName);
+        })
+        
+        
+    }
+};
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButtonsAddIn));

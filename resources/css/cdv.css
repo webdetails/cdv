@@ -810,12 +810,12 @@ ul.siteMap li li li:hover ul{
 .siteMap {
     float:  left;
     width: 100%;
-    background: rgb(9, 63, 78);
+    background: #57A32B;
     margin-top: 0px;
 }
 .siteMap a {
     padding: 		10px 20px;
-    color: rgb(15, 20, 20);
+    color: rgb(34, 34, 34);
     text-decoration: none;
 }
 .siteMap li:first-child a {
@@ -833,12 +833,12 @@ ul.siteMap li li li:hover ul{
 
 
 .siteMap a { /* visited pseudo selector so IE6 applies text colour*/
-    color: rgb(130, 146, 153);
+    color: rgb(34, 34, 34);
     font-size: 13px;
 
 }
 .siteMap li {
-    background: rgb(9, 63, 78);
+    background: #57A32B;
     cursor:  pointer;
 }
 .siteMap li li {
@@ -1450,4 +1450,17 @@ textarea#code {
 .validationFileWrapper a.params{
     color: #57A32B;
     font-style: italic;
+}
+
+
+/* ValidationButtons */
+
+.validationButtons{
+    float: right;
+}
+
+.validationButtons > button{
+    margin-right: 4px;
+    font-size: 9px; 
+    width: 40px;
 }
