@@ -5,13 +5,12 @@
 
   <configurations>
     <conf name="default"/>
-	<conf name="source"/>
-	<conf name="zip"/>
+    <conf name="source"/>
+    <conf name="zip"/>
     <conf name="test" visibility="private"/>
     <conf name="codegen" visibility="private"/>
     <conf name="runtime" visibility="private"/>
     <conf name="dev" visibility="private"/>
-    
   </configurations>
 
 
@@ -40,9 +39,9 @@
 <!--    <dependency org="pentaho" name="cpf" rev="TRUNK-SNAPSHOT" changing="true"/>-->
 
     <!--  OrientDB -->
-	<dependency org="com.orientechnologies" name="orient-commons" rev="1.0.1"/>
-	<dependency org="com.orientechnologies" name="orientdb-core" rev="1.0.1"/>
-	<dependency org="com.orientechnologies" name="orientdb-server" rev="1.0.1"/>
+	<dependency org="com.orientechnologies" name="orient-commons" conf="runtime->default" rev="1.0.1"/>
+	<dependency org="com.orientechnologies" name="orientdb-core" conf="runtime->default" rev="1.0.1"/>
+	<dependency org="com.orientechnologies" name="orientdb-server" conf="runtime->default" rev="1.0.1"/>
 
   </dependencies>
 

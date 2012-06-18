@@ -37,7 +37,7 @@ public class Router implements RestRequestHandler {//implements RequestHandler {
     }
 
     public static synchronized Router resetBaseRouter() {
-            _instance = new Router();
+        _instance = new Router();
         return _instance;
     }
 
