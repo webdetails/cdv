@@ -7,7 +7,6 @@ package pt.webdetails.cdv.scripts;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -24,6 +23,10 @@ import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 import pt.webdetails.cpf.repository.RepositoryAccess;
 import pt.webdetails.cpf.repository.RepositoryAccess.FileAccess;
+import org.pentaho.platform.api.repository.ISolutionRepository;
+import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
+import org.pentaho.platform.engine.core.system.PentahoSystem;
+import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
  *
@@ -66,6 +69,8 @@ public class GlobalScope extends ImporterTopLevel {
                 "registerHandler", "print", "lib", "load", "loadTests"};
             defineFunctionProperties(names, GlobalScope.class,
                     ScriptableObject.DONTENUM);
+            Object wrappedPersistence = Context.javaToJS(PersistenceEngine.getInstance(), this);
+            ScriptableObject.putProperty(this, "persistenceEngine", wrappedPersistence);
             Object wrappedFactory = Context.javaToJS(new DatasourceFactory(), this);
             ScriptableObject.putProperty(this, "datasourceFactory", wrappedFactory);
         } finally {
@@ -162,7 +167,6 @@ public class GlobalScope extends ImporterTopLevel {
       }
       // Get the paths ot the necessary files: dependencies and the main script.
       return Context.toBoolean(true);
-
     }
 
     public void executeScript(String path) {
@@ -193,10 +197,8 @@ public class GlobalScope extends ImporterTopLevel {
 
     public static Object load(Context cx, Scriptable thisObj,
             Object[] args, Function funObj) {
-
-        BaseScope scope = (BaseScope) thisObj;
         String file = args[0] instanceof NativeJavaObject ? ((NativeJavaObject) args[0]).unwrap().toString() : args[0].toString();
-        executeScript(cx, file, scope);
+        executeScript(cx, file, thisObj);
         return Context.toBoolean(true);
     }
 

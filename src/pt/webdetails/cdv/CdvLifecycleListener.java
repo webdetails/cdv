@@ -10,6 +10,7 @@ import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
 import pt.webdetails.cdv.scripts.GlobalScope;
 import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
+import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
  * This class inits Cdv plugin within the bi-platform
@@ -25,6 +26,7 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     }
 
     public static void reInit() {
+        PersistenceEngine pe  = PersistenceEngine.getInstance();
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
         Router.getBaseRouter().registerHandler(HttpMethod.GET, "/warnings", new PushWarningsHandler());
