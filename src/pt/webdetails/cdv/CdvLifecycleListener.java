@@ -27,6 +27,8 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     public static void reInit() {
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
+        Router.getBaseRouter().registerHandler(HttpMethod.GET, "/warnings", new PushWarningsHandler());
+//        Router.getBaseRouter().registerHandler(HttpMethod.POST, "/warnings", new PushWarningsHandler());
         scope.executeScript("system/cdv/js/bootstrap.js");
     }
 

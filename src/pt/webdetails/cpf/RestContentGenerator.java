@@ -1,5 +1,7 @@
 package pt.webdetails.cpf;
 
+import javax.servlet.http.HttpServletRequest;
+
 import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
 
 public abstract class RestContentGenerator extends SimpleContentGenerator {
@@ -22,7 +24,9 @@ public abstract class RestContentGenerator extends SimpleContentGenerator {
   }
   
   public HttpMethod getHttpMethod(){
-    return HttpMethod.valueOf(getRequest().getMethod());
+    HttpServletRequest request = getRequest();
+    String method = (request == null)? null : getRequest().getMethod();
+    return (method != null)? HttpMethod.valueOf(method) : HttpMethod.GET;
   }
 
 }
