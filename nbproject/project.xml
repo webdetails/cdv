@@ -5,9 +5,23 @@
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
             <name>CDV</name>
             <source-roots>
-                <root id="src.dir"/>
+                <root id="src.dir" name="src"/>
             </source-roots>
             <test-roots/>
         </data>
+        <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
+            <reference>
+                <foreign-project>cpf</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>nbbuild.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+        </references>
+        <spring-data xmlns="http://www.netbeans.org/ns/spring-data/1">
+            <config-files/>
+            <config-file-groups/>
+        </spring-data>
     </configuration>
 </project>

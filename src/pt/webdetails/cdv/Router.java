@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdv;
 
 import java.io.IOException;
@@ -14,21 +14,21 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.pentaho.platform.api.engine.IParameterProvider;
 import pt.webdetails.cdv.scripts.GlobalScope;
+import pt.webdetails.cpf.RequestHandler;
+import pt.webdetails.cpf.RestRequestHandler;
+import pt.webdetails.cpf.SimpleContentGenerator.MimeType;
 
 /**
  *
  * @author pdpi
  */
-public class Router implements Handler {
+public class Router implements RestRequestHandler {
 
     private Map<Key, Callable> javaScriptHandlers;
-    private Map<Key, Handler> javaHandlers;
+    private Map<Key, RequestHandler> javaHandlers;
     private static Router _instance;
 
-    public enum HttpMethod {
 
-        GET, POST, PUT, DELETE, HEAD, TRACE, OPTIONS, CONNECT, PATCH
-    }
 
     public static synchronized Router getBaseRouter() {
         if (_instance == null) {
@@ -38,20 +38,27 @@ public class Router implements Handler {
     }
 
     public static synchronized Router resetBaseRouter() {
-            _instance = new Router();
+        _instance = new Router();
         return _instance;
     }
 
     public Router() {
         javaScriptHandlers = new HashMap<Key, Callable>();
-        javaHandlers = new HashMap<Key, Handler>();
+        javaHandlers = new HashMap<Key, RequestHandler>();
     }
 
-    @Override
+//    @Override
     public void call(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
         route(HttpMethod.GET, "", out, pathParams, requestParams);
     }
+    
+    @Override
+    public boolean canHandle(HttpMethod method, String path) {
+      Key key = new Key(method, path);
+      return javaScriptHandlers.containsKey(key) || javaHandlers.containsKey(key);
+    }
 
+    @Override
     public void route(HttpMethod method, String path, OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
         Key key = new Key(method, path);
         try {
@@ -60,7 +67,7 @@ public class Router implements Handler {
                 Context cx = GlobalScope.getContextFactory().enterContext();
                 try {
                     GlobalScope scope = GlobalScope.getInstance();
-                    Request r = new Request((HttpServletResponse) pathParams.getParameter("httpresponse"));
+                    ResponseWrapper r = new ResponseWrapper((HttpServletResponse) pathParams.getParameter("httpresponse"));
                     Scriptable thiz = cx.getWrapFactory().wrapAsJavaObject(cx, scope, r, null),
                             pParams = cx.getWrapFactory().wrapAsJavaObject(cx, scope, pathParams, null),
                             rParams = cx.getWrapFactory().wrapAsJavaObject(cx, scope, requestParams, null);
@@ -71,7 +78,7 @@ public class Router implements Handler {
                     Context.exit();
                 }
             } else if (javaHandlers.containsKey(key)) {
-                Handler handler = javaHandlers.get(key);
+                RequestHandler handler = javaHandlers.get(key);
                 handler.call(out, pathParams, requestParams);
             }
         } catch (IOException e) {
@@ -82,7 +89,7 @@ public class Router implements Handler {
         javaScriptHandlers.put(new Key(method, path), handler);
     }
 
-    public void registerHandler(HttpMethod method, String path, Handler handler) {
+    public void registerHandler(HttpMethod method, String path, RequestHandler handler) {
         javaHandlers.put(new Key(method, path), handler);
     }
 
@@ -121,5 +128,10 @@ public class Router implements Handler {
             hash = 83 * hash + (this.path != null ? this.path.hashCode() : 0);
             return hash;
         }
+    }
+
+    @Override
+    public String getResponseMimeType() {
+      return MimeType.HTML;
     }
 }

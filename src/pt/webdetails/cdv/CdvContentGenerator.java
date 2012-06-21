@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package pt.webdetails.cdv;
 
 import java.io.IOException;
@@ -9,102 +9,64 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletRequestWrapper;
-import javax.servlet.ServletResponse;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IParameterProvider;
-import org.pentaho.platform.engine.services.solution.BaseContentGenerator;
-import org.springframework.security.wrapper.SavedRequestAwareWrapper;
-import pt.webdetails.cdv.Router.HttpMethod;
 import pt.webdetails.cpf.InterPluginCall;
+import pt.webdetails.cpf.RestContentGenerator;
+import pt.webdetails.cpf.RestRequestHandler;
+import pt.webdetails.cpf.annotations.AccessLevel;
+import pt.webdetails.cpf.annotations.Exposed;
 
 /**
  *
  * @author pdpi
  */
-public class CdvContentGenerator extends BaseContentGenerator {
+public class CdvContentGenerator extends RestContentGenerator {
 
+    private static final long serialVersionUID = 1L;
     public static final String CDW_EXTENSION = ".cdw";
     public static final String PLUGIN_NAME = "cdv";
     public static final String PLUGIN_PATH = "system/" + CdvContentGenerator.PLUGIN_NAME + "/";
-    private static final Log logger = LogFactory.getLog(CdvContentGenerator.class);
-    private static final String MIME_XML = "text/xml";
-    private static final String MIME_HTML = "text/html";
-    private static final String MIME_SVG = "image/svg+xml";
-    private static final String MIME_PNG = "image/png";
-
-    private enum methods {
-
-        RUNTEST, REFRESH
-    }
-
-    private enum outputTypes {
-
-        SVG, PNG, PDF
-    }
-
+    
     @Override
-    public Log getLogger() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getPluginName() {
+      return PLUGIN_NAME;
     }
 
-    @Override
-    public void createContent() throws Exception {
-
-        final IParameterProvider requestParams = parameterProviders.get(IParameterProvider.SCOPE_REQUEST);
-        final IParameterProvider pathParams = parameterProviders.get("path");
-        OutputStream out = outputHandler.getOutputContentItem("response", "content", "", instanceId, MIME_HTML).getOutputStream(null);
-        final String path = pathParams.getStringParameter("path", null);
-
-        SavedRequestAwareWrapper wrapper = (SavedRequestAwareWrapper) pathParams.getParameter("httprequest");
-        HttpMethod method = wrapper==null?HttpMethod.GET:HttpMethod.valueOf(wrapper.getMethod());
-        if ("/refresh".equals(path)) {
-            refresh(out, pathParams, requestParams);
-        } else if ("/home".equals(path)) {
-            home(out, pathParams, requestParams);
-        } else if ("/validations".equals(path)) {
-            validations(out, pathParams, requestParams);
-        } else if ("/cdaErrors".equals(path)) {
-            cdaErrors(out, pathParams, requestParams);
-        } else if ("/slowQueries".equals(path)) {
-            slowQueries(out, pathParams, requestParams);
-        } else {
-            Router.getBaseRouter().route(method, path, out, pathParams, requestParams);
-        }
-    }
-
-    private void refresh(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void refresh(OutputStream out) {
         CdvLifecycleListener.reInit();
     }
 
-    private void home(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
-        callCDE("home.wcdf", out, pathParams, requestParams);
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void home(OutputStream out) throws UnsupportedEncodingException, IOException {
+        callCDE("home.wcdf", out);
     }
 
-    private void validations(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
-        callCDE("validations.wcdf", out, pathParams, requestParams);
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void validations(OutputStream out) throws UnsupportedEncodingException, IOException {
+        callCDE("validations.wcdf", out);
     }
 
-    private void cdaErrors(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
-        callCDE("cdaErrors.wcdf", out, pathParams, requestParams);
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void cdaErrors(OutputStream out) throws UnsupportedEncodingException, IOException {
+        callCDE("cdaErrors.wcdf", out);
     }
 
-    private void slowQueries(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
-        callCDE("slowQueries.wcdf", out, pathParams, requestParams);
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void slowQueries(OutputStream out) throws UnsupportedEncodingException, IOException {
+        callCDE("slowQueries.wcdf", out);
     }
 
-    private void callCDE(String file, OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) throws UnsupportedEncodingException, IOException {
+    private void callCDE(String file, OutputStream out) throws UnsupportedEncodingException, IOException {
 
-
-        ServletRequestWrapper wrapper = (ServletRequestWrapper) pathParams.getParameter("httprequest");
+        ServletRequest wrapper = getRequest();
         String root = wrapper.getServerName() + ":" + wrapper.getServerPort();
 
         Map<String, Object> params = new HashMap<String, Object>();
@@ -113,65 +75,50 @@ public class CdvContentGenerator extends BaseContentGenerator {
         params.put("file", file);
         params.put("absolute", "true");
         params.put("root", root);
-        parseParameters(params);
-
+//        parseParameters(params);
+        IParameterProvider requestParams = getRequestParameters();
+        copyParametersFromProvider(params, requestParams);
+        
         if (requestParams.hasParameter("mode") && requestParams.getStringParameter("mode", "Render").equals("edit")) {
-            redirectToCDE(out, params);
+            redirectToCdeEditor(out, params);
             return;
         }
-
 
         InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDE, "Render", params);
         pluginCall.setResponse(getResponse());
         pluginCall.setOutputStream(out);
         pluginCall.run();
-
     }
+    
+//    private void copyParametersFromProvider(Map<String, Object> params, IParameterProvider provider){
+//      @SuppressWarnings("unchecked")
+//      Iterator<String> paramNames = provider.getParameterNames();
+//      while(paramNames.hasNext()){
+//        String paramName = paramNames.next();
+//        params.put(paramName, provider.getParameter(paramName));
+//      }
+//    }
 
-    private void parseParameters(Map<String, Object> params) {
-        //add request parameters
-        ServletRequest request = getRequest();
-        @SuppressWarnings("unchecked")//should always be String
-        Enumeration<String> originalParams = request.getParameterNames();
-        // Iterate and put the values there
-        while (originalParams.hasMoreElements()) {
-            String originalParam = originalParams.nextElement();
-            params.put(originalParam, request.getParameter(originalParam));
+    private void redirectToCdeEditor(OutputStream out, Map<String, Object> params) throws IOException {
+      
+      StringBuilder urlBuilder = new StringBuilder();
+      urlBuilder.append("../pentaho-cdf-dd/edit");
+      if(params.size() > 0) urlBuilder.append("?");
+      
+      List<String> paramArray = new ArrayList<String>();
+      for(String key : params.keySet()){
+        Object value = params.get(key);
+        if (value instanceof String) {
+            paramArray.add(key + "=" + URLEncoder.encode((String) value, getEncoding()));
         }
+      }
+
+      urlBuilder.append(StringUtils.join(paramArray, "&"));
+      redirect(urlBuilder.toString());
     }
 
-    private void redirectToCDE(OutputStream out, Map<String, Object> params) throws UnsupportedEncodingException, IOException {
-
-
-        StringBuilder str = new StringBuilder();
-        str.append("<html><head><title>Redirecting</title>");
-        str.append("<meta http-equiv=\"REFRESH\" content=\"0; url=../pentaho-cdf-dd/edit?");
-
-        List paramArray = new ArrayList();
-        for (Iterator it = params.keySet().iterator(); it.hasNext();) {
-
-            String key = (String) it.next();
-            Object value = params.get(key);
-            if (value instanceof String) {
-                paramArray.add(key + "=" + URLEncoder.encode((String) value, "UTF-8"));
-            }
-
-        }
-
-        str.append(StringUtils.join(paramArray, "&"));
-        str.append("\"></head>");
-        str.append("<body>Redirecting</body></html>");
-
-        out.write(str.toString().getBytes("UTF-8"));
-        return;
-
-    }
-
-    private ServletResponse getResponse() {
-        return (ServletResponse) parameterProviders.get("path").getParameter("httpresponse");
-    }
-
-    private ServletRequest getRequest() {
-        return (ServletRequest) parameterProviders.get("path").getParameter("httprequest");
+    @Override
+    public RestRequestHandler getRequestHandler() {
+      return Router.getBaseRouter();
     }
 }
