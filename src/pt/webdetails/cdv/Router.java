@@ -14,6 +14,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.pentaho.platform.api.engine.IParameterProvider;
 import pt.webdetails.cdv.scripts.GlobalScope;
+import pt.webdetails.cpf.RequestHandler;
 import pt.webdetails.cpf.RestRequestHandler;
 import pt.webdetails.cpf.SimpleContentGenerator.MimeType;
 

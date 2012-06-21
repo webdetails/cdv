@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.pentaho.platform.api.engine.IParameterProvider;
 
+import pt.webdetails.cpf.RequestHandler;
+
 /**
  *
  * @author pdpi

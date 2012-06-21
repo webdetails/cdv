@@ -9,8 +9,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
@@ -20,7 +20,6 @@ import org.pentaho.platform.api.engine.IParameterProvider;
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.RestContentGenerator;
 import pt.webdetails.cpf.RestRequestHandler;
-import pt.webdetails.cpf.SimpleContentGenerator;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 
@@ -39,36 +38,6 @@ public class CdvContentGenerator extends RestContentGenerator {
     public String getPluginName() {
       return PLUGIN_NAME;
     }
-
-//    @Override
-//    public void createContent() {//throws Exception {
-//
-//      try{
-//      
-//        final IParameterProvider requestParams = parameterProviders.get(IParameterProvider.SCOPE_REQUEST);
-//        final IParameterProvider pathParams = parameterProviders.get("path");
-//        OutputStream out = getResponseOutputStream(MimeType.HTML);//outputHandler.getOutputContentItem("response", "content", "", instanceId, MimeType.HTML).getOutputStream(null);
-//        final String path = pathParams.getStringParameter("path", null);
-//
-//        SavedRequestAwareWrapper wrapper = (SavedRequestAwareWrapper) pathParams.getParameter("httprequest");
-//        HttpMethod method = HttpMethod.valueOf(wrapper.getMethod());
-////        if ("/refresh".equals(path)) {
-////            refresh(out, pathParams, requestParams);
-////        } else if ("/home".equals(path)) {
-////            home(out, pathParams, requestParams);
-////        } else if ("/tests".equals(path)) {
-////            validations(out, pathParams, requestParams);
-////        } else if ("/cdaErrors".equals(path)) {
-////            cdaErrors(out, pathParams, requestParams);
-////        } else if ("/slowQueries".equals(path)) {
-////            slowQueries(out, pathParams, requestParams);
-////        } else {
-////            Router.getBaseRouter().route(method, path, out, pathParams, requestParams);
-////        }
-//      } catch(Exception e){
-//        logger.error(e);
-//      }
-//    }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void refresh(OutputStream out) {
@@ -106,9 +75,10 @@ public class CdvContentGenerator extends RestContentGenerator {
         params.put("file", file);
         params.put("absolute", "true");
         params.put("root", root);
-        parseParameters(params);
-
+//        parseParameters(params);
         IParameterProvider requestParams = getRequestParameters();
+        copyParametersFromProvider(params, requestParams);
+        
         if (requestParams.hasParameter("mode") && requestParams.getStringParameter("mode", "Render").equals("edit")) {
             redirectToCdeEditor(out, params);
             return;
@@ -119,18 +89,15 @@ public class CdvContentGenerator extends RestContentGenerator {
         pluginCall.setOutputStream(out);
         pluginCall.run();
     }
-
-    private void parseParameters(Map<String, Object> params) {
-        //add request parameters
-        ServletRequest request = getRequest();
-        @SuppressWarnings("unchecked")//should always be String
-        Enumeration<String> originalParams = request.getParameterNames();
-        // Iterate and put the values there
-        while (originalParams.hasMoreElements()) {
-            String originalParam = originalParams.nextElement();
-            params.put(originalParam, request.getParameter(originalParam));
-        }
-    }
+    
+//    private void copyParametersFromProvider(Map<String, Object> params, IParameterProvider provider){
+//      @SuppressWarnings("unchecked")
+//      Iterator<String> paramNames = provider.getParameterNames();
+//      while(paramNames.hasNext()){
+//        String paramName = paramNames.next();
+//        params.put(paramName, provider.getParameter(paramName));
+//      }
+//    }
 
     private void redirectToCdeEditor(OutputStream out, Map<String, Object> params) throws IOException {
       
