@@ -22,7 +22,7 @@ import pt.webdetails.cpf.SimpleContentGenerator.MimeType;
  *
  * @author pdpi
  */
-public class Router implements RestRequestHandler {//implements RequestHandler {
+public class Router implements RestRequestHandler {
 
     private Map<Key, Callable> javaScriptHandlers;
     private Map<Key, RequestHandler> javaHandlers;

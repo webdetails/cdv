@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
+import pt.webdetails.cdv.notifications.NotificationEngine;
 import pt.webdetails.cdv.scripts.GlobalScope;
 import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
@@ -26,6 +27,7 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     }
 
     public static void reInit() {
+        NotificationEngine.getInstance();
         PersistenceEngine pe  = PersistenceEngine.getInstance();
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
