@@ -17,7 +17,7 @@ public class Alert implements Persistable {
 
     public enum Level {
 
-        OK, WARNING, ERROR, CRITICAL
+        ALL, OK, WARNING, ERROR, CRITICAL
     }
     private Level level;
     private String msg, group;

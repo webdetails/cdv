@@ -315,6 +315,13 @@ div.container  {
 
 /* Data Cells body */
 .WDdataCellBody {
+
+
+    background-color: white;
+    border: 1px solid rgb(132, 143, 149);
+
+    padding: 20px 0px;
+
 }
 
 
@@ -343,6 +350,87 @@ div.container  {
 /* =============================================================================
    5. TABLES
    ========================================================================== */
+
+/* Standard table */
+
+table.tableComponent{
+    border-collapse: separate;
+    border-spacing: 0px 10px;
+    background-color: white;
+}
+
+.tableComponent thead th{
+    text-align: left;
+    font-size: 16px;
+    color: grey;
+    padding-top: 10px;
+    min-height: 40px;
+    background-color: white
+}
+
+table.tableComponent tr.even, table.tableComponent tr.odd{
+    background-color: inherit;
+}
+
+.tableComponent tr td{
+
+    font-size: 12px;
+    padding: 1px 5px;
+    border-top: 1px solid rgb(132, 143, 149);
+    border-bottom: 1px solid rgb(132, 143, 149);
+}
+
+.tableComponent tr td:nth-child(2){
+    border-left: 1px solid rgb(132, 143, 149);
+}
+
+.tableComponent tr td:last-child{
+    border-right: 1px solid rgb(132, 143, 149);
+}
+
+
+.tableComponent tr.groupHeader td{
+    border: 1px solid rgb(132, 143, 149);
+    font-size: 16px;
+
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2NhZDNkNiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNhNmIwYjUiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  #cad3d6 0%, #a6b0b5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cad3d6), color-stop(100%,#a6b0b5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* IE10+ */
+    background: linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* W3C */    
+
+}
+
+.tableComponent td.numeric{
+    padding-right: 10px;
+    font-size: 11px;
+}
+
+.dataTables_filter{
+    color: grey;
+
+}
+
+
+/* Validation table */
+
+.validationTable tr td{
+
+    /*
+    -webkit-transition: background 300ms ease;
+    -moz-transition: background 300ms ease;
+    -ms-transition: background 300ms ease;
+    -o-transition: background 300ms ease;
+    transition: background 300ms ease;
+    */
+}
+
+.validationTable tr:hover td{
+
+    /*    background: rgb(202, 211, 214);*/
+}
 
 .WDdataCellBody table {}
 
@@ -511,9 +599,16 @@ button {
     font-size: 12px;
     background-color: #ffffff;
     padding-bottom: 2px;
+
+
+    -webkit-transition: background 300ms ease;
+    -moz-transition: background 300ms ease;
+    -ms-transition: background 300ms ease;
+    -o-transition: background 300ms ease;
+    transition: background 300ms ease;
 }
 button:hover {
-    border: 1px solid transparent;
+    /*    border: 1px solid transparent;*/
     background-color: #cad3d6;
     color:  #0f1414;
 }
@@ -740,12 +835,12 @@ ul.siteMap li li li:hover ul{
 .siteMap {
     float:  left;
     width: 100%;
-    background: rgb(9, 63, 78);
+    background: #57A32B;
     margin-top: 0px;
 }
 .siteMap a {
     padding: 		10px 20px;
-    color: rgb(15, 20, 20);
+    color: rgb(34, 34, 34);
     text-decoration: none;
 }
 .siteMap li:first-child a {
@@ -763,12 +858,12 @@ ul.siteMap li li li:hover ul{
 
 
 .siteMap a { /* visited pseudo selector so IE6 applies text colour*/
-    color: rgb(130, 146, 153);
+    color: rgb(34, 34, 34);
     font-size: 13px;
 
 }
 .siteMap li {
-    background: rgb(9, 63, 78);
+    background: #57A32B;
     cursor:  pointer;
 }
 .siteMap li li {
@@ -825,7 +920,7 @@ ul.siteMap li li li:hover ul{
     -moz-border-radius-bottomleft: 12px;
     -webkit-border-radius: 0px 0px 12px 12px;
     -o-border-radius: 0px 0px 12px 12px;
-        -ms-border-radius: 0px 0px 12px 12px;	
+    -ms-border-radius: 0px 0px 12px 12px;	
     border-radius: 0px 0px 12px 12px;	
     width:250px;
 
@@ -1352,3 +1447,96 @@ textarea#code {
 .group .WDdataCellHeader.collapsed:hover .groupName:before {
     content: "Click to Expand";
 }
+
+
+
+/* 
+ * 
+ * 
+ * 
+*/
+
+
+/* ValidationFile AddIn */
+
+.validationFileWrapper{
+    /*    min-height: 37px;*/
+}
+
+.validationFileWrapper div.cda{
+    margin-bottom: 5px;
+}
+
+.validationFileWrapper span.cdaPath{
+    font-size: 10px;
+    color: grey;
+}
+
+.validationFileWrapper span.dataAccessId{
+    color: grey;
+}
+
+.validationFileWrapper a.params{
+    color: #57A32B;
+    font-style: italic;
+}
+
+
+/* ValidationButtons */
+
+
+.validationButtons{
+    float: right;
+}
+
+.validationButtons > button{
+    margin-right: 4px;
+    font-size: 9px; 
+    width: 40px;
+
+}
+
+td.validationPopup{
+    cursor: pointer;
+}
+
+div.validationPopup div.validationButtons{
+    float: none;
+
+}
+
+div.validationPopup button{
+    font-size: 10px; 
+    width: inherit;
+    margin-right: 5px;
+
+}
+
+td.validationPopup button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+div.validationPopup{
+
+    margin-top: 0px;
+}
+
+
+/* Options Popup styling */
+
+div.optionsPopup{
+    border: 0px none;
+    border-radius: 0px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+div.optionsPopup div.arrow{
+    visibility: hidden
+}
+
+div.optionsPopup a.close{
+    display: none;
+}
+
