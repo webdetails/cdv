@@ -78,193 +78,166 @@ public class EmailOutlet implements NotificationOutlet {
     @Override
     public void publish(Alert not) {
         logger.info("Emailing");
-        email();
+        email(not);
     }
 
-    private boolean email() {
-        return true;
-        /*
+    private boolean email(Alert alert) {
+
         try {
-        
-        
-        // Get the session object
-        final Session session = buildSession();
-        
-        // Create the message
-        final MimeMessage msg = new MimeMessage(session);
-        
-        // From, to, etc.
-        applyMessageHeaders(msg);
-        
-        // Get main message multipart
-        final Multipart multipartBody = getMultipartBody(session);
-        
-        // Process attachments
-        final Multipart mainMultiPart = processAttachments(multipartBody);
-        msg.setContent(mainMultiPart);
-        
-        // Send it
-        
-        //msg.setHeader("X-Mailer", MAILER); //$NON-NLS-1$
-        msg.setSentDate(new Date());
-        
-        Transport.send(msg);
-        
-        return true;
-        
+
+
+            // Get the session object
+            final Session session = buildSession();
+
+            // Create the message
+            final MimeMessage msg = new MimeMessage(session);
+
+            // From, to, etc.
+            applyMessageHeaders(msg, alert);
+
+            // Get main message multipart
+            final Multipart multipartBody = getMultipartBody(session, alert);
+
+            // Process attachments
+            //final Multipart mainMultiPart = processAttachments(multipartBody);
+            //msg.setContent(mainMultiPart);
+            msg.setContent(multipartBody);
+
+            // Send it
+
+            //msg.setHeader("X-Mailer", MAILER); //$NON-NLS-1$
+            msg.setSentDate(new Date());
+
+            Transport.send(msg);
+
+            return true;
+
         } catch (SendFailedException e) {
-        logger.error(e);
+            logger.error(e);
         } catch (AuthenticationFailedException e) {
-        logger.error(e);
+            logger.error(e);
         } catch (MessagingException me) {
-        logger.error(me);
+            logger.error(me);
+        } catch (IOException e) {
+            logger.error(e);
         }
-        
-        
+
+
         return false;
-        }
-        
-        
-        
-        private Session buildSession() throws Exception {
-        
+    }
+
+    private Session buildSession() {
+
         final Properties props = new Properties();
-        
+
         try {
-        final Document configDocument = PentahoSystem.getSystemSettings().getSystemSettingsDocument(
-        "smtp-email/email_config.xml"); //$NON-NLS-1$
-        final List<Node> properties = configDocument.selectNodes("/email-smtp/properties/*"); //$NON-NLS-1$
-        for (Node propertyNode : properties) {
-        final String propertyName = propertyNode.getName();
-        final String propertyValue = propertyNode.getText();
-        props.put(propertyName, propertyValue);
-        }
+            final Document configDocument = PentahoSystem.getSystemSettings().getSystemSettingsDocument(
+                    "smtp-email/email_config.xml"); //$NON-NLS-1$
+            final List<Node> properties = configDocument.selectNodes("/email-smtp/properties/*"); //$NON-NLS-1$
+            for (Node propertyNode : properties) {
+                final String propertyName = propertyNode.getName();
+                final String propertyValue = propertyNode.getText();
+                props.put(propertyName, propertyValue);
+            }
         } catch (Exception e) {
-        logger.error("Failed to build session: " + e.getMessage());
+            logger.error("Failed to build session: " + e.getMessage());
         }
-        
+
         final boolean authenticate = "true".equals(props.getProperty("mail.smtp.auth")); //$NON-NLS-1$//$NON-NLS-2$
-        
+
         // Get a Session object
-        
+
         final Session session;
         if (authenticate) {
-        final Authenticator authenticator = new EmailAuthenticator();
-        session = Session.getInstance(props, authenticator);
+            final Authenticator authenticator = new EmailAuthenticator();
+            session = Session.getInstance(props, authenticator);
         } else {
-        session = Session.getInstance(props);
+            session = Session.getInstance(props);
         }
-        
+
         // if debugging is not set in the email config file, match the
         // component debug setting
         if (!props.containsKey("mail.debug")) { //$NON-NLS-1$
-        session.setDebug(true);
+            session.setDebug(true);
         }
-        
+
         return session;
-        
-        }
-        
-        private Multipart getMultipartBody(final Session session) throws MessagingException, IOException {
-        
+
+    }
+
+    private String getMessageBody(Alert alert) {
+        return alert.getMessage();
+    }
+
+    private String getSubject(Alert alert) {
+        return "[" + alert.getLevel().toString() + "] " + alert.getGroup(); 
+    }
+    private Multipart getMultipartBody(final Session session, final Alert alert) throws MessagingException, IOException {
+
         // if we have a mimeMessage, use it. Otherwise, build one with what we have
         // We can have both a messageHtml and messageText. Build according to it
-        
+
         MimeMultipart parentMultipart = new MimeMultipart();
         MimeBodyPart htmlBodyPart = null, textBodyPart = null;
-        
-        
-        if (getMimeMessage() != null) {
-        
-        // Rebuild a MimeMessage and use this one
-        
-        final MimeBodyPart original = new MimeBodyPart();
-        final MimeMessage originalMimeMessage = new MimeMessage(session, getMimeMessage().getInputStream());
-        final MimeMultipart relatedMultipart = (MimeMultipart) originalMimeMessage.getContent();
-        
-        parentMultipart = relatedMultipart;
-        
-        htmlBodyPart = new MimeBodyPart();
-        htmlBodyPart.setContent(relatedMultipart);
-        
-        }
-        
-        
-        // The information we have in the mime-message overrides the getMessageHtml.
-        if (getMessageHtml() != null && htmlBodyPart != null) {
-        
-        final String content = getInputString(getMessageHtml());
-        
-        htmlBodyPart = new MimeBodyPart();
-        htmlBodyPart.setContent(content, "text/html; charset=" + LocaleHelper.getSystemEncoding());
-        final MimeMultipart htmlMultipart = new MimeMultipart();
-        htmlMultipart.addBodyPart(htmlBodyPart);
-        
-        parentMultipart = htmlMultipart;
-        }
-        
-        if (getMessagePlain() != null) {
-        
-        final String content = getInputString(getMessagePlain());
-        
+
+        final String content = getMessageBody(alert);
+
         textBodyPart = new MimeBodyPart();
         textBodyPart.setContent(content, "text/plain; charset=" + LocaleHelper.getSystemEncoding());
         final MimeMultipart textMultipart = new MimeMultipart();
         textMultipart.addBodyPart(textBodyPart);
-        
+
         parentMultipart = textMultipart;
-        }
-        
+
         // We have both text and html? Encapsulate it in a multipart/alternative
-        
+
         if (htmlBodyPart != null && textBodyPart != null) {
-        
-        final MimeMultipart alternative = new MimeMultipart("alternative");
-        alternative.addBodyPart(textBodyPart);
-        alternative.addBodyPart(htmlBodyPart);
-        
-        parentMultipart = alternative;
-        
+
+            final MimeMultipart alternative = new MimeMultipart("alternative");
+            alternative.addBodyPart(textBodyPart);
+            alternative.addBodyPart(htmlBodyPart);
+
+            parentMultipart = alternative;
+
         }
-        
-        
+
         return parentMultipart;
-        
-        }
-        
-        private static class EmailAuthenticator extends Authenticator {
-        
-        private EmailAuthenticator() {
-        }
-        
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-        final String user = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.userid", null); //$NON-NLS-1$ //$NON-NLS-2$
-        final String password = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.password", null); //$NON-NLS-1$ //$NON-NLS-2$
-        return new PasswordAuthentication(user, password);
-        }
-        }
-        
-        private void applyMessageHeaders(final MimeMessage msg) throws MessagingException {
+    }
+
+    private void applyMessageHeaders(final MimeMessage msg, Alert alert) throws MessagingException {
         String from = getSetting("from"),
-        to = getSetting("to"),
-        cc = getSetting("cc"),
-        bcc = getSetting("bcc"),
-        subject = getSetting("subject");
+                to = getSetting("to"),
+                cc = getSetting("cc"),
+                bcc = getSetting("bcc"),
+                subject = getSubject(alert);
         msg.setFrom(new InternetAddress(from));
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
-        
+
         if ((cc != null) && (cc.trim().length() > 0)) {
-        msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
+            msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
         }
         if ((bcc != null) && (bcc.trim().length() > 0)) {
-        msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc, false));
+            msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc, false));
         }
-        
+
         if (subject != null) {
-        msg.setSubject(subject, LocaleHelper.getSystemEncoding());
+            msg.setSubject(subject, LocaleHelper.getSystemEncoding());
+
+
         }
-        
-         */
+
+    }
+
+    private static class EmailAuthenticator extends Authenticator {
+
+        private EmailAuthenticator() {
+        }
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            final String user = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.userid", null); //$NON-NLS-1$ //$NON-NLS-2$
+            final String password = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.password", null); //$NON-NLS-1$ //$NON-NLS-2$
+            return new PasswordAuthentication(user, password);
+        }
     }
 }

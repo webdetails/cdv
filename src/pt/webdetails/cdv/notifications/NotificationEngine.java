@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.logging.Log;
@@ -27,9 +29,11 @@ public class NotificationEngine {
     private Map<NotificationKey, List<NotificationOutlet>> alerts;
     private Map<String, Class> outlets;
     private static final Log logger = LogFactory.getLog(NotificationEngine.class);
+    private static final String ALL_GROUPS = "*";
 
     private NotificationEngine() {
         try {
+
             Document doc = RepositoryAccess.getRepository().getResourceAsDocument("/solution/cdv/alerts.xml");
             listOutlets(doc);
             listAlerts(doc);
@@ -46,6 +50,7 @@ public class NotificationEngine {
     }
 
     private void listOutlets(Document doc) {
+        outlets = new HashMap<String, Class>();
         List<Node> outletNodes = doc.selectNodes("//outlets/outlet");
         for (Node outletNode : outletNodes) {
             String outletClassName = "", outletName;
@@ -72,6 +77,7 @@ public class NotificationEngine {
     }
 
     private void listAlerts(Document doc) {
+        alerts = new HashMap<NotificationKey, List<NotificationOutlet>>();
         List<Node> alertNodes = doc.selectNodes("//alerts/alert");
         for (Node alertNode : alertNodes) {
             String outletName = "";
@@ -81,11 +87,24 @@ public class NotificationEngine {
                 if (outletClass == null) {
                     throw new ClassNotFoundException();
                 }
-                Constructor cons = outletClass.getConstructor(Node.class);
-                cons.newInstance(alertNode);
+                List<Node> groups = alertNode.selectNodes("./groups/group");
+                for (Node group : groups) {
+                    Constructor cons = outletClass.getConstructor(Node.class);
+                    NotificationOutlet outlet = (NotificationOutlet) cons.newInstance(alertNode);
+                    String minLevel = group.selectSingleNode("./@threshold").getStringValue();
+                    if (minLevel.equals("*")) {
+                        minLevel = "ALL";
+                    }
+                    String groupName = group.selectSingleNode("./@name").getStringValue();
+                    NotificationKey key = new NotificationKey(Level.valueOf(minLevel.toUpperCase()), groupName);
+                    if (!alerts.containsKey(key)) {
+                        alerts.put(key, new ArrayList<NotificationOutlet>());
+                    }
+                    alerts.get(key).add(outlet);
+                }
             } catch (InstantiationException e) {
                 logger.error("Failed to instantiate " + outletName);
-            }catch (ClassNotFoundException ex) {
+            } catch (ClassNotFoundException ex) {
                 logger.error("Failed to read alert settings");
             } catch (NoSuchMethodException ex) {
                 logger.error("Class " + outletName + " doesn't provide the necessary interface");
@@ -105,8 +124,17 @@ public class NotificationEngine {
         String group = not.getGroup();
         NotificationKey key = new NotificationKey(level, group);
         List<NotificationOutlet> targets = alerts.get(key);
-        for (NotificationOutlet outlet : targets) {
-            outlet.publish(not);
+        if (targets != null) {
+            for (NotificationOutlet outlet : targets) {
+                outlet.publish(not);
+            }
+        }
+        NotificationKey allKey = new NotificationKey(level, ALL_GROUPS);
+        targets = alerts.get(allKey);
+        if (targets != null) {
+            for (NotificationOutlet outlet : targets) {
+                outlet.publish(not);
+            }
         }
     }
 }

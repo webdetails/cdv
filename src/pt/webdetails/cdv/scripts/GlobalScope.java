@@ -1,7 +1,6 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
-
 package pt.webdetails.cdv.scripts;
 
 import java.io.IOException;
@@ -21,11 +20,9 @@ import org.mozilla.javascript.ScriptableObject;
 import org.pentaho.platform.api.engine.ISolutionFile;
 import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
+import pt.webdetails.cdv.notifications.EventManager;
 import pt.webdetails.cpf.repository.RepositoryAccess;
 import pt.webdetails.cpf.repository.RepositoryAccess.FileAccess;
-import org.pentaho.platform.api.repository.ISolutionRepository;
-import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
@@ -35,9 +32,7 @@ import pt.webdetails.cpf.persistence.PersistenceEngine;
 public class GlobalScope extends ImporterTopLevel {
 
     private static final long serialVersionUID = -3528272077278611074L;
-    
     private static final int START_LINE = 1;
-    
     protected static final Log logger = LogFactory.getLog(GlobalScope.class);
     private static GlobalScope _instance;
     private static ContextFactory contextFactory;
@@ -69,6 +64,8 @@ public class GlobalScope extends ImporterTopLevel {
                 "registerHandler", "print", "lib", "load", "loadTests"};
             defineFunctionProperties(names, GlobalScope.class,
                     ScriptableObject.DONTENUM);
+            Object wrappedEventManager = Context.javaToJS(EventManager.getInstance(), this);
+            ScriptableObject.putProperty(this, "eventManager", wrappedEventManager);
             Object wrappedPersistence = Context.javaToJS(PersistenceEngine.getInstance(), this);
             ScriptableObject.putProperty(this, "persistenceEngine", wrappedPersistence);
             Object wrappedFactory = Context.javaToJS(new DatasourceFactory(), this);
@@ -137,36 +134,34 @@ public class GlobalScope extends ImporterTopLevel {
 //        return solutionRepository.getResourceInputStream(path, false, 0);
 //
 //    }
-
     public static Object loadTests(Context cx, Scriptable thisObj,
             Object[] args, Function funObj) {
         /* Get the repository, and get a listing of all the files in the test dir from it*/
 //        final ISolutionRepository solutionRepository = PentahoSystem.get(ISolutionRepository.class, PentahoSessionHolder.getSession());
 //        ISolutionFile dir = solutionRepository.getSolutionFile(testPath, ISolutionRepository.ACTION_EXECUTE);
-      RepositoryAccess repository = RepositoryAccess.getRepository();
-      ISolutionFile testDir = repository.getSolutionFile(testPath, FileAccess.EXECUTE);
-      ISolutionFile files[] = testDir.listFiles();
+        RepositoryAccess repository = RepositoryAccess.getRepository();
+        ISolutionFile testDir = repository.getSolutionFile(testPath, FileAccess.EXECUTE);
+        ISolutionFile files[] = testDir.listFiles();
 
-      /* For each test file, read it into a stream and execute it. */
-      for (ISolutionFile file : files) {
-          String path = file.getFullPath();
-          // workaround for http://jira.pentaho.com/browse/BISERVER-3538
-          path = StringUtils.removeStart(path, "/solution");
-          InputStream stream = null;
+        /* For each test file, read it into a stream and execute it. */
+        for (ISolutionFile file : files) {
+            String path = file.getFullPath();
+            // workaround for http://jira.pentaho.com/browse/BISERVER-3538
+            path = StringUtils.removeStart(path, "/solution");
+            InputStream stream = null;
 
-          try {
-              stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);               
-              cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
-                
-          } catch (IOException e) {
-              logger.error(e);
-          }
-          finally {
-            IOUtils.closeQuietly(stream);
-          }
-      }
-      // Get the paths ot the necessary files: dependencies and the main script.
-      return Context.toBoolean(true);
+            try {
+                stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);
+                cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+
+            } catch (IOException e) {
+                logger.error(e);
+            } finally {
+                IOUtils.closeQuietly(stream);
+            }
+        }
+        // Get the paths ot the necessary files: dependencies and the main script.
+        return Context.toBoolean(true);
     }
 
     public void executeScript(String path) {
@@ -204,7 +199,9 @@ public class GlobalScope extends ImporterTopLevel {
 
     public static Object lib(Context cx, Scriptable thisObj,
             Object[] args, Function funObj) {
-        if(args == null || args.length < 1) throw new IllegalArgumentException("lib called with insufficient arguments");
+        if (args == null || args.length < 1) {
+            throw new IllegalArgumentException("lib called with insufficient arguments");
+        }
         String file = args[0].toString();
         executeScript(cx, systemPath + file, thisObj);
         return Context.toBoolean(true);
