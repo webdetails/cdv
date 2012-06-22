@@ -4,6 +4,7 @@
  */
 package pt.webdetails.cdv.notifications;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,16 +12,22 @@ import java.util.Map;
 import java.util.Properties;
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Node;
+import org.pentaho.metadata.messages.LocaleHelper;
 import org.pentaho.platform.api.repository.IContentItem;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 
@@ -41,19 +48,6 @@ public class EmailOutlet implements NotificationOutlet {
     public static final String INPUT_MIMEMESSAGE = "mime-message";
     private static Map<String, String> defaults;
     private Map<String, String> settings;
-    private String to;
-    private String from;
-    private String cc;
-    private String bcc;
-    private String subject;
-    private Object messagePlain;
-    private Object messageHtml;
-    private IContentItem mimeMessage;
-    private String attachmentName;
-    private IContentItem attachmentContent;
-    private String attachmentName2;
-    private IContentItem attachmentContent2;
-    private String attachmentName3;
 
     public static void setDefaults(Node settings) {
         defaults = getSettingsFromNode(settings);
@@ -81,54 +75,58 @@ public class EmailOutlet implements NotificationOutlet {
         }
     }
 
-    private boolean email() {
+    @Override
+    public void publish(Alert not) {
+        logger.info("Emailing");
+        email(not);
+    }
 
-        
+    private boolean email(Alert alert) {
+
         try {
-        
-        
-        // Get the session object
-        final Session session = buildSession();
-        
-        // Create the message
-        final MimeMessage msg = new MimeMessage(session);
-        
-        // From, to, etc.
-        applyMessageHeaders(msg);
-        
-        // Get main message multipart
-        final Multipart multipartBody = getMultipartBody(session);
-        
-        // Process attachments
-        final Multipart mainMultiPart = processAttachments(multipartBody);
-        msg.setContent(mainMultiPart);
-        
-        // Send it
-        
-        //msg.setHeader("X-Mailer", MAILER); //$NON-NLS-1$
-        msg.setSentDate(new Date());
-        
-        Transport.send(msg);
-        
-        return true;
-        
+
+
+            // Get the session object
+            final Session session = buildSession();
+
+            // Create the message
+            final MimeMessage msg = new MimeMessage(session);
+
+            // From, to, etc.
+            applyMessageHeaders(msg, alert);
+
+            // Get main message multipart
+            final Multipart multipartBody = getMultipartBody(session, alert);
+
+            // Process attachments
+            //final Multipart mainMultiPart = processAttachments(multipartBody);
+            //msg.setContent(mainMultiPart);
+            msg.setContent(multipartBody);
+
+            // Send it
+
+            //msg.setHeader("X-Mailer", MAILER); //$NON-NLS-1$
+            msg.setSentDate(new Date());
+
+            Transport.send(msg);
+
+            return true;
+
         } catch (SendFailedException e) {
-        logger.error("ReportPlugin.emailSendFailed"); //$NON-NLS-1$
+            logger.error(e);
         } catch (AuthenticationFailedException e) {
-        logger.error("ReportPlugin.emailAuthenticationFailed"); //$NON-NLS-1$
+            logger.error(e);
+        } catch (MessagingException me) {
+            logger.error(me);
+        } catch (IOException e) {
+            logger.error(e);
         }
-         
+
 
         return false;
     }
 
-    @Override
-    public void publish(Alert not) {
-        logger.info("Emailing");
-        email();
-    }
-
-    private Session buildSession() throws Exception {
+    private Session buildSession() {
 
         final Properties props = new Properties();
 
@@ -166,20 +164,80 @@ public class EmailOutlet implements NotificationOutlet {
         return session;
 
     }
-    
-     private static class EmailAuthenticator extends Authenticator
-  {
 
-    private EmailAuthenticator()
-    {
+    private String getMessageBody(Alert alert) {
+        return alert.getMessage();
     }
 
-    @Override
-    protected PasswordAuthentication getPasswordAuthentication()
-    {
-      final String user = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.userid", null); //$NON-NLS-1$ //$NON-NLS-2$
-      final String password = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.password", null); //$NON-NLS-1$ //$NON-NLS-2$
-      return new PasswordAuthentication(user, password);
+    private String getSubject(Alert alert) {
+        return "[" + alert.getLevel().toString() + "] " + alert.getGroup(); 
     }
-  }
+    private Multipart getMultipartBody(final Session session, final Alert alert) throws MessagingException, IOException {
+
+        // if we have a mimeMessage, use it. Otherwise, build one with what we have
+        // We can have both a messageHtml and messageText. Build according to it
+
+        MimeMultipart parentMultipart = new MimeMultipart();
+        MimeBodyPart htmlBodyPart = null, textBodyPart = null;
+
+        final String content = getMessageBody(alert);
+
+        textBodyPart = new MimeBodyPart();
+        textBodyPart.setContent(content, "text/plain; charset=" + LocaleHelper.getSystemEncoding());
+        final MimeMultipart textMultipart = new MimeMultipart();
+        textMultipart.addBodyPart(textBodyPart);
+
+        parentMultipart = textMultipart;
+
+        // We have both text and html? Encapsulate it in a multipart/alternative
+
+        if (htmlBodyPart != null && textBodyPart != null) {
+
+            final MimeMultipart alternative = new MimeMultipart("alternative");
+            alternative.addBodyPart(textBodyPart);
+            alternative.addBodyPart(htmlBodyPart);
+
+            parentMultipart = alternative;
+
+        }
+
+        return parentMultipart;
+    }
+
+    private void applyMessageHeaders(final MimeMessage msg, Alert alert) throws MessagingException {
+        String from = getSetting("from"),
+                to = getSetting("to"),
+                cc = getSetting("cc"),
+                bcc = getSetting("bcc"),
+                subject = getSubject(alert);
+        msg.setFrom(new InternetAddress(from));
+        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to, false));
+
+        if ((cc != null) && (cc.trim().length() > 0)) {
+            msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(cc, false));
+        }
+        if ((bcc != null) && (bcc.trim().length() > 0)) {
+            msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(bcc, false));
+        }
+
+        if (subject != null) {
+            msg.setSubject(subject, LocaleHelper.getSystemEncoding());
+
+
+        }
+
+    }
+
+    private static class EmailAuthenticator extends Authenticator {
+
+        private EmailAuthenticator() {
+        }
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            final String user = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.userid", null); //$NON-NLS-1$ //$NON-NLS-2$
+            final String password = PentahoSystem.getSystemSetting("smtp-email/email_config.xml", "mail.password", null); //$NON-NLS-1$ //$NON-NLS-2$
+            return new PasswordAuthentication(user, password);
+        }
+    }
 }

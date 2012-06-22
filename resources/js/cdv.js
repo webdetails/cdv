@@ -422,6 +422,16 @@ wd.cdv = wd.cdv||{};
         myself.registerTest = function(test) {
             if (!_tests[test.group]) _tests[test.group] = {};
             _tests[test.group][test.name] = test;
+            
+            if (spec.isServerSide){
+                scheduler.scheduleTask(function(){
+                    /*
+                var result = myself.runTest(test.group,test.name);
+                var alrt = eventHandler.getAlert(result.level, result.group, result.msg);
+                eventHandler.publish(alrt);
+                */
+                    },test.cron);
+            }
         };
 
 

@@ -4,7 +4,6 @@
  */
 package pt.webdetails.cdv.notifications;
 
-import org.json.JSONObject;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
@@ -29,6 +28,9 @@ public class EventManager {
         return instance;
     }
 
+    public Alert getAlert(String lvl, String group, String msg) {
+        return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, msg);
+    }
     public void publish(Alert alert) {
         pe.store(null, "Alert", alert.toJSON());
         ne.publish(alert);
