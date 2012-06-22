@@ -360,7 +360,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         
         // Make the queries asynchronosly
         var count = 0,
-        total= test.validation.length,
+        total= test.queries.length,
         rs = [];
         
         var wrapUpCalls = function(){
@@ -374,7 +374,7 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
             });
         }
         
-        _.map(test.validation, function(cdaInfo, idx){
+        _.map(test.queries, function(cdaInfo, idx){
             
             
             // Define callback function
@@ -422,6 +422,13 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
     myself.registerTest = function(test) {
         if (!_tests[test.group]) _tests[test.group] = {};
         _tests[test.group][test.name] = test;
+        scheduler.scheduleTask(function(){
+          /*
+          var result = myself.runTest(test.group,test.name);
+          var alrt = eventHandler.getAlert(result.level, result.group, result.msg);
+          eventHandler.publish(alrt);
+          */
+        },test.cron);
     };
 
 
@@ -464,8 +471,8 @@ wd.cdv.cdv = wd.cdv.cdv || function(spec){
         var preprocessObj = function(o){
             
             // validations will be put here
-            var a = o.validation;
-            o.validation = _.map(a,function(i){
+            var a = o.queries;
+            o.queries = _.map(a,function(i){
                 return i.cdaFile + "[" + i.dataAccessId+ "] "
                 + " ("+_.map(i.parameters,function(v,k){return k+": "+v}).join(", ")+")";
                 }).join("; ").replace(/\(\)/g,"");
