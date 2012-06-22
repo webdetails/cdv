@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.IPluginLifecycleListener;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
 import pt.webdetails.cdv.notifications.NotificationEngine;
+import pt.webdetails.cdv.operations.PushWarningsHandler;
 import pt.webdetails.cdv.scripts.GlobalScope;
 import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
@@ -32,6 +33,7 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
         Router.getBaseRouter().registerHandler(HttpMethod.GET, "/warnings", new PushWarningsHandler());
+//        Router.getBaseRouter().registerHandler(HttpMethod.GET, "/listCda", new ListPluginNotifications());
 //        Router.getBaseRouter().registerHandler(HttpMethod.POST, "/warnings", new PushWarningsHandler());
         scope.executeScript("system/cdv/js/bootstrap.js");
     }
