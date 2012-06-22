@@ -7,496 +7,530 @@
 var wd = wd || {};
 wd.cdv = wd.cdv||{};
 
-wd.cdv.alert = wd.cdv.alert || function(spec){
+    wd.cdv.alert = wd.cdv.alert || function(spec){
 
 
-    /**
+        /**
      * Specific specs
      */
-    var _spec = {
-        type: "overrideme",
-        description: "Default alert description",
-        level: 0
-    };
+        var _spec = {
+            type: "overrideme",
+            description: "Default alert description",
+            level: 0
+        };
     
-    spec = _.extend({},_spec,spec);
+        spec = _.extend({},_spec,spec);
 
 
-    var myself = {};
+        var myself = {};
     
-    myself.getType = function(){
-        return spec.type;
+        myself.getType = function(){
+            return spec.type;
+        }
+    
+        myself.getDescription = function(){
+            return spec.description;
+        }
+    
+        myself.getLevel = function(){
+            return spec.level;
+        }
+    
+        myself.toString = function(){
+            return "["+ spec.type + "] " + spec.description;
+        }
+    
+        myself.toJSON = function(){
+            return spec;
+        }
+    
+        return myself;
     }
-    
-    myself.getDescription = function(){
-        return spec.description;
-    }
-    
-    myself.getLevel = function(){
-        return spec.level;
-    }
-    
-    myself.toString = function(){
-        return "["+ spec.type + "] " + spec.description;
-    }
-    
-    myself.toJSON = function(){
-        return spec;
-    }
-    
-    return myself;
-}
 
 
-wd.cdv.testResult = wd.cdv.testResult || function(spec){
+    wd.cdv.testResult = wd.cdv.testResult || function(spec){
 
 
-    /**
+        /**
      * Specific specs
      */
-    var _spec = {
-        type: "testResult",
-        description: "Test result",
-        test: undefined,
-        date: new Date(),
-        result: undefined,        
-        duration: -1, 
-        durationAlert: undefined, 
-        expectedDuration: -1
-    };
+        var _spec = {
+            type: "testResult",
+            description: "Test result",
+            test: undefined,
+            date: new Date(),
+            result: undefined,        
+            duration: -1, 
+            durationAlert: undefined, 
+            expectedDuration: -1
+        };
     
-    spec = _.extend({},_spec,spec);
+        spec = _.extend({},_spec,spec);
 
 
-    var translationLogMap = {
-        OK: "debug", 
-        WARN: "warn",
-        ERROR: "error",
-        CRITICAL: "error"
-    };
+        var translationLogMap = {
+            OK: "debug", 
+            WARN: "warn",
+            ERROR: "error",
+            CRITICAL: "error"
+        };
     
-    var myself = {};
+        var myself = {};
 
-    myself.getType = function(){
-        return spec.type;
-    }
+        myself.getType = function(){
+            return spec.type;
+        }
     
-    myself.getDescription = function(){
-        return spec.description;
-    }
+        myself.getDescription = function(){
+            return spec.description;
+        }
     
-    myself.getTest = function(){
-        return spec.test;
-    };
+        myself.getTest = function(){
+            return spec.test;
+        };
     
-    myself.getResult = function(){
-        return spec.result;
-    }
+        myself.getResult = function(){
+            return spec.result;
+        }
     
-    myself.setResult = function(result){
-        spec.result = result;
-    }
+        myself.setResult = function(result){
+            spec.result = result;
+        }
 
 
-    myself.getDuration = function(){
-        return spec.duration
-    };
+        myself.getDuration = function(){
+            return spec.duration
+        };
     
-    myself.getExpectedDuration = function(){
-        return spec.expectedDuration;
-    };
+        myself.getExpectedDuration = function(){
+            return spec.expectedDuration;
+        };
 
-    myself.getDurationAlert = function(){
-        return spec.durationAlert
-    };
+        myself.getDurationAlert = function(){
+            return spec.durationAlert
+        };
     
     
-    myself.getLogType = function(){
+        myself.getLogType = function(){
         
-        return translationLogMap[myself.getResult().getType()] || "debug";
+            return translationLogMap[myself.getResult().getType()] || "debug";
         
-    };
+        };
    
    
-    myself.toJSON = function(){
+        myself.toJSON = function(){
       
-        var result = {
+            var result = {
             
-            test: myself.getTest(),
-            result: myself.getResult()
-        };
-        if (myself.getExpectedDuration() > 0) {
-            result.duration = {
-                type: myself.getDurationAlert().getType(),
-                duration: myself.getDuration(),
-                expected: myself.getExpectedDuration()
+                test: myself.getTest(),
+                result: myself.getResult()
             };
-        }
-        return result;
-    }; 
+            if (myself.getExpectedDuration() > 0) {
+                result.duration = {
+                    type: myself.getDurationAlert().getType(),
+                    duration: myself.getDuration(),
+                    expected: myself.getExpectedDuration()
+                };
+            }
+            return result;
+        }; 
     
     
-    myself.toString = function(){
+        myself.toString = function(){
         
-        var result = myself.toJSON();
-        var str = "[" + myself.getResult().getType() +"] " + result.test.name + ", Result: " + myself.getResult().getDescription();
-        if(result.duration){
-            str += "; Duration: [" + result.duration.type +"] " + result.duration.duration + "ms (expected: " + result.duration.expected + "ms)";
+            var result = myself.toJSON();
+            var str = "[" + myself.getResult().getType() +"] " + result.test.name + ", Result: " + myself.getResult().getDescription();
+            if(result.duration){
+                str += "; Duration: [" + result.duration.type +"] " + result.duration.duration + "ms (expected: " + result.duration.expected + "ms)";
+            }
+    
+            return str;
+        
         }
     
-        return str;
-        
+
+        return myself;
     }
+
+
+
+    wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
     
-
-    return myself;
-}
-
-
-
-wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
-    
-    var impl = myself.exceptions = {};
+        var impl = myself.exceptions = {};
           
-    impl.UnknowAlertTypeError = function(type){
-        this.type = type;
-    }
-    impl.UnknowAlertTypeError.prototype.toString = function(){
-        return "Trying to parse an unexisting alert type: " + this.type;
-    };  
-    
-};
-
-
-wd.cdv.alertMixin = wd.cdv.alertMixin || function(myself,spec){
-
-    var alerts = {
-        NA:  wd.cdv.alert({
-            type: "NA", 
-            description: "Not Applicable",
-            level: -1
-        }),
-        OK:  wd.cdv.alert({
-            type: "OK", 
-            description: "Passed successfully",
-            level: 10
-        }),
-        WARN:  wd.cdv.alert({
-            type: "WARN", 
-            description: "Failed with WARN",
-            level: 20
-        }),
-        ERROR:  wd.cdv.alert({
-            type: "ERROR", 
-            description: "Failed with ERROR",
-            level: 30
-        }),
-        CRITICAL:  wd.cdv.alert({
-            type: "CRITICAL", 
-            description: "Failed with CRITICAL",
-            level: 40
-        })
-    }
-
-    
-    // Bind this
-    myself.alerts = alerts;
-    
-
-    
-    
-    // Parse function
-    myself.parseAlert = function(alertType){
-        
-        if (!alerts[alertType]){
-            throw new myself.exceptions.UnknowAlertTypeError(alertType);
+        impl.UnknowAlertTypeError = function(type){
+            this.type = type;
         }
-        
-        return alerts[alertType];
-        
-    }
+        impl.UnknowAlertTypeError.prototype.toString = function(){
+            return "Trying to parse an unexisting alert type: " + this.type;
+        };  
     
-    wd.debug("Added alert mixin");
+    };
+
+
+    wd.cdv.alertMixin = wd.cdv.alertMixin || function(myself,spec){
+
+        var alerts = {
+            NA:  wd.cdv.alert({
+                type: "NA", 
+                description: "Not Applicable",
+                level: -1
+            }),
+            OK:  wd.cdv.alert({
+                type: "OK", 
+                description: "Passed successfully",
+                level: 10
+            }),
+            WARN:  wd.cdv.alert({
+                type: "WARN", 
+                description: "Failed with WARN",
+                level: 20
+            }),
+            ERROR:  wd.cdv.alert({
+                type: "ERROR", 
+                description: "Failed with ERROR",
+                level: 30
+            }),
+            CRITICAL:  wd.cdv.alert({
+                type: "CRITICAL", 
+                description: "Failed with CRITICAL",
+                level: 40
+            })
+        }
+
     
-};
+        // Bind this
+        myself.alerts = alerts;
+    
+
+    
+    
+        // Parse function
+        myself.parseAlert = function(alertType){
+        
+            if (!alerts[alertType]){
+                throw new myself.exceptions.UnknowAlertTypeError(alertType);
+            }
+        
+            return alerts[alertType];
+        
+        }
+    
+        wd.debug("Added alert mixin");
+    
+    };
 
 
-wd.cdv.cdv = wd.cdv.cdv || function(spec){
+    wd.cdv.cdv = wd.cdv.cdv || function(spec){
 
 
-    /**
+        /**
      * Specific specs
      */
-    var _spec = {
-        name: 'Community Data Validation',
-        shortName: 'CDV',
-        isServerSide: true
-    },
-    _tests = {};
+        var _spec = {
+            name: 'Community Data Validation',
+            shortName: 'CDV',
+            isServerSide: true
+        },
+        _tests = {};
     
-    spec = _.extend({},_spec,spec);
+        spec = _.extend({},_spec,spec);
 
-    var myself = {};
+        var myself = {};
     
-    // Apply mixins
-    wd.cdv.exceptionsMixin(myself);
-    wd.cdv.alertMixin(myself);
+        // Apply mixins
+        wd.cdv.exceptionsMixin(myself);
+        wd.cdv.alertMixin(myself);
     
     
-    // Get CDA
-    myself.cda = wd.cda.cda({
-        isServerSide:spec.isServerSide
-    });
+        // Get CDA
+        myself.cda = wd.cda.cda({
+            isServerSide:spec.isServerSide
+        });
 
 
-    myself.log = function(msg,level){
-        wd.log("["+spec.shortName+"] " + msg,level || "debug");
-    }
+        myself.log = function(msg,level){
+            wd.log("["+spec.shortName+"] " + msg,level || "debug");
+        }
     
     
     
-    // Main function to make the tests
+        // Main function to make the tests
     
-    myself.runTest = function(test, opts){
+        myself.runTest = function(test, opts){
         
-        // Opts is an object with specific options to this test. 
-        // Supported options:
-        // * callback(result): Function called when the test is done with the result
-        
+            // Opts is an object with specific options to this test. 
+            // Supported options:
+            // * callback(result): Function called when the test is done with the result
+            
        
-        myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
+            myself.log("Making test [" + test.group + "].["+test.name+"] ","debug");
     
 
-        return myself.executeQuery(test, opts, myself.runTestCallback);
+            return myself.executeQuery(test, opts || {} , myself.runTestCallback);
         
         
-    };
-
-
-    // Process the test restults
-    
-    myself.runTestCallback = function(test, opts, result){
-         
-        var duration = result.duration;
-        var rs = result.resultset;
-
-        var resultSpec = {
-            test:test
         };
-        
-        // 1. Parse duration
-        // 2. make test
-        // 3. return
-        
-        var parseDuration = function(test,duration){
 
-            if (!test.executionTimeValidation){
-                console.log("No info");
-                return "NA";
-            }
+
+        // Process the test restults
     
-            var t = test.executionTimeValidation;
-            
-            resultSpec.duration = duration;
-            resultSpec.expectedDuration = t.expected;
-    
-            var isDurationAgainstPercentageValid = function(perc){
-        
-                var v = duration/t.expected - 1;
-                return v < 0 && !t.errorOnLow ? true:Math.abs(v)<=perc;
-            }
-    
-    
-            // check if we're within the values
-            if(!isDurationAgainstPercentageValid(t.errorPercentage)){
-                return "ERROR";
-            }
-            if(!isDurationAgainstPercentageValid(t.warnPercentage)){
-                return "WARN";
-            }
+        myself.runTestCallback = function(test, opts, result){
+         
+            var duration = result.duration;
+            var rs = result.resultset;
 
-
-            return "OK";
-        }
-
-
-        // Add duration information
-        var durationResult =  parseDuration(test,duration);
-        resultSpec.durationAlert = myself.parseAlert(durationResult);
-        
-        
-        // Build result object and process validations
-        var testResult = wd.cdv.testResult(resultSpec);
-
-        
-        //
-        // Make the actual test. 
-        // this can either be a custom validation or a call to a preset validation
-        //
-       
-        try{
-            var res = myself.performValidation(test.test,rs);
-            testResult.setResult(res);
-        }
-        catch(e){
-            myself.log("Found error while doing validation" ,"error")
-        }
-       
-        myself.log( testResult.toString(), testResult.getLogType());
-        
-        // Do we have a user callback?
-        if(typeof opts.callback === 'function'){
-            opts.callback(testResult);
-        } 
-    }
-    
-
-    // Given a test, execute the query and returns the result and the length
-    
-    myself.executeQuery = function(test, opts, callback){
-        
-        var startTime = new Date().getTime();
-        
-        
-        // Make the queries asynchronosly
-        var count = 0,
-        total= test.validation.length,
-        rs = [];
-        
-        var wrapUpCalls = function(){
-            
-            var duration = (new Date().getTime()) - startTime;
-            
-            myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
-            callback(test, opts, {
-                duration: duration, 
-                resultset: rs
-            });
-        }
-        
-        _.map(test.validation, function(cdaInfo, idx){
-            
-            
-            // Define callback function
-            myself.log("Making cda test " + idx, "debug");
-            
-            
-            var validationCallback = function(json){
-
-                count++;
-                rs[idx] = json;
-                
-                if(count===total){
-                    wrapUpCalls();
-                }
-                
+            var resultSpec = {
+                test:test
             };
-            
-            
-            // Make CDA call
-            return myself.cda.doQuery(cdaInfo.cdaFile,cdaInfo.dataAccessId,cdaInfo.parameters,validationCallback);
-            
-            
-        })
         
-    }
-    
-    
-    myself.performValidation = function(validation, rs){
+            // 1. Parse duration
+            // 2. make test
+            // 3. return
         
-        // Call test!
-        wd.warn("TODO: Call preexisting validation here");
-        wd.warn("TODO: Pass validation arguments");
-        
-        wd.log("Validation function: " + validation.validationFunction);
+            var parseDuration = function(test,duration){
 
-
-        var result = validation.validationFunction.call(myself,rs,[]);
-        return myself.parseAlert(result);
-        
-        
-    }
-
-
-
-    myself.registerTest = function(test) {
-        if (!_tests[test.group]) _tests[test.group] = {};
-        _tests[test.group][test.name] = test;
-    };
-
-
-    myself.listTests = function(group){
-        if(group) {
-            return _.pick(_tests,[group]);
-        } else {
-            return _tests;
-        }
-    };
-
-
-    myself.listTestsFlatten = function(group){
-        
-        wd.log("Entering listTestFlatten")
-        
-        function flatten(json){
-            var nj = {},
-            iter = 0,
-            walk = function(j){
-                var jp;
-                for(var prop in j){
-                    if (!j.hasOwnProperty(prop)){
-                        continue;
-                    }
-                    jp = j[prop];
-                    if(_.isObject(jp) && iter <= 20){
-                        iter++;
-                        walk(jp);
-                    }else{
-                        nj[prop] = jp;
-                    }
+                if (!test.executionTimeValidation){
+                    console.log("No info");
+                    return "NA";
                 }
-            };
+    
+                var t = test.executionTimeValidation;
             
-            walk(json);
-            return nj;
+                resultSpec.duration = duration;
+                resultSpec.expectedDuration = t.expected;
+    
+                var isDurationAgainstPercentageValid = function(perc){
+        
+                    var v = duration/t.expected - 1;
+                    return v < 0 && !t.errorOnLow ? true:Math.abs(v)<=perc;
+                }
+    
+    
+                // check if we're within the values
+                if(!isDurationAgainstPercentageValid(t.errorPercentage)){
+                    return "ERROR";
+                }
+                if(!isDurationAgainstPercentageValid(t.warnPercentage)){
+                    return "WARN";
+                }
+
+
+                return "OK";
+            }
+
+
+            // Add duration information
+            var durationResult =  parseDuration(test,duration);
+            resultSpec.durationAlert = myself.parseAlert(durationResult);
+        
+        
+            // Build result object and process validations
+            var testResult = wd.cdv.testResult(resultSpec);
+
+        
+            //
+            // Make the actual test. 
+            // this can either be a custom validation or a call to a preset validation
+            //
+       
+            try{
+                var res = myself.performValidation(test.test,rs);
+                testResult.setResult(res);
+            }
+            catch(e){
+                myself.log("Found error while doing validation" ,"error")
+            }
+       
+            myself.log( testResult.toString(), testResult.getLogType());
+        
+            // Do we have a user callback?
+            if( opts && typeof opts.callback === 'function'){
+                opts.callback(testResult);
+            } 
+        }
+    
+
+        // Given a test, execute the query and returns the result and the length
+    
+        myself.executeQuery = function(test, opts, callback){
+        
+            var startTime = new Date().getTime();
+        
+        
+            // Make the queries asynchronosly
+            var count = 0,
+            total= test.validation.length,
+            rs = [];
+        
+            var wrapUpCalls = function(){
+            
+                var duration = (new Date().getTime()) - startTime;
+            
+                myself.log("Finished execution. Duration: "+ duration + "ms Result: " + rs);
+                callback(test, opts, {
+                    duration: duration, 
+                    resultset: rs
+                });
+            }
+        
+            _.map(test.validation, function(cdaInfo, idx){
+            
+            
+                // Define callback function
+                myself.log("Making cda test " + idx, "debug");
+            
+            
+                var validationCallback = function(json){
+
+                    count++;
+                    rs[idx] = json;
+                
+                    if(count===total){
+                        wrapUpCalls();
+                    }
+                
+                };
+            
+            
+                // Make CDA call
+                return myself.cda.doQuery(cdaInfo.cdaFile,cdaInfo.dataAccessId,cdaInfo.parameters,validationCallback);
+            
+            
+            })
+        
+        }
+    
+    
+        myself.performValidation = function(validation, rs){
+        
+            // Call test!
+            wd.warn("TODO: Call preexisting validation here");
+            wd.warn("TODO: Pass validation arguments");
+        
+            wd.debug("Validation function: " + validation.validationFunction);
+
+
+            var result = validation.validationFunction.call(myself,rs,[]);
+            return myself.parseAlert(result);
+        
+        
         }
 
-        var preprocessObj = function(o){
+
+
+        myself.registerTest = function(test) {
+            if (!_tests[test.group]) _tests[test.group] = {};
+            _tests[test.group][test.name] = test;
+        };
+
+
+        myself.listTests = function(group){
+            if(group) {
+                return _.pick(_tests,[group]);
+            } else {
+                return _tests;
+            }
+        };
+
+
+        myself.listTestsFlatten = function(group){
+        
+            wd.log("Entering listTestFlatten")
+        
+            function flatten(json){
+                var nj = {},
+                iter = 0,
+                walk = function(j){
+                    var jp;
+                    for(var prop in j){
+                        if (!j.hasOwnProperty(prop)){
+                            continue;
+                        }
+                        jp = j[prop];
+                        if(_.isObject(jp) && iter <= 20){
+                            iter++;
+                            walk(jp);
+                        }else{
+                            nj[prop] = jp;
+                        }
+                    }
+                };
             
-            // validations will be put here
-            var a = o.validation;
-            o.validation = _.map(a,function(i){
-                return i.cdaFile + "[" + i.dataAccessId+ "] "
-                + " ("+_.map(i.parameters,function(v,k){return k+": "+v}).join(", ")+")";
+                walk(json);
+                return nj;
+            }
+
+            var preprocessObj = function(o){
+            
+                // validations will be put here
+                var a = o.validation;
+                o.validation = _.map(a,function(i){
+                    return i.cdaFile + "[" + i.dataAccessId+ "] "
+                    + " ("+_.map(i.parameters,function(v,k){
+                        return k+": "+v
+                    }).join(", ")+")";
                 }).join("; ").replace(/\(\)/g,"");
             
             
-            return flatten(o);
-        }
+                return flatten(o);
+            }
         
         
-        var t = myself.listTests(group);
+            var t = myself.listTests(group);
         
-        // Get the keys, deep copying initial obj
-        var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
-        wd.log("Debug: " + arr);
-        return _.map(arr,preprocessObj);
+            // Get the keys, deep copying initial obj
+            var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
+            wd.log("Debug: " + arr);
+            return _.map(arr,preprocessObj);
         
         
-    };
+        };
 
 
-    myself.getTest = function(group, name) {
-        try {
-            return _tests[group][name];
-        } catch(e) {
-            return undefined;
+        myself.getTest = function(group, name) {
+            try {
+                return _tests[group][name];
+            } catch(e) {
+                return undefined;
+            }
         }
+    
+    
+        myself.getTestById = function(id){
+        
+            return _.chain(_tests)
+            .map(_.values)
+            .flatten()
+            .find(function(t){
+                return t.id == id
+            }).value();
+        
+        }
+    
+    
+        myself.runTestById = function(id){
+            
+            var result;
+            var callback = function(o){
+                debugger;
+                result = o
+            }
+            
+            myself.runTest(myself.getTestById(id), {
+                callback: callback
+            })
+            
+            
+            return result;
+            
+        }
+    
+    
+        return myself;
+
+
     }
-    return myself;
-
-
-}
 
 
 

@@ -153,7 +153,7 @@ wd.cdvUI.validationButtonsAddIn = {
     label: "ValidationButtons",
     defaults: {
         
-        textNameColIndex: 1,
+        idColIndex: 1,
         buttons: [
         {
             name: "Run", 
@@ -206,7 +206,7 @@ wd.cdvUI.validationButtonsAddIn = {
             buttons: opt.buttons
         }));
         
-        var testName = $t.parent("tr").find("td:first-child").text();
+        var testName = $t.parent("tr").find("td:nth-child("+(opt.idColIndex + 1)+")").text();
         
         var myself = this;
         $t.find("> div").on("click","button",function(evt){
@@ -221,3 +221,142 @@ wd.cdvUI.validationButtonsAddIn = {
 };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButtonsAddIn));
+
+
+
+wd.cdvUI.validationPopupAddIn = {
+    name: "validationPopup",
+    label: "ValidationPopup",
+    popup: undefined,
+    popupObj: undefined,
+    defaults: {
+        
+        idColIndex: 6,
+        popup: [
+        {
+            name: "Run Test", 
+            callback: function(testId){
+                Dashboards.log("Clicked on Run for " + testId);
+                
+                var result = cdv.runTestById(testId);
+                Dashboards.log("Test output: " + result);
+                
+            }
+        },
+        {
+            name: "View Test", 
+            callback: function(testId){
+                Dashboards.log("Clicked on View for " + testId);
+            }
+        },
+        {
+            name: "Edit Test", 
+            callback: function(testId){
+                Dashboards.log("Clicked on Edit for " + testId);
+            }
+        },
+        {
+            name: "View Query Result", 
+            callback: function(testId){
+                Dashboards.log("Clicked on View Query Result for " + testId);
+            }
+        },
+        {
+            name: "Delete Test", 
+            callback: function(testId){
+                Dashboards.log("Clicked on Delete for " + testId);
+            }
+        }
+        ]  
+    },
+    init: function(){
+        
+        // Register this for datatables sort
+        var myself = this;
+        $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
+            return myself.sort(a,b)
+        };
+        $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
+            return myself.sort(b,a)
+        };
+        
+        // Generate a popup component for us
+        this.popup = new PopupComponent({
+            name: "validationAddinPopupComponent", 
+            type:"popup", 
+            htmlObject: 'validationAddinPopupObj',
+            gravity: "W",
+            draggable: false,
+            closeOnClickOutside: true
+        })
+        
+        this.popupObj = $("<div id='validationAddinPopupObj' class='validationButtonPopup'></div>").appendTo("body");
+        
+        // Call cdf comp
+        Dashboards.addComponents([this.popup]);
+        this.popup.update();
+        
+    },
+
+    implementation: function (tgt, st, opt) {
+        
+        // encapsulate this
+        
+        var $t = $(tgt),
+        isFirst = false;
+        
+        var $popupDiv = $("#validationAddinPopupObj");
+        
+        if($t.find("button").length>0){
+            return; // Done already
+        }
+        
+        $t.html("<button>Options</button>")
+
+
+        // Bind this to a clickable element, setting the appropriate functions
+        var myself = this;
+        
+        var popup = this.popupObj.parent("div.popupComponent");
+        if(!popup.hasClass("optionsPopup")){
+            popup.addClass("optionsPopup");
+        }
+            
+
+        $t.click(function(){
+            
+            var template = "<div class='validationPopup'>{{#popup}}<button class='validationButton'>{{name}}</button>{{/popup}}</div>";
+            
+            var testId = st.rawData.resultset[st.rowIdx][opt.idColIndex];
+            
+        
+            $popupDiv.html(Mustache.render(template, {
+                popup: opt.popup
+            }));
+
+
+            $popupDiv.find("> div").off("click").on("click","button",function(evt){
+                var $target = $(this);
+                var idx = $target.prevAll("button").length;
+            
+                opt.popup[idx].callback.call(myself, testId);
+            })
+            
+            //myself.popupObj
+
+            // Add a class to the popupComponent so that we can style it
+            
+            myself.popup.popup($t);
+            return false;
+            
+            // style: move this a bit to the right
+            
+        })
+        
+        
+        
+        
+    }
+};
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupAddIn));

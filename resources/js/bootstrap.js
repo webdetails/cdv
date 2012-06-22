@@ -11,7 +11,7 @@ lib("cda.js");
 var console = {
     log: function(m){
         print(m)
-        }
+    }
     
 }
 
@@ -91,15 +91,28 @@ registerHandler("GET", "/runTests", function(out){
     }
 });
 
+
+registerHandler("GET", "/runTestById", function(out,pathParams,requestParams){
+    try { 
+        this.setOutputType(this.MIME_JSON);
+        var str = JSON.stringify(cdv.runTestById(pathParams.id));
+        out.write(new java.lang.String(str).getBytes("utf-8"));
+    } catch(e) {
+        print(e);
+    }
+});
+
+
+
 registerHandler("GET", "/testPersistence", function(out){
     
-  try {
-    persistenceEngine.initializeClass("test");
-    var results = persistenceEngine.query("select * from test",null);
-    out.write(new java.lang.String(results).getBytes("utf-8"));
-  } catch (e) {
-    print(e);
-  }
+    try {
+        persistenceEngine.initializeClass("test");
+        var results = persistenceEngine.query("select * from test",null);
+        out.write(new java.lang.String(results).getBytes("utf-8"));
+    } catch (e) {
+        print(e);
+    }
 });
 
 

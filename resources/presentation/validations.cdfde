@@ -542,6 +542,117 @@
       "type": "TextAlign"
      }
     ]
+   },
+   {
+    "id": "36f33c2a-1987-84da-6ff6-4a2cb995dbb3",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "popup",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "f5d7f699-74e5-d56e-a6a5-7c7f43991aae",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "36f33c2a-1987-84da-6ff6-4a2cb995dbb3",
+    "properties": [
+     {
+      "name": "name",
+      "value": "validationPopupDiv",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "3",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
    }
   ]
  },
@@ -703,22 +814,22 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\"group\",\"Validation\",\"Files\",\"Type\",\"Expected\",\" \"]",
+      "value": "[\"group\",\"Validation\",\"Files\",\"Type\",\"Expected\",\" \",\"Test\"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationButtons\"]",
+      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\"]",
       "type": "colTypesCustom"
      },
      {
       "name": "colFormats",
-      "value": "[null,null,null,null,\"%dms\",null]",
+      "value": "[null,null,null,null,\"%dms\",null,null]",
       "type": "Array"
      },
      {
       "name": "colWidths",
-      "value": "[\"0%\",\"20%\",\"50%\",\"5%\",\"5%\",\"20%\"]",
+      "value": "[\"0%\",\"25%\",\"50%\",\"10%\",\"10%\",\"5%\",\"0%\"]",
       "type": "Array"
      },
      {
@@ -912,7 +1023,7 @@
      },
      {
       "name": "output",
-      "value": "[\"0\",\"11\",\"8\",\"2\",\"7\",\"14\"]",
+      "value": "[\"0\",\"11\",\"8\",\"2\",\"7\",\"14\",\"10\"]",
       "type": "IndexArray"
      },
      {
@@ -927,7 +1038,7 @@
      },
      {
       "name": "cdacalculatedcolumns",
-      "value": "[[\"Actions\",\"=\\\"Edit/Delete\\\"\"]]",
+      "value": "[[\"Popup\",\"=\\\"O\\\"\"]]",
       "type": "CdaCalculatedColumnsArray"
      },
      {

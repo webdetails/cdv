@@ -319,7 +319,7 @@ div.container  {
 
     background-color: white;
     border: 1px solid rgb(132, 143, 149);
-    
+
     padding: 20px 0px;
 
 }
@@ -400,7 +400,7 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
     background: -o-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* IE10+ */
     background: linear-gradient(top,  #cad3d6 0%,#a6b0b5 100%); /* W3C */    
-    
+
 }
 
 .tableComponent td.numeric{
@@ -410,9 +410,27 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 
 .dataTables_filter{
     color: grey;
-    
+
 }
 
+
+/* Validation table */
+
+.validationTable tr td{
+
+    /*
+    -webkit-transition: background 300ms ease;
+    -moz-transition: background 300ms ease;
+    -ms-transition: background 300ms ease;
+    -o-transition: background 300ms ease;
+    transition: background 300ms ease;
+    */
+}
+
+.validationTable tr:hover td{
+
+    /*    background: rgb(202, 211, 214);*/
+}
 
 .WDdataCellBody table {}
 
@@ -581,9 +599,16 @@ button {
     font-size: 12px;
     background-color: #ffffff;
     padding-bottom: 2px;
+
+
+    -webkit-transition: background 300ms ease;
+    -moz-transition: background 300ms ease;
+    -ms-transition: background 300ms ease;
+    -o-transition: background 300ms ease;
+    transition: background 300ms ease;
 }
 button:hover {
-    border: 1px solid transparent;
+    /*    border: 1px solid transparent;*/
     background-color: #cad3d6;
     color:  #0f1414;
 }
@@ -1434,6 +1459,10 @@ textarea#code {
 
 /* ValidationFile AddIn */
 
+.validationFileWrapper{
+    /*    min-height: 37px;*/
+}
+
 .validationFileWrapper div.cda{
     margin-bottom: 5px;
 }
@@ -1455,6 +1484,7 @@ textarea#code {
 
 /* ValidationButtons */
 
+
 .validationButtons{
     float: right;
 }
@@ -1463,4 +1493,50 @@ textarea#code {
     margin-right: 4px;
     font-size: 9px; 
     width: 40px;
+
 }
+
+td.validationPopup{
+    cursor: pointer;
+}
+
+div.validationPopup div.validationButtons{
+    float: none;
+
+}
+
+div.validationPopup button{
+    font-size: 10px; 
+    width: inherit;
+    margin-right: 5px;
+
+}
+
+td.validationPopup button{
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+div.validationPopup{
+
+    margin-top: 0px;
+}
+
+
+/* Options Popup styling */
+
+div.optionsPopup{
+    border: 0px none;
+    border-radius: 0px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+div.optionsPopup div.arrow{
+    visibility: hidden
+}
+
+div.optionsPopup a.close{
+    display: none;
+}
+
