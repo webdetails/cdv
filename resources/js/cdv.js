@@ -523,7 +523,6 @@ wd.cdv = wd.cdv||{};
             
             var result;
             var callback = function(o){
-                debugger;
                 result = o
             }
             
