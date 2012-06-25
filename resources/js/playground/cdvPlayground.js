@@ -6,7 +6,7 @@
 
 
 $.ajaxSetup({
-  async: false
+    async: false
 });
 
 var cdv;
@@ -44,7 +44,8 @@ $(function(){
                 }
             }
             ],
-            test: 
+            validations: 
+            [
             {
                 validationName: "Test Existence",
                 validationType: "custom",
@@ -67,6 +68,29 @@ $(function(){
         
                 }
             },
+            {
+                validationName: "Test Existence 2",
+                validationType: "custom",
+                validationFunction:  function(rs, conf) {
+            
+                
+                    var _conf = {
+                        testAll: true
+                    };
+                    conf = _.extend({},_conf,conf);
+                    var exists = !!conf.testAll;
+
+                    exists = _.reduce(_.map(rs,function(r){
+                        return r.resultset.length > 0
+                    }),function(prev, curr, exists){
+                        return conf.testAll ? (curr && prev) : (curr || prev);
+                    });
+
+                    return exists ? "ERROR" : "OK";
+        
+                }
+            }
+            ],
             executionTimeValidation: {
                 expected: 100,
                 warnPercentage: 0.30,
@@ -100,8 +124,8 @@ $(function(){
                 }
             }
             ],
-            test: 
-            {
+            validations: 
+            [{
                 validationName: "Test Existence",
                 validationType: "custom",
                 validationFunction:  function(rs, conf) {
@@ -120,7 +144,7 @@ $(function(){
                     return exists ? "ERROR" : "OK";
         
                 }
-            },
+            }],
             executionTimeValidation: {
                 expected: 100,
                 warnPercentage: 0.30,
@@ -137,7 +161,7 @@ $(function(){
         $(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
         
         // Call again to make sure we're not overriding something
-        $(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
+        //$(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
         
         
         
@@ -148,7 +172,7 @@ $(function(){
             $(".results").text(JSON.stringify(result));
         }
         
-        cdv.runTest(cdvFile , {
+        cdv.runTest(cdv.getTest("CDV Sample Tests","Test 1") , {
             callback: callback
         });
         */

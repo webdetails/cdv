@@ -59,7 +59,7 @@ wd.cdv = wd.cdv||{};
             description: "Test result",
             test: undefined,
             date: new Date(),
-            result: undefined,        
+            validationResults:[],
             duration: -1, 
             durationAlert: undefined, 
             expectedDuration: -1
@@ -84,6 +84,14 @@ wd.cdv = wd.cdv||{};
         myself.getDescription = function(){
             return spec.description;
         }
+        
+        myself.getValidationResults = function(){
+            return spec.validationResults;
+        };
+    
+        myself.addValidationResult = function(validationResult){
+            spec.validationResults.push(validationResult);
+        };
     
         myself.getTest = function(){
             return spec.test;
@@ -113,7 +121,62 @@ wd.cdv = wd.cdv||{};
     
         myself.getLogType = function(){
         
-            return translationLogMap[myself.getResult().getType()] || "debug";
+            return translationLogMap[myself.getTestResult().getType()] || "debug";
+        
+        };
+        
+        myself.getTestResult = function(){
+            // Test result will be the bigger alert level of the ones we have
+            var result =  myself.getValidationResults().slice(0);
+            result = result.sort(function(a,b){
+                return b.getAlert().getLevel()-a.getAlert().getLevel()
+            })[0];
+            return result.getAlert();
+        };
+    
+    
+        myself.getTestResultDescription = function(){
+    
+    
+            var resultMap = {},keys=[], alertMap=[];
+            var count = myself.getValidationResults().length;
+        
+            _.each(myself.getValidationResults().sort(function(a,b){
+                return b.getAlert().getLevel() - a.getAlert().getLevel()
+            }),function(r){
+             
+                var alert = r.getAlert();
+                if(!resultMap[alert.getType()]){
+                    
+                    resultMap[alert.getType()] = 1;
+                    alertMap[alert.getType()] = alert;
+                
+                    // Manually building the keys array to guarantee correct order
+                    keys.push(alert.getType());
+                }
+                else{
+                    resultMap[alert.getType()]++;
+                }
+           
+            });
+        
+
+            if(keys.length == 1 && keys[0]==="OK"){
+                return "All " + resultMap.OK + " validation(s) passed successfully";
+ 
+            }       
+        
+            var lowercaseFirstLetter = function(str){
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+            
+            var r = _.map(keys, function(type){
+                var alertCount = resultMap[type];
+                return alertCount + " validations " + lowercaseFirstLetter(alertMap[type].getDescription());
+            });
+        
+            return r.join(", ");
+            
         
         };
    
@@ -139,7 +202,8 @@ wd.cdv = wd.cdv||{};
         myself.toString = function(){
         
             var result = myself.toJSON();
-            var str = "[" + myself.getResult().getType() +"] " + result.test.name + ", Result: " + myself.getResult().getDescription();
+
+            var str = "[" + myself.getTestResult().getType() +"] " + result.test.name + ", Result: " + myself.getTestResultDescription();
             if(result.duration){
                 str += "; Duration: [" + result.duration.type +"] " + result.duration.duration + "ms (expected: " + result.duration.expected + "ms)";
             }
@@ -152,6 +216,55 @@ wd.cdv = wd.cdv||{};
         return myself;
     }
 
+
+    wd.cdv.validationResult = wd.cdv.validationResult || function(spec){
+
+
+        /**
+         * Specific specs
+         */
+        var _spec = {
+            name: "overrideMe",
+            type: "overrideMe",
+            description: "",
+            alert: undefined
+        };
+   
+        spec = _.extend({},_spec,spec);
+
+        var myself = {};
+
+        myself.getType = function(){
+            return spec.type;
+        }
+    
+        myself.getName = function(){
+            return spec.name;
+        }
+    
+        myself.getDescription = function(){
+            return spec.description;
+        }
+    
+        myself.getAlert = function(){
+            return spec.alert;
+        }
+    
+        myself.setAlert = function(alert){
+            spec.alert = alert;
+        }
+    
+        myself.toString = function(){
+        
+            var str = " Validation '" + myself.getName() + "' : [" + myself.getAlert().getType() +"] " + myself.getDescription();
+            return str;
+        
+        }
+    
+    
+        return myself;
+
+    }
 
 
     wd.cdv.exceptionsMixin = wd.cdv.exceptionsMixin || function(myself,spec){
@@ -330,18 +443,22 @@ wd.cdv = wd.cdv||{};
 
         
             //
-            // Make the actual test. 
+            // Make the actual validation. 
             // this can either be a custom validation or a call to a preset validation
             //
        
-            try{
-                var res = myself.performValidation(test.test,rs);
-                testResult.setResult(res);
-            }
-            catch(e){
-                myself.log("Found error while doing validation" ,"error")
-            }
-       
+            _.each(test.validations,function(validation){
+                try{
+                    var res = myself.performValidation(validation,rs);
+                    testResult.addValidationResult(res);
+
+                }
+                catch(e){
+                    myself.log("Found error while doing validation" ,"error")
+                }
+
+            })
+
             myself.log( testResult.toString(), testResult.getLogType());
         
             // Do we have a user callback?
@@ -404,6 +521,12 @@ wd.cdv = wd.cdv||{};
     
         myself.performValidation = function(validation, rs){
         
+        
+            var validationResult = wd.cdv.validationResult({
+                name: validation.validationName, 
+                type: validation.validationType
+            });
+        
             // Call test!
             wd.warn("TODO: Call preexisting validation here");
             wd.warn("TODO: Pass validation arguments");
@@ -412,7 +535,10 @@ wd.cdv = wd.cdv||{};
 
 
             var result = validation.validationFunction.call(myself,rs,[]);
-            return myself.parseAlert(result);
+            validationResult.setAlert(myself.parseAlert(result));
+            
+                        
+            return validationResult;
         
         
         }
@@ -481,7 +607,15 @@ wd.cdv = wd.cdv||{};
                         return k+": "+v
                     }).join(", ")+")";
                 }).join("; ").replace(/\(\)/g,"");
-            
+                
+                
+                // Validations will also become a csv of the validations
+                debugger;
+                var b = o.validations;
+                o.validations = {
+                    validationName: _.pluck(b, "validationName").join(", "),
+                    validationType: _.pluck(b, "validationType").join(", ")
+                };
             
                 return flatten(o);
             }
