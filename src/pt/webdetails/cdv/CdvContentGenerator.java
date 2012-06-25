@@ -10,18 +10,22 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
 import org.pentaho.platform.api.engine.IParameterProvider;
+
+import pt.webdetails.cdv.operations.PushWarningsHandler;
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.RestContentGenerator;
 import pt.webdetails.cpf.RestRequestHandler;
+import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
+import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
  *
@@ -63,7 +67,51 @@ public class CdvContentGenerator extends RestContentGenerator {
     public void slowQueries(OutputStream out) throws UnsupportedEncodingException, IOException {
         callCDE("slowQueries.wcdf", out);
     }
-
+    
+    //TODO: TEMP!
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.PLAIN_TEXT)
+    public void deleteTable(OutputStream out) throws IOException {
+      String classTable = getRequestParameters().getStringParameter("class", null);
+      if(classTable != null){
+        int deleted = PersistenceEngine.getInstance().deleteAll(classTable);
+        writeOut(out, "deleted " + deleted + " instances");
+      } else {
+        writeOut(out, "No class");
+      }
+    }
+    
+    //TODO:TEMP!
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.JSON)
+    public void listTable(OutputStream out) throws IOException, JSONException {
+      String classTable = getRequestParameters().getStringParameter("class", null);
+      
+      if(classTable != null){
+        writeOut(out, PushWarningsHandler.listClass(classTable));
+      }
+      else writeOut(out, Result.getError("No class"));
+    }
+    
+    //TODO:TEMP!
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.JSON)
+    public void listCda(OutputStream out) throws IOException, JSONException {
+      String dataAccessId = getRequestParameters().getStringParameter("dataAccessId", null);
+      String settingsId = getRequestParameters().getStringParameter("cdaSettingsId", null);
+      
+      if(!StringUtils.isEmpty(dataAccessId) && !StringUtils.isEmpty(settingsId)){
+        writeOut(out, PushWarningsHandler.listClass(settingsId, dataAccessId));
+      }
+      else writeOut(out, Result.getError("Something missing"));
+    }
+    
+//    //TODO:TEMP!
+//    @Exposed(outputType = MimeType.JSON)
+//    public void testCdaStuff(OutputStream out) throws Exception {
+//      JSONObject event = new JSONObject(
+//"{\"plugin\":\"cda\",\"eventType\":\"QueryTooLong\",\"timestamp\":\"1340291929309\",\"event\":{\"duration\":42,\"queryInfo\":{\"dataAccessId\":\"olapQuery\",\"query\":\"some query\",\"cdaSettingsId\":\"testing/testeMdxCat.cda\",\"parameters\":{}}}}");
+//      PushWarningsHandler h = new PushWarningsHandler();
+//      writeOut(out, h.call(event).toString(2));
+//    }
+    
     private void callCDE(String file, OutputStream out) throws UnsupportedEncodingException, IOException {
 
         ServletRequest wrapper = getRequest();
@@ -75,7 +123,6 @@ public class CdvContentGenerator extends RestContentGenerator {
         params.put("file", file);
         params.put("absolute", "true");
         params.put("root", root);
-//        parseParameters(params);
         IParameterProvider requestParams = getRequestParameters();
         copyParametersFromProvider(params, requestParams);
         
@@ -89,15 +136,6 @@ public class CdvContentGenerator extends RestContentGenerator {
         pluginCall.setOutputStream(out);
         pluginCall.run();
     }
-    
-//    private void copyParametersFromProvider(Map<String, Object> params, IParameterProvider provider){
-//      @SuppressWarnings("unchecked")
-//      Iterator<String> paramNames = provider.getParameterNames();
-//      while(paramNames.hasNext()){
-//        String paramName = paramNames.next();
-//        params.put(paramName, provider.getParameter(paramName));
-//      }
-//    }
 
     private void redirectToCdeEditor(OutputStream out, Map<String, Object> params) throws IOException {
       
