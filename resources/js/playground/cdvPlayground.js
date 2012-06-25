@@ -158,7 +158,7 @@ $(function(){
 
         
         // Test 1: List
-        $(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
+        //$(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
         
         // Call again to make sure we're not overriding something
         //$(".results").text(JSON.stringify( cdv.listTestsFlatten("CDV Sample Tests")  ));
@@ -167,7 +167,7 @@ $(function(){
         
         // Test 2: Execute a test
         
-        /*
+        
         var callback = function(result){
             $(".results").text(JSON.stringify(result));
         }
@@ -175,7 +175,7 @@ $(function(){
         cdv.runTest(cdv.getTest("CDV Sample Tests","Test 1") , {
             callback: callback
         });
-        */
+        
         
         
             
