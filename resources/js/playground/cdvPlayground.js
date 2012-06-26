@@ -28,6 +28,7 @@ $(function(){
             type: "query",
             name: "Test 1",
             group: "CDV Sample Tests",
+            path: "/cdv/tests/test.cdv",
             createdBy: "Pedro",
             createdAt: 1339430893246,
             validation: [ 
@@ -109,6 +110,7 @@ $(function(){
             name: "Test 2",
             group: "CDV Sample Tests",
             createdBy: "Pedro",
+            path: "/cdv/tests/test2.cdv",
             createdAt: 1339430893246,
             validation: [ 
             {

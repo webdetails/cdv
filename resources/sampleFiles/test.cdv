@@ -3,6 +3,7 @@ cdv.registerTest({
     type: "query",
     name: "Test 1",
     group: "CDV Sample Tests",
+	path: "/cdv/tests/test.cdv",
 	createdBy: "Pedro",
 	createdAt: 1339430893246,
     validation: [ 
