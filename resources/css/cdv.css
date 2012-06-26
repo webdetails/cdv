@@ -1540,3 +1540,27 @@ div.optionsPopup a.close{
     display: none;
 }
 
+
+/* TextEditor */
+
+#popupEditorId > div.textEditorComponent ,div.textEditorIframe, div.textEditorIframe iframe{
+    width: 100%;
+    height: 100%;
+}
+
+
+/* PopupTextEditorComponent */
+#popupTextEditorId {
+    z-index: 110;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: #dee8ec;
+    overflow: hidden;
+    display: none;
+}
