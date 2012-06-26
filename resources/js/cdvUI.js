@@ -34,7 +34,7 @@ var TextEditorComponent = BaseComponent.extend({
      * file: the file to edit
      */ 
 
-    init: function(){
+    initialize: function(){
         
         Dashboards.log("Initializing TextEditorComponent")  
         this.isInitialazed = true;  
@@ -57,7 +57,7 @@ var TextEditorComponent = BaseComponent.extend({
         var myself = this;
         
         if(!this.isInitialazed){
-            myself.init();
+            myself.initialize();
         }
 
 
@@ -172,7 +172,7 @@ var PopupTextEditorComponent = BaseComponent.extend({
          * file: the file to edit
          */ 
 
-    init: function(){
+    initialize: function(){
         
         Dashboards.log("Initializing PopupTextEditorComponent")  
         this.isInitialazed = true;  
@@ -207,7 +207,7 @@ var PopupTextEditorComponent = BaseComponent.extend({
         var myself = this;
         
         if(!this.isInitialazed){
-            myself.init();
+            myself.initialize();
         }
 
         // Update the text component
@@ -221,14 +221,17 @@ var PopupTextEditorComponent = BaseComponent.extend({
     },
     
     show: function(){
+
         this.$ph.find(">div.textEditorComponent").height($(window).height());
-        this.$ph.show();
+        this.$ph.slideDown();
+
     },
     
     
     hide: function(){
-        this.$ph.hide();
         
+        this.$ph.slideUp();
+
     },
     
     getButtons: function(){
@@ -478,12 +481,13 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
     wd.cdvUI.validationPopupAddIn = {
         name: "validationPopup",
         label: "ValidationPopup",
+        intialized: false,
         popup: undefined,
         popupObj: undefined,
         textEditor: undefined,
         textEditorObj: undefined,
         defaults: {
-        
+
             idColIndex: 6,
             pathColIndex: 7,
             popup: [
@@ -491,26 +495,29 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 name: "Run Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on Run for " + test.id);
-                
+
                     var result = cdv.runTestById(test.id);
                     Dashboards.log("Test output: " + result);
-                
+
                 }
             },
             {
                 name: "View Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on View for " + test.id);
+                    this.editFile(test.path);
+                    this.popup.hide();
                 }
             },
             {
                 name: "Edit Test", 
                 callback: function(test){
-                    
+
                     // Editing
-                    
+
                     Dashboards.log("Clicked on Edit for " + test.path);
                     this.editFile(test.path);
+                    this.popup.hide();
                 }
             },
             {
@@ -528,7 +535,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
             ]  
         },
         init: function(){
-        
+
             // Register this for datatables sort
             var myself = this;
             $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
@@ -537,68 +544,74 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
             $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
                 return myself.sort(b,a)
             };
-        
-        
-            // Generate a popup component for us
-            this.popup = {
-                name: "validationAddinPopupComponent", 
-                type:"popup", 
-                htmlObject: 'validationAddinPopupObj',
-                gravity: "W",
-                draggable: false,
-                closeOnClickOutside: true
-            }
-        
-            this.popupObj = $("<div id='validationAddinPopupObj' class='validationButtonPopup'></div>").appendTo("body");
-        
-        
-            // Also generate a textEditorComponent
-            this.popupTextEditor = {
-                name: "popupTextEditorComponent", 
-                type: "popupTextEditor", 
-                file: "/cdv/tests/test.cdv"
-            };
-            
-            // Call cdf comp
-            Dashboards.addComponents([this.popup, this.popupTextEditor]);
-            this.popup.update();
-            this.popupTextEditor.update();
-        
+
+
         },
 
         implementation: function (tgt, st, opt) {
-        
+
             // encapsulate this
-        
-            var $t = $(tgt),
-            isFirst = false;
-        
+
+            var $t = $(tgt);
+            
+            if(!this.initialized){
+                
+
+                // Generate a popup component for us
+                this.popup = {
+                    name: "validationAddinPopupComponent", 
+                    type:"popup", 
+                    htmlObject: 'validationAddinPopupObj',
+                    gravity: "W",
+                    draggable: false,
+                    closeOnClickOutside: true
+                }
+
+                this.popupObj = $("<div id='validationAddinPopupObj' class='validationButtonPopup'></div>").appendTo("body");
+
+
+                // Also generate a textEditorComponent
+                this.popupTextEditor = {
+                    name: "popupTextEditorComponent", 
+                    type: "popupTextEditor", 
+                    file: "/cdv/tests/test.cdv"
+                };
+
+                // Call cdf comp
+                Dashboards.addComponents([this.popup, this.popupTextEditor]);
+                this.popup.update();
+                this.popupTextEditor.update();
+                
+                this.initialized = true;
+            }
+
+
             var $popupDiv = $("#validationAddinPopupObj");
-        
+
             if($t.find("button").length>0){
                 return; // Done already
             }
-        
+
             $t.html("<button>Options</button>")
 
 
             // Bind this to a clickable element, setting the appropriate functions
             var myself = this;
-        
+
             var popup = this.popupObj.parent("div.popupComponent");
             if(!popup.hasClass("optionsPopup")){
                 popup.addClass("optionsPopup");
             }
-            
+
 
             $t.click(function(){
-            
+
                 var template = "<div class='validationPopup'>{{#popup}}<button class='validationButton'>{{name}}</button>{{/popup}}</div>";
-            
+
                 var testId = st.rawData.resultset[st.rowIdx][opt.idColIndex];
                 var testPath = st.rawData.resultset[st.rowIdx][opt.pathColIndex];
-    
-        
+
+
                 $popupDiv.html(Mustache.render(template, {
                     popup: opt.popup
                 }));
@@ -607,31 +620,31 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 $popupDiv.find("> div").off("click").on("click","button",function(evt){
                     var $target = $(this);
                     var idx = $target.prevAll("button").length;
-            
+
                     opt.popup[idx].callback.call(myself, {
                         id: testId, 
                         path: testPath
                     });
                 })
-            
+
                 //myself.popupObj
 
                 // Add a class to the popupComponent so that we can style it
-            
+
                 myself.popup.popup($t);
                 return false;
-            
+
             // style: move this a bit to the right
-            
+
             })
-        
-        
+
+
         },
-        
+
         editFile: function(path, readonly){
-            
+
             // Todo - implement
-            
+
             this.popupTextEditor.setFile(path);
             this.popupTextEditor.update();
             this.popupTextEditor.show();
