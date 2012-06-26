@@ -28,7 +28,7 @@ public class EventManager {
         return instance;
     }
 
-    public Alert getAlert(String lvl, String group, String msg) {
+    public Alert createAlert(String lvl, String group, String msg, JSONObject payload) {
         return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, msg);
     }
     public void publish(Alert alert) {

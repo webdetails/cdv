@@ -25,7 +25,7 @@
     } else {
       schedule = typeof schedule == "string" ? cronParser().parse(schedule, true) : schedule;
       taskObj = {
-        handler: task,
+        handler: function(){callWithDefaultSession(task);},
         schedule: schedule,
       };
     }

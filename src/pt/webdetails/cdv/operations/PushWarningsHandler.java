@@ -24,7 +24,7 @@ import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 public class PushWarningsHandler extends JsonRequestHandler {
   
-  private static String CLASS = "cdaEvent";
+  private final static String CLASS = "cdaEvent";
 
   private static Map<String, Alert.Level> cdaEventLevels =  new HashMap<String, Alert.Level>();
   static{

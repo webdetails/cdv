@@ -131,7 +131,9 @@ wd.cdv = wd.cdv||{};
             result = result.sort(function(a,b){
                 return b.getAlert().getLevel()-a.getAlert().getLevel()
             })[0];
-            return result.getAlert();
+            var res = result.getAlert();
+            print("got results: " + res);
+            return res;
         };
     
     
@@ -477,7 +479,7 @@ wd.cdv = wd.cdv||{};
         
             // Make the queries asynchronosly
             var count = 0,
-            total= test.validation.length,
+            total= test.queries.length,
             rs = [];
         
             var wrapUpCalls = function(){
@@ -491,7 +493,7 @@ wd.cdv = wd.cdv||{};
                 });
             }
         
-            _.map(test.validation, function(cdaInfo, idx){
+            _.map(test.queries, function(cdaInfo, idx){
             
             
                 // Define callback function
@@ -551,12 +553,11 @@ wd.cdv = wd.cdv||{};
             
             if (spec.isServerSide){
                 scheduler.scheduleTask(function(){
-                    /*
-                var result = myself.runTest(test.group,test.name);
-                var alrt = eventHandler.getAlert(result.level, result.group, result.msg);
-                eventHandler.publish(alrt);
-                */
-                    },test.cron);
+                  var result = myself.runTestById({group: test.group, name: test.name});
+                  print("Test result:" + JSON.stringify(result));
+                  var alrt = eventManager.createAlert(result.level, result.group, result.msg);
+                  eventManager.publish(alrt);
+                }, test.cron);
             }
         };
 
@@ -600,8 +601,8 @@ wd.cdv = wd.cdv||{};
             var preprocessObj = function(o){
             
                 // validations will be put here
-                var a = o.validation;
-                o.validation = _.map(a,function(i){
+                var a = o.queries;
+                o.queries = _.map(a,function(i){
                     return i.cdaFile + "[" + i.dataAccessId+ "] "
                     + " ("+_.map(i.parameters,function(v,k){
                         return k+": "+v
@@ -610,7 +611,6 @@ wd.cdv = wd.cdv||{};
                 
                 
                 // Validations will also become a csv of the validations
-                debugger;
                 var b = o.validations;
                 o.validations = {
                     validationName: _.pluck(b, "validationName").join(", "),
@@ -642,13 +642,25 @@ wd.cdv = wd.cdv||{};
     
     
         myself.getTestById = function(id){
+            print("Testing " + id.group + "/" + id.name);
+            var callback;
+            /* We need to adjust the filter callback
+             * to the type of key that we were given
+             */
+            if (typeof id == "object") {
+              callback = function(o) {
+                return o.name == id.name && o.group == id.group;
+              }
+            } else {
+              callback = function(t){
+                return t.id == id
+            }
+            }
         
             return _.chain(_tests)
             .map(_.values)
             .flatten()
-            .find(function(t){
-                return t.id == id
-            }).value();
+            .find(callback).value();
         
         }
     
