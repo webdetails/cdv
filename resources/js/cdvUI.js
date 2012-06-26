@@ -64,8 +64,8 @@ var TextEditorComponent = BaseComponent.extend({
 
         // Render the correct structure
         var buttons = this.getButtons();
-        var template = "<div class='textEditorComponent'><div class='textEditorFile'>{{file}}</div><div class='textEditorControls'>"+
-        "{{#buttons}}<button>{{label}}</button>{{/buttons}}" +
+        var template = "<div class='textEditorComponent'><div class='textEditorControls'><div class='textEditorFile'>{{file}}</div>"+
+        "<div class='textEditorButtons'>{{#buttons}}<button>{{label}}</button>{{/buttons}}</div>" +
         "</div><div class='textEditorIframe'><iframe></iframe></div></div>";
         
         this.$ph.html(Mustache.render(template, {

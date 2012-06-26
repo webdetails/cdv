@@ -6,7 +6,7 @@ cdv.registerTest({
 	path: "/cdv/tests/test2.cdv",
 	createdBy: "Pedro",
 	createdAt: 1339430893246,
-    validation: [ 
+    queries: [ 
     {
         cdaFile: "/plugin-samples/cda/cdafiles/mondrian-jndi.cda", 
         dataAccessId: "1" , 
