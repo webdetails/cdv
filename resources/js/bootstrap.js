@@ -93,10 +93,13 @@ registerHandler("GET", "/runTests", function(out){
 
 
 registerHandler("GET", "/runTestById", function(out,pathParams,requestParams){
-    try { 
-        this.setOutputType(this.MIME_JSON);
-        var str = JSON.stringify(cdv.runTestById(pathParams.id));
+    var myself = this;
+    try {
+      callWithDefaultSession(function(){ 
+        myself.setOutputType(myself.MIME_JSON);
+        var str = JSON.stringify(cdv.runTestById({group: requestParams.getStringParameter("group",""),name: requestParams.getStringParameter("name","")}));
         out.write(new java.lang.String(str).getBytes("utf-8"));
+      });
     } catch(e) {
         print(e);
     }
@@ -121,6 +124,3 @@ registerHandler("GET", "/testNotifications", function(out){
   eventManager.publish(alrt);
   out.write(new java.lang.String("Done").getBytes("utf-8"));
 });
-
-
-

@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mozilla.javascript.Callable;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Function;
@@ -17,7 +18,10 @@ import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.pentaho.platform.api.engine.IPentahoSession;
 import org.pentaho.platform.api.engine.ISolutionFile;
+import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
+import org.pentaho.platform.engine.core.system.StandaloneSession;
 import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 import pt.webdetails.cdv.notifications.EventManager;
@@ -61,7 +65,7 @@ public class GlobalScope extends ImporterTopLevel {
         try {
             cx.initStandardObjects(this);
             String[] names = {
-                "registerHandler", "print", "lib", "load", "loadTests"};
+                "registerHandler", "callWithDefaultSession", "print", "lib", "load", "loadTests"};
             defineFunctionProperties(names, GlobalScope.class,
                     ScriptableObject.DONTENUM);
             Object wrappedEventManager = Context.javaToJS(EventManager.getInstance(), this);
@@ -204,6 +208,20 @@ public class GlobalScope extends ImporterTopLevel {
         }
         String file = args[0].toString();
         executeScript(cx, systemPath + file, thisObj);
+        return Context.toBoolean(true);
+    }
+
+    public static Object callWithDefaultSession(Context cx, Scriptable thisObj,
+            Object[] args, Function funObj) {
+            Callable callback = (Callable) args[0];
+        IPentahoSession old = PentahoSessionHolder.getSession();
+        try {
+            IPentahoSession session = new StandaloneSession("CDV");
+            PentahoSessionHolder.setSession(session);
+            callback.call(cx, GlobalScope.getInstance(), thisObj, null);
+        } finally {
+            PentahoSessionHolder.setSession(old);
+        }
         return Context.toBoolean(true);
     }
 }
