@@ -183,20 +183,27 @@ wd.cdv = wd.cdv||{};
    
    
         myself.toJSON = function(){
-      
-            var result = {
-            
+            var result = myself.getTestResult().toJSON(),
+                output = {
                 test: myself.getTest(),
-                result: myself.getResult()
+                validationResults: myself.getValidationResults(),
+                testResult: {
+                  type: result.type,
+                  cause: result,
+                  description: myself.getTestResultDescription()
+                }
             };
+            output.validationResults = _.map(output.validationResults,function(e){
+              return e.toJSON();
+            });
             if (myself.getExpectedDuration() > 0) {
-                result.duration = {
+                output.duration = {
                     type: myself.getDurationAlert().getType(),
                     duration: myself.getDuration(),
                     expected: myself.getExpectedDuration()
                 };
             }
-            return result;
+            return output;
         }; 
     
     
@@ -255,6 +262,10 @@ wd.cdv = wd.cdv||{};
             spec.alert = alert;
         }
     
+        myself.toJSON = function() {
+            return eval("(" + JSON.stringify(spec) + ")");
+        }
+
         myself.toString = function(){
         
             var str = " Validation '" + myself.getName() + "' : [" + myself.getAlert().getType() +"] " + myself.getDescription();
@@ -321,8 +332,9 @@ wd.cdv = wd.cdv||{};
     
         // Parse function
         myself.parseAlert = function(alertType){
-        
+            wd.info("parsing " + alertType);
             if (!alerts[alertType]){
+                wd.error("couldn't find an alert for " + alertType);
                 throw new myself.exceptions.UnknowAlertTypeError(alertType);
             }
         
@@ -536,9 +548,8 @@ wd.cdv = wd.cdv||{};
 
 
             var result = validation.validationFunction.call(myself,rs,[]);
+            wd.log("Test result was " + JSON.stringify(result.toJSON()));
             validationResult.setAlert(myself.parseAlert(result));
-            
-                        
             return validationResult;
         
         
@@ -552,9 +563,8 @@ wd.cdv = wd.cdv||{};
             
             if (spec.isServerSide){
                 scheduler.scheduleTask(function(){
-                  var result = myself.runTestById({group: test.group, name: test.name});
-                  print("Test result:" + JSON.stringify(result));
-                  var alrt = eventManager.createAlert(result.level, result.group, result.msg);
+                  var result = myself.runTestById({group: test.group, name: test.name}).toJSON();
+                  var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.testResult.description);
                   eventManager.publish(alrt);
                 }, test.cron);
             }

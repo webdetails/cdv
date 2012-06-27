@@ -42,6 +42,7 @@ public class GlobalScope extends ImporterTopLevel {
     private static ContextFactory contextFactory;
     private final static String systemPath = "/system/cdv/js/";
     private final static String testPath = "/cdv/tests/";
+    private static IPentahoSession session;
 
     public static synchronized GlobalScope getInstance() {
         if (_instance == null) {
@@ -216,12 +217,19 @@ public class GlobalScope extends ImporterTopLevel {
             Callable callback = (Callable) args[0];
         IPentahoSession old = PentahoSessionHolder.getSession();
         try {
-            IPentahoSession session = new StandaloneSession("CDV");
+            IPentahoSession session = getSession();
             PentahoSessionHolder.setSession(session);
             callback.call(cx, GlobalScope.getInstance(), thisObj, null);
         } finally {
             PentahoSessionHolder.setSession(old);
         }
         return Context.toBoolean(true);
+    }
+    
+    private static IPentahoSession getSession(){
+        if (session == null) {
+            session = new StandaloneSession("CDV");
+        }
+        return session;
     }
 }
