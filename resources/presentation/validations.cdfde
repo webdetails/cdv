@@ -3,6 +3,75 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
+    "id": "fdd03569-c00f-289a-3db6-18bf1e5e82cd",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/cda.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "a6040493-ac4d-ef60-aec0-6ddc77b9f68a",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "wdJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/lib/wd.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "113d29a5-99eb-94b2-93a7-dbc3c31a1733",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/cdv.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "0ee64b35-51ab-3cb8-c686-de9b5c884556",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -763,6 +832,29 @@
     ]
    },
    {
+    "id": "bb0280a2-14d7-30ac-fed5-ceeafbe1e2cc",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "refresh",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "foo",
+      "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -794,7 +886,7 @@
      },
      {
       "name": "listeners",
-      "value": "[]",
+      "value": "['refresh']",
       "type": "Listeners"
      },
      {

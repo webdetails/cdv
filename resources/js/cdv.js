@@ -132,7 +132,6 @@ wd.cdv = wd.cdv||{};
                 return b.getAlert().getLevel()-a.getAlert().getLevel()
             })[0];
             var res = result.getAlert();
-            print("got results: " + res);
             return res;
         };
     
@@ -642,7 +641,6 @@ wd.cdv = wd.cdv||{};
     
     
         myself.getTestById = function(id){
-            print("Testing " + id.group + "/" + id.name);
             var callback;
             /* We need to adjust the filter callback
              * to the type of key that we were given

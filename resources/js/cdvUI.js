@@ -12,19 +12,16 @@
 var TextEditorComponent = BaseComponent.extend({
 
     $ph: undefined,
+    $rightPanel: undefined,
+    isRightPanelShown: false,
     isInitialazed: false,
     externalEditor: undefined,
     defaultButtons: [
     {
+        clazz: "save",
         label: "Save", 
         callback: function(){
-            alert("Save")
-        }
-    },
-    {
-        label: "Reload", 
-        callback: function(){
-            alert("Reload")
+            this.save();
         }
     }
     ],
@@ -64,9 +61,13 @@ var TextEditorComponent = BaseComponent.extend({
 
         // Render the correct structure
         var buttons = this.getButtons();
-        var template = "<div class='textEditorComponent'><div class='textEditorControls'><div class='textEditorFile'>{{file}}</div>"+
-        "<div class='textEditorButtons'>{{#buttons}}<button>{{label}}</button>{{/buttons}}</div>" +
-        "</div><div class='textEditorIframe'><iframe></iframe></div></div>";
+        var template = "<div class='textEditorComponent'><div class='textEditorControls'>"+
+        "<div class='textEditorFile'><span class='fileLabel'>File: </span>{{file}}</div>"+
+        "<div class='textEditorButtons'>{{#buttons}}<button class='{{clazz}}'>{{label}}</button>{{/buttons}}</div>" +
+        "</div><div class='textEditorNotification'><span class='textEditorNotificationMsg'>Test</span></div>"+
+        "<div class='textEditorRightPanel'></div>"+
+        "<div class='textEditorIframeContainer'><div class='textEditorIframe'><iframe></iframe></div>"+
+        "</div>";
         
         this.$ph.html(Mustache.render(template, {
             file: this.file || "Unknown file", 
@@ -112,6 +113,10 @@ var TextEditorComponent = BaseComponent.extend({
     loadFile: function() {
 
         var myself=this;
+        
+
+        // Disable button
+        $('button.save',this.$ph).attr('disabled', true);
 
         this.externalEditor = $('iframe',this.$ph);
         //this.externalEditor.height(window.innerHeight - 200 -5);
@@ -119,30 +124,73 @@ var TextEditorComponent = BaseComponent.extend({
         this.externalEditor.load(function() 
         {
 
-            var editorEnv = getEditorWindow();
-            editorEnv.listeners.onStatusUpdate = setDirty;
+            var editorEnv = myself.getEditorWindow();
+            editorEnv.listeners.onStatusUpdate = myself.setDirty;
             editorEnv.listeners.notify = function(msg, type){
-                $('#notifications').text(msg);
-                $('#notifications').fadeIn().delay(2000).fadeOut('slow');
+                myself.notify(msg);
             }
       
             $('#notifications').hide();
         });
         //var width = this.externalEditor.width() -10;
-        this.externalEditor.attr('src','../pentaho-cdf-dd/extEditor?path=' + this.file + '&theme=ace/theme/eclipse');// &editorOnly=true&width='+width );        
+        this.externalEditor.attr('src','../pentaho-cdf-dd/extEditor?path=' + this.file + '&theme=ace/theme/eclipse&editorOnly=true');// &width='+width );        
         
+    },
+    
+    notify: function(msg, level /*todo*/){
+        
+        var $notifications = this.$ph.find(".textEditorNotificationMsg");
+        $notifications.text(msg);
+        $notifications.show().delay(4000).fadeOut('slow');
     },
         
         
     setDirty: function(isDirty){
-        $('#save').attr('disabled', !isDirty);
+        $('button.save',this.$ph).attr('disabled', !isDirty);
     },
   
     getEditorWindow: function(){
-        this.externalEditor[0].contentWindow;
+        return this.externalEditor[0].contentWindow;
+    },
+
+
+    save: function(){
+        
+        this.getEditorWindow().save();
+        
+        // Also - trigger a call to refresh the cache.
+        $.ajax({
+            url: "refresh",
+            async: true,
+            success: function(){
+                wd.log("Refresh done");
+                Dashboards.fireChange("refresh","xxx");
+            }
+        })
+    },
+    
+    
+    getRightPanel: function(){
+        
+        if(!this.$rightPanel){
+            this.$rightPanel = this.$ph.find(".textEditorRightPanel");
+        }
+        
+        return this.$rightPanel;
+        
+    },
+    
+    toggleRightPanel: function(){
+        
+        this.getRightPanel().toggle();
+        this.isRightPanelShown = !this.isRightPanelShown;
+        
+        // Force a resize on ace:
+        this.getEditorWindow().editor.getEditor().resize();
+        
+        return this.isRightPanelShown;
     }
-
-
+    
 
 
 });
@@ -159,8 +207,26 @@ var PopupTextEditorComponent = BaseComponent.extend({
     isInitialazed: false,
     textEditor: undefined,
     textEditorPopupId: "popupTextEditorId",
-    defaultButtons: [
+    isQueryPreviewShown: false,
+    testPromptPopup: undefined,
+    $testPromptPopupObj: undefined,
+    defaultButtons: [    
     {
+        clazz: "run",
+        label: "Run Test", 
+        callback: function(){
+            this.runTest();
+        }
+    },   
+    {
+        clazz: "previewQuery",
+        label: "Query results", 
+        callback: function(){
+            this.toggleQueryResults();
+        }
+    },
+    {
+        clazz: "close",
         label: "Close", 
         callback: function(){
             this.hide();
@@ -169,8 +235,8 @@ var PopupTextEditorComponent = BaseComponent.extend({
     ],
         
     /* // Default settings
-         * file: the file to edit
-         */ 
+     * file: the file to edit
+     */ 
 
     initialize: function(){
         
@@ -191,11 +257,12 @@ var PopupTextEditorComponent = BaseComponent.extend({
         this.textEditor = {
             name: "popupInnerTextEditorComponent", 
             type: "textEditor", 
-            file: "/cdv/tests/test.cdv",
+            file: undefined,  // will be set later
             htmlObject: this.textEditorPopupId,
             extraButtons: this.getButtons()
                 
         };
+        
         
         Dashboards.addComponents([this.textEditor]);
      
@@ -233,7 +300,65 @@ var PopupTextEditorComponent = BaseComponent.extend({
         this.$ph.slideUp();
 
     },
+
+    runTest: function(){
+        
+        var env = this.setupEnvironment();
+        var test = this.getTestToOperate(env,this.runTestCallback, $("button.previewQuery",this.$ph));
+        
+        
+    },
     
+    runTestCallback: function(env, test){
+
+        var myself = this;
+        this.textEditor.notify("Running test...");
+        env.cdv.runTest(test, { 
+            callback: function(result){
+                myself.textEditor.notify(result.getTestResultDescription());
+            }
+        });
+            
+            
+    },
+    
+    toggleQueryResults: function(){
+      
+      
+        if(this.isQueryPreviewShown){
+            // Hide it
+            this.isQueryPreviewShown = this.textEditor.toggleRightPanel();
+            return;
+        }
+        
+        
+        // Ok - Try to open it and run the test
+        var env = this.setupEnvironment();
+        var test = this.getTestToOperate(env,this.toggleQueryResultsCallback, $("button.run",this.$ph));
+        
+
+
+      
+    },
+    
+    toggleQueryResultsCallback: function(env,test){
+        
+        var myself = this;
+        this.textEditor.notify("Running query...");
+
+        env.cdv.executeQuery(test,null, function(test,opts,queryResult){
+            myself.textEditor.notify("Queries ran in " + queryResult.duration + "ms");
+            
+                    
+            myself.textEditor.getRightPanel().html("<pre>"+JSON.stringify( queryResult.resultset ,undefined,2)+"</pre>");
+            myself.isQueryPreviewShown = myself.textEditor.toggleRightPanel();
+            wd.log("Toggling!");
+            
+        });
+        
+        
+    },
+
     getButtons: function(){
         
         var myself = this;
@@ -249,8 +374,101 @@ var PopupTextEditorComponent = BaseComponent.extend({
     setFile: function(_file){
         this.file = _file;
         this.textEditor.setFile(_file);
-    }
+    },
+    
+    
+    setupEnvironment: function(){
+        
+        // Get source
+        
+        var src = this.textEditor.getEditorWindow().editor.getContents();
+        
+        var mask = {
+            cdv: wd.cdv.cdv({
+                isServerSide: false
+            })
+        };
+        
+        // mask global properties 
+        for (p in this)
+            mask[p] = undefined;
 
+        // execute script in private context
+        try{
+            (new Function( "with(this) { " + src + "}")).call(mask);
+        }
+        catch(err){
+            alert(err);
+        }
+        
+        return mask;
+        
+    },
+  
+  
+    getTestToOperate: function(env, operationCallback, target){
+        
+        var myself = this;
+                
+        // How many tests do we have? If only one, return
+        
+        var flattenedTests = env.cdv.listTestsFlatten().sort(function(a,b){
+            return (a.group + a.name) >=  (b.group + b.name)
+        });
+        
+        
+        if(flattenedTests.length == 1){
+            // return it
+            operationCallback.call(myself,env,env.cdv.getTest(flattenedTests[0].group,flattenedTests[0].name));
+            return;
+        }
+        
+        
+        // We need to prompt for the test
+        if(!this.testPromptPopup){
+            
+                    
+            // Generate a popup component for us
+            this.testPromptPopup = {
+                name: "testPromptPopup", 
+                type:"popup", 
+                htmlObject: 'testPromptPopupObj',
+                gravity: "S",
+                draggable: false,
+                closeOnClickOutside: true
+            }
+            
+            this.$testPromptPopupObj = $("<div id='testPromptPopupObj'></div>").appendTo("body");
+            
+            Dashboards.addComponents([this.testPromptPopup]);
+            this.testPromptPopup.update();
+            
+            // Allow customization
+            this.$testPromptPopupObj.parent("div.popupComponent").addClass("testPromptPopup");
+        
+            
+        }
+        
+        var template = '<div class="testChooserWrapper"><div class="title">Multiple tests found. Choose the one you want:</div>'+
+        '<div class="testChooserButtons">{{#tests}}<button> {{group}} - {{name}}</button>{{/tests}}</div></div>'
+        this.$testPromptPopupObj.html(Mustache.render(template, {
+            tests: flattenedTests 
+        }));
+        
+
+        this.$testPromptPopupObj.off("click","button");
+        this.$testPromptPopupObj.on("click","button",function(evt){
+            var idx = $(this).prevAll("button").length;
+            operationCallback.call(myself,env,env.cdv.getTest(flattenedTests[idx].group,flattenedTests[idx].name));
+           
+            myself.testPromptPopup.hide();
+        })
+        
+        this.testPromptPopup.popup(target);
+        
+        return;
+        
+    }
     
     
 
@@ -502,34 +720,28 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 }
             },
             {
-                name: "View Test", 
-                callback: function(test){
-                    Dashboards.log("Clicked on View for " + test.id);
-                    this.editFile(test.path);
-                    this.popup.hide();
-                }
-            },
-            {
                 name: "Edit Test", 
                 callback: function(test){
 
                     // Editing
 
-                    Dashboards.log("Clicked on Edit for " + test.path);
                     this.editFile(test.path);
                     this.popup.hide();
                 }
             },
             {
-                name: "View Query Result", 
+                name: "View Previous Executions", 
                 callback: function(test){
-                    Dashboards.log("Clicked on View Query Result for " + test.id);
+                    Dashboards.log("View Previous Executions " + test.id);
                 }
             },
             {
                 name: "Delete Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on Delete for " + test.id);
+                    if(confirm("You sure you want to delete this test?")){
+                        alert("Todo: Delete the test");
+                    }
                 }
             }
             ]  
@@ -574,14 +786,14 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 this.popupTextEditor = {
                     name: "popupTextEditorComponent", 
                     type: "popupTextEditor", 
-                    file: "/cdv/tests/test.cdv"
+                    file: undefined // will be set later
                 };
 
                 // Call cdf comp
                 Dashboards.addComponents([this.popup, this.popupTextEditor]);
                 this.popup.update();
                 this.popupTextEditor.update();
-                
+               
                 this.initialized = true;
             }
 

@@ -31,7 +31,7 @@ $(function(){
             path: "/cdv/tests/test.cdv",
             createdBy: "Pedro",
             createdAt: 1339430893246,
-            validation: [ 
+            queries: [ 
             {
                 cdaFile: "/plugin-samples/cda/cdafiles/sql-jndi.cda", 
                 dataAccessId: "1" , 
@@ -169,7 +169,8 @@ $(function(){
         
         // Test 2: Execute a test
         
-        
+       
+        /*
         var callback = function(result){
             $(".results").text(JSON.stringify(result));
         }
@@ -177,6 +178,35 @@ $(function(){
         cdv.runTest(cdv.getTest("CDV Sample Tests","Test 1") , {
             callback: callback
         });
+         */
+        
+        
+        // Test 3: List tests
+        
+        
+        var firstTest = _.map(cdv.listTestsFlatten().sort(function(a,b){
+            return (a.group + a.name) >=  (b.group + b.name)
+        }), function(t){
+            
+            console.log("Test Group " + t.group + ": " + t.name);
+            return cdv.getTest( t.group, t.name);
+            
+        })[0];
+        
+        /*
+        cdv.runTest(firstTest,{
+            callback: function(){
+                alert("OK")
+            }
+        });
+        */
+        
+        cdv.executeQuery(firstTest,null, function(test,opts,queryResult){
+            debugger;
+            alert("OK");
+            
+        });
+        
         
         
         
