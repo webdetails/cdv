@@ -63,9 +63,9 @@ wd.cda.cda = wd.cda.cda || function(spec){
                 datasource.setParameter(p, params[p]);
             }
             var res = String(datasource.execute());
-            print("Query Result: " + res);
+            console.log("Query Result: " + res);
             result = JSON.parse(res);
-            print(JSON.stringify(result));
+            console.log(JSON.stringify(result));
             callback(result);
 
         }

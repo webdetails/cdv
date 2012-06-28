@@ -302,7 +302,9 @@ var PopupTextEditorComponent = BaseComponent.extend({
     runTest: function(){
         
         var env = this.setupEnvironment();
-        var test = this.getTestToOperate(env,this.runTestCallback, $("button.previewQuery",this.$ph));
+        if(env){
+            var test = this.getTestToOperate(env,this.runTestCallback, $("button.previewQuery",this.$ph));            
+        }
         
         
     },
@@ -332,7 +334,9 @@ var PopupTextEditorComponent = BaseComponent.extend({
         
         // Ok - Try to open it and run the test
         var env = this.setupEnvironment();
-        var test = this.getTestToOperate(env,this.toggleQueryResultsCallback, $("button.run",this.$ph));
+        if(env){
+            var test = this.getTestToOperate(env,this.toggleQueryResultsCallback, $("button.run",this.$ph));
+        }
         
 
 
@@ -397,6 +401,7 @@ var PopupTextEditorComponent = BaseComponent.extend({
         }
         catch(err){
             alert(err);
+            return null;
         }
         
         return mask;
