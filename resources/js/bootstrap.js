@@ -19,11 +19,6 @@ var console = {
 cdv = wd.cdv.cdv();
 loadTests();
 
-var timerUp = true;
-
-//scheduler.scheduleTask(function(){print("Every 7!")},"0/7 * * * * *");
-//scheduler.scheduleTask(function(){print("Every 5!")},"1-59/5 * * * * *");
-
 registerHandler("GET", "/restartTimer", function(out){
     this.setOutputType(this.MIME_TEXT);
     timerUp = true;
@@ -80,7 +75,7 @@ registerHandler("GET", "/runTests", function(out){
             var group = groups[g];
             for (t in group) if (group.hasOwnProperty(t)) {
                 var test = group[t];
-                cdv.runTest(test,{
+                cdv.runTest(test, {
                     callback: callback
                 });
             }
@@ -97,7 +92,8 @@ registerHandler("GET", "/runTestById", function(out,pathParams,requestParams){
     try {
       callWithDefaultSession(function(){ 
         myself.setOutputType(myself.MIME_JSON);
-        var str = JSON.stringify(cdv.runTestById({group: requestParams.getStringParameter("group",""),name: requestParams.getStringParameter("name","")}));
+        var str = cdv.runTestById({group: requestParams.getStringParameter("group",""),name: requestParams.getStringParameter("name","")});
+        str = JSON.stringify(str.toJSON());
         out.write(new java.lang.String(str).getBytes("utf-8"));
       });
     } catch(e) {
