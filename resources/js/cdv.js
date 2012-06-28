@@ -548,7 +548,6 @@ wd.cdv = wd.cdv||{};
 
 
             var result = validation.validationFunction.call(myself,rs,[]);
-            wd.log("Test result was " + JSON.stringify(result.toJSON()));
             validationResult.setAlert(myself.parseAlert(result));
             return validationResult;
         
