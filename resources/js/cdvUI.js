@@ -57,8 +57,9 @@ var TextEditorComponent = BaseComponent.extend({
             myself.initialize();
         }
 
-
-
+        this.isRightPanelShown = false;
+        
+        
         // Render the correct structure
         var buttons = this.getButtons();
         var template = "<div class='textEditorComponent'><div class='textEditorControls'>"+
@@ -172,11 +173,7 @@ var TextEditorComponent = BaseComponent.extend({
     
     getRightPanel: function(){
         
-        if(!this.$rightPanel){
-            this.$rightPanel = this.$ph.find(".textEditorRightPanel");
-        }
-        
-        return this.$rightPanel;
+        return this.$ph.find(".textEditorRightPanel");
         
     },
     
@@ -272,6 +269,8 @@ var PopupTextEditorComponent = BaseComponent.extend({
         
         
         var myself = this;
+        this.isQueryPreviewShown = false;
+        
         
         if(!this.isInitialazed){
             myself.initialize();
