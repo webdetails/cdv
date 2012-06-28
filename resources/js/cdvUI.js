@@ -164,8 +164,7 @@ var TextEditorComponent = BaseComponent.extend({
             url: "refresh",
             async: true,
             success: function(){
-                wd.log("Refresh done");
-                Dashboards.fireChange("refresh","xxx");
+                Dashboards.fireChange("editorFileSaved","xxx");
             }
         })
     },
@@ -498,6 +497,11 @@ wd.cdvUI = wd.cdvUI ||{
     {
         name: "Slow Queries",
         link: "slowQueries",
+        sublinks: []
+    },
+    {
+        name: "Notification Settings",
+        link: "notificationSettings",
         sublinks: []
     },
     {

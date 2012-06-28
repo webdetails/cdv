@@ -3,75 +3,6 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
-    "id": "fdd03569-c00f-289a-3db6-18bf1e5e82cd",
-    "type": "LayoutResourceFile",
-    "typeDesc": "Resource",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "value": "cdaJS",
-      "type": "Id"
-     },
-     {
-      "name": "resourceType",
-      "value": "Javascript",
-      "type": "Label"
-     },
-     {
-      "name": "resourceFile",
-      "value": "js/cda.js",
-      "type": "ResourceFile"
-     }
-    ]
-   },
-   {
-    "id": "a6040493-ac4d-ef60-aec0-6ddc77b9f68a",
-    "type": "LayoutResourceFile",
-    "typeDesc": "Resource",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "value": "wdJS",
-      "type": "Id"
-     },
-     {
-      "name": "resourceType",
-      "value": "Javascript",
-      "type": "Label"
-     },
-     {
-      "name": "resourceFile",
-      "value": "js/lib/wd.js",
-      "type": "ResourceFile"
-     }
-    ]
-   },
-   {
-    "id": "113d29a5-99eb-94b2-93a7-dbc3c31a1733",
-    "type": "LayoutResourceFile",
-    "typeDesc": "Resource",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "value": "cdvJS",
-      "type": "Id"
-     },
-     {
-      "name": "resourceType",
-      "value": "Javascript",
-      "type": "Label"
-     },
-     {
-      "name": "resourceFile",
-      "value": "js/cdv.js",
-      "type": "ResourceFile"
-     }
-    ]
-   },
-   {
     "id": "0ee64b35-51ab-3cb8-c686-de9b5c884556",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -479,7 +410,7 @@
     ]
    },
    {
-    "id": "4b76ebde-37c0-a93a-4094-faef9b72bb85",
+    "id": "8b03fd9c-d5da-f906-aaf2-98cd4c8c7bcc",
     "type": "LayoutSpace",
     "typeDesc": "Space",
     "parent": "UnIqEiD",
@@ -502,7 +433,78 @@
     ]
    },
    {
-    "id": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "id": "fbbe52b3-801d-8991-8f6c-efe1fdd22d37",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDdataCellHeader",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "e7a0e22b-bd20-4239-72ac-18c193a36390",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "fbbe52b3-801d-8991-8f6c-efe1fdd22d37",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "Notification Settings ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e5df7d95-b63d-19de-ec63-9aae0e5f3fe6",
     "type": "LayoutRow",
     "typeDesc": "Row",
     "parent": "UnIqEiD",
@@ -540,29 +542,29 @@
     ]
    },
    {
-    "id": "9415c320-b23d-31da-17cd-80539f8949fb",
+    "id": "1d15f791-8c51-ab30-abae-722f0db97c6f",
     "type": "LayoutColumn",
     "typeDesc": "Column",
-    "parent": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "parent": "e5df7d95-b63d-19de-ec63-9aae0e5f3fe6",
     "properties": [
      {
       "name": "name",
-      "value": "tableObj",
+      "value": "colWrapper",
       "type": "Id"
      },
      {
       "name": "columnSpan",
-      "value": "22",
+      "value": "24",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -602,7 +604,7 @@
      },
      {
       "name": "cssClass",
-      "value": "validationTable",
+      "value": "",
       "type": "String"
      },
      {
@@ -613,19 +615,19 @@
     ]
    },
    {
-    "id": "36f33c2a-1987-84da-6ff6-4a2cb995dbb3",
+    "id": "e2286a14-3049-0bc0-8e65-e897d33d2ac5",
     "type": "LayoutRow",
     "typeDesc": "Row",
-    "parent": "UnIqEiD",
+    "parent": "1d15f791-8c51-ab30-abae-722f0db97c6f",
     "properties": [
      {
       "name": "name",
-      "value": "popup",
+      "value": "editor",
       "type": "Id"
      },
      {
       "name": "height",
-      "value": "",
+      "value": "500",
       "type": "Integer"
      },
      {
@@ -637,79 +639,6 @@
       "name": "roundCorners",
       "value": "",
       "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "f5d7f699-74e5-d56e-a6a5-7c7f43991aae",
-    "type": "LayoutColumn",
-    "typeDesc": "Column",
-    "parent": "36f33c2a-1987-84da-6ff6-4a2cb995dbb3",
-    "properties": [
-     {
-      "name": "name",
-      "value": "validationPopupDiv",
-      "type": "Id"
-     },
-     {
-      "name": "columnSpan",
-      "value": "3",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrepend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnAppend",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "columnPrependTop",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnAppendBottom",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "columnBigBorder",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "height",
-      "value": "",
-      "type": "Integer"
      },
      {
       "name": "cssClass",
@@ -821,30 +750,7 @@
      },
      {
       "name": "propertyValue",
-      "value": "Validations",
-      "type": "String"
-     },
-     {
-      "name": "bookmarkable",
-      "value": "false",
-      "type": "Boolean"
-     }
-    ]
-   },
-   {
-    "id": "bb0280a2-14d7-30ac-fed5-ceeafbe1e2cc",
-    "type": "ComponentsParameter",
-    "typeDesc": "Parameter",
-    "parent": "GENERIC",
-    "properties": [
-     {
-      "name": "name",
-      "value": "editorFileSaved",
-      "type": "Id"
-     },
-     {
-      "name": "propertyValue",
-      "value": "foo",
+      "value": "Notification Settings",
       "type": "String"
      },
      {
@@ -869,135 +775,35 @@
     ]
    },
    {
-    "id": "523ab8cc-2120-39f1-60a5-4579fa657f40",
-    "type": "ComponentsTable",
-    "typeDesc": "table Component",
+    "id": "faf0f719-315a-4cc4-3324-a52d628de4a7",
+    "type": "Componentsfreeform",
+    "typeDesc": "Freeform Component",
     "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "tests",
+      "value": "textEditor",
       "type": "Id"
      },
      {
-      "name": "htmlObject",
-      "value": "tableObj",
-      "type": "HtmlObject"
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
      },
      {
-      "name": "listeners",
-      "value": "['editorFileSaved']",
-      "type": "Listeners"
+      "name": "width",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
      },
      {
       "name": "xActionArrayParameter",
       "value": "[]",
       "type": "ValuesArray"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": "listTestsFlatten"
-     },
-     {
-      "name": "cccClickAction",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "colHeaders",
-      "value": "[\"group\",\"Test\",\"Files\",\"Validations\",\"Expected\",\" \",\"Test\",\" \"]",
-      "type": "Array"
-     },
-     {
-      "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\",\"hidden\"]",
-      "type": "colTypesCustom"
-     },
-     {
-      "name": "colFormats",
-      "value": "[null,null,null,null,\"%dms\",null,null,null]",
-      "type": "Array"
-     },
-     {
-      "name": "colWidths",
-      "value": "[\"0%\",\"25%\",\"50%\",\"10%\",\"10%\",\"5%\",\"0%\",\"0%\"]",
-      "type": "Array"
-     },
-     {
-      "name": "colSortable",
-      "value": "[]",
-      "type": "Array"
-     },
-     {
-      "name": "colSearchable",
-      "value": "[]",
-      "type": "Array"
-     },
-     {
-      "name": "paginate",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "paginateServerside",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "paginationType",
-      "value": "two_button",
-      "type": "PaginationType"
-     },
-     {
-      "name": "filter",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "info",
-      "value": "true",
-      "type": "Boolean"
-     },
-     {
-      "name": "sort",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "sortBy",
-      "value": "[]",
-      "type": "SortByArray"
-     },
-     {
-      "name": "displayLength",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "lengthChange",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "tableStyle",
-      "value": "classic",
-      "type": "TableStyle"
-     },
-     {
-      "name": "drawCallback",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "sDom",
-      "value": "",
-      "type": "JavaScript"
-     },
-     {
-      "name": "oLanguage",
-      "value": "",
-      "type": "JavaScript"
      },
      {
       "name": "executeAtStart",
@@ -1020,6 +826,16 @@
       "type": "JavaScript"
      },
      {
+      "name": "customfunction",
+      "value": "function f(){\n    \n       \n       if(!this.isInitialized){\n           \n           this.textEditor = {\n                name: \"textEditorComponent\", \n                type: \"textEditor\", \n                file: \"system/cdv/notifications.xml\",  // will be set later\n                htmlObject: this.htmlObject\n\n            };\n    \n            Dashboards.addComponents([this.textEditor]);\n            this.isInitialized = true;\n       }\n\n       Dashboards.update(this.textEditor);\n    \n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "htmlObject",
+      "value": "editor",
+      "type": "HtmlObject"
+     },
+     {
       "name": "preExecution",
       "value": "",
       "type": "JavaScript"
@@ -1030,127 +846,21 @@
       "type": "JavaScript"
      },
      {
-      "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
-     },
-     {
       "name": "tooltip",
       "value": "",
       "type": "Html"
      },
      {
-      "name": "extraOptions",
+      "name": "listeners",
       "value": "[]",
-      "type": "OptionArray"
-     },
-     {
-      "name": "expandParameters",
-      "value": "[]",
-      "type": "ValuesArray"
-     },
-     {
-      "name": "expandOnClick",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "expandContainerObject",
-      "value": "",
-      "type": "String"
+      "type": "Listeners"
      }
     ]
    }
   ]
  },
  "datasources": {
-  "rows": [
-   {
-    "id": "SCRIPTING",
-    "name": "SCRIPTING Queries",
-    "type": "Label",
-    "typeDesc": "<i>Group</i>",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "Group",
-      "value": "SCRIPTING Queries",
-      "type": "Label"
-     }
-    ]
-   },
-   {
-    "id": "317b8f59-71d6-abbe-a78e-56da38737360",
-    "type": "Componentsscriptable_scripting",
-    "typeDesc": "scriptable over scripting",
-    "meta": "CDA",
-    "meta_conntype": "scripting.scripting",
-    "meta_datype": "scriptable",
-    "parent": "SCRIPTING",
-    "properties": [
-     {
-      "name": "name",
-      "value": "listTestsFlatten",
-      "type": "Id"
-     },
-     {
-      "name": "language",
-      "value": "beanshell",
-      "type": "String"
-     },
-     {
-      "name": "initscript",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "access",
-      "value": "public",
-      "type": "Access"
-     },
-     {
-      "name": "parameters",
-      "value": "[]",
-      "type": "CdaParameters"
-     },
-     {
-      "name": "output",
-      "value": "[\"1\",\"12\",\"9\",\"10\",\"8\",\"15\",\"11\",\"0\"]",
-      "type": "IndexArray"
-     },
-     {
-      "name": "outputMode",
-      "value": "include",
-      "type": "OutputMode"
-     },
-     {
-      "name": "cdacolumns",
-      "value": "[[\"8\",\"Files\"]]",
-      "type": "CdaColumnsArray"
-     },
-     {
-      "name": "cdacalculatedcolumns",
-      "value": "[[\"Popup\",\"=\\\"O\\\"\"]]",
-      "type": "CdaCalculatedColumnsArray"
-     },
-     {
-      "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"listTestsFlatten\");\nreturn model;",
-      "type": "SqlQuery"
-     },
-     {
-      "name": "cache",
-      "value": "false",
-      "type": "Boolean"
-     },
-     {
-      "name": "cacheDuration",
-      "value": "3600",
-      "type": "Integer"
-     }
-    ]
-   }
-  ]
+  "rows": []
  },
- "filename": "/system/cdv/presentation/validations.cdfde"
+ "filename": "/system/cdv/presentation/notificationSettings.cdfde"
 }

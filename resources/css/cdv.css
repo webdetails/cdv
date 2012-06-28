@@ -1546,6 +1546,12 @@ div.optionsPopup a.close{
 /* TextEditor */
 
 /*#popupEditorId > div.textEditorComponent ,div.textEditorIframe,*/
+
+div.textEditorComponent{
+    width: 100%;
+    height: 100%;
+}
+
 div.textEditorIframeContainer{
     width: 100%;
     height: 100%;
