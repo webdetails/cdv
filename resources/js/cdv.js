@@ -544,8 +544,6 @@ wd.cdv = wd.cdv||{};
             wd.warn("TODO: Call preexisting validation here");
             wd.warn("TODO: Pass validation arguments");
         
-            wd.debug("Validation function: " + validation.validationFunction);
-
 
             var result = validation.validationFunction.call(myself,rs,[]);
             validationResult.setAlert(myself.parseAlert(result));
