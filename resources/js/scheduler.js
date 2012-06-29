@@ -52,8 +52,6 @@
         head = myself.peek(),
         timeout = head.next - now;
     timeout = timeout < 100 ? 100 : timeout;
-    print(head.handler);
-    print("timeout: " + timeout);
     clearTimeout(_timer);
     _timer = setTimeout(handleTimeout, timeout);
   }
@@ -71,10 +69,15 @@
     _timer = null;
   };
   myself.restart = function() {
-    print("timer: " + _timer );
     if (_timer === null) {
       reschedule();
     }
   };
+
+  myself.reset = function() {
+    myself.pause();
+    _queue = [];
+  };
+
   global.scheduler = myself;
 }(this));

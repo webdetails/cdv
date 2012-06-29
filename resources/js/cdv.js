@@ -62,7 +62,8 @@ wd.cdv = wd.cdv||{};
             validationResults:[],
             duration: -1, 
             durationAlert: undefined, 
-            expectedDuration: -1
+            expectedDuration: -1,
+            timestamp: new Date()
         };
     
         spec = _.extend({},_spec,spec);
@@ -105,6 +106,9 @@ wd.cdv = wd.cdv||{};
             spec.result = result;
         }
 
+        myself.getTimestamp = function() {
+            return spec.timestamp;
+        }
 
         myself.getDuration = function(){
             return spec.duration
@@ -137,8 +141,6 @@ wd.cdv = wd.cdv||{};
     
     
         myself.getTestResultDescription = function(){
-    
-    
             var resultMap = {},keys=[], alertMap=[];
             var count = myself.getValidationResults().length;
         
@@ -183,16 +185,17 @@ wd.cdv = wd.cdv||{};
    
    
         myself.toJSON = function(){
-            var result = myself.getTestResult().toJSON(),
-                output = {
-                test: myself.getTest(),
-                validationResults: myself.getValidationResults(),
-                testResult: {
-                  type: result.type,
-                  cause: result,
-                  description: myself.getTestResultDescription()
-                }
-            };
+            var result = myself.getTestResult().toJSON();
+            var output = {
+                  timestamp: myself.getTimestamp().getTime(),
+                  test: myself.getTest(),
+                  validationResults: myself.getValidationResults(),
+                  testResult: {
+                    type: result.type,
+                    cause: result,
+                    description: myself.getTestResultDescription()
+                  }
+                };
             output.validationResults = _.map(output.validationResults,function(e){
               return e.toJSON();
             });
@@ -549,7 +552,6 @@ wd.cdv = wd.cdv||{};
             validationResult.setAlert(myself.parseAlert(result));
             return validationResult;
         
-        
         }
 
 
@@ -561,12 +563,15 @@ wd.cdv = wd.cdv||{};
             if (spec.isServerSide){
                 scheduler.scheduleTask(function(){
                   var result = myself.runTestById({group: test.group, name: test.name}).toJSON();
-                  var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.testResult.description);
+                  var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
                   eventManager.publish(alrt);
                 }, test.cron);
             }
         };
 
+        myself.resetTests = function() {
+          _tests = {};
+        };
 
         myself.listTests = function(group){
             if(group) {

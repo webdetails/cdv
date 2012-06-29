@@ -49,6 +49,11 @@ public class NotificationEngine {
         return instance;
     }
 
+    public synchronized static NotificationEngine refresh () {
+        instance = null;
+        return getInstance();
+    }
+
     private void listOutlets(Document doc) {
         outlets = new HashMap<String, Class>();
         List<Node> outletNodes = doc.selectNodes("//outlets/outlet");

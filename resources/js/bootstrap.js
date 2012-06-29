@@ -87,7 +87,7 @@ registerHandler("GET", "/runTests", function(out){
 });
 
 
-registerHandler("GET", "/runTestById", function(out,pathParams,requestParams){
+registerHandler("GET", "/runTest", function(out,pathParams,requestParams){
     var myself = this;
     try {
       callWithDefaultSession(function(){ 
@@ -120,3 +120,17 @@ registerHandler("GET", "/testNotifications", function(out){
   eventManager.publish(alrt);
   out.write(new java.lang.String("Done").getBytes("utf-8"));
 });
+
+registerHandler("GET", "/refreshNotifications", function(out){
+  eventManager = eventManager.refresh();
+  out.write(new java.lang.String('{"success": true}').getBytes("utf-8"));
+});
+
+registerHandler("GET", "/refreshTests", function(out){
+  scheduler.reset();
+  loadTests();
+});
+
+
+lib("queries.js");
+

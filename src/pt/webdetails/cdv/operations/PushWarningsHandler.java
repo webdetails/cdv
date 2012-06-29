@@ -190,7 +190,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
   }
   
   private static Alert getAlertFromEvent(PluginEvent event, String msg){
-    return new Alert(getLevel(event), event.getPlugin(), msg);
+    return new Alert(getLevel(event), event.getPlugin(), "event", msg);
   }
   
   private static Alert.Level getLevel(PluginEvent event) {

@@ -28,9 +28,16 @@ public class EventManager {
         return instance;
     }
 
-    public Alert createAlert(String lvl, String group, String msg) {
-        return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, msg);
+    public synchronized static EventManager refresh() {
+        NotificationEngine.refresh();
+        instance = null;
+        return getInstance();
     }
+
+    public Alert createAlert(String lvl, String group, String name, String msg) {
+        return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, name, msg);
+    }
+
     public void publish(Alert alert) {
         pe.store(null, "Alert", alert.toJSON());
         ne.publish(alert);
