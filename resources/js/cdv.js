@@ -41,7 +41,7 @@ wd.cdv = wd.cdv||{};
         }
     
         myself.toJSON = function(){
-            return spec;
+            return {type: spec.type, description: spec.description};
         }
     
         return myself;
