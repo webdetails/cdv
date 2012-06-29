@@ -22,6 +22,10 @@ var TextEditorComponent = BaseComponent.extend({
         label: "Save", 
         callback: function(){
             this.save();
+            if(typeof this.saveCallback === "function" ){
+                this.saveCallback();
+            }
+            
         }
     }
     ],
@@ -158,15 +162,7 @@ var TextEditorComponent = BaseComponent.extend({
     save: function(){
         
         this.getEditorWindow().save();
-        
-        // Also - trigger a call to refresh the cache.
-        $.ajax({
-            url: "refresh",
-            async: true,
-            success: function(){
-                Dashboards.fireChange("editorFileSaved","xxx");
-            }
-        })
+
     },
     
     
@@ -248,14 +244,15 @@ var PopupTextEditorComponent = BaseComponent.extend({
         else{
             this.$ph = $("<div id='"+this.textEditorPopupId+"'></div>").appendTo("body");
         }
-        
+               
         // Also generate a textEditorComponent
         this.textEditor = {
             name: "popupInnerTextEditorComponent", 
             type: "textEditor", 
             file: undefined,  // will be set later
             htmlObject: this.textEditorPopupId,
-            extraButtons: this.getButtons()
+            extraButtons: this.getButtons(),
+            saveCallback: this.saveCallback
                 
         };
         
@@ -794,7 +791,17 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 this.popupTextEditor = {
                     name: "popupTextEditorComponent", 
                     type: "popupTextEditor", 
-                    file: undefined // will be set later
+                    file: undefined, // will be set later
+                    saveCallback: function(){
+                        // We want to refresh CDV
+                        $.ajax({
+                            url: "refreshTests",
+                            async: true,
+                            success: function(){
+                                Dashboards.fireChange("editorFileSaved","xxx");
+                            }
+                        })
+                    }
                 };
 
                 // Call cdf comp
