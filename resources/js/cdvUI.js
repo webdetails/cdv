@@ -796,6 +796,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                         // We want to refresh CDV
                         $.ajax({
                             url: "refreshTests",
+                            type: "GET",
                             async: true,
                             success: function(){
                                 Dashboards.fireChange("editorFileSaved","xxx");
