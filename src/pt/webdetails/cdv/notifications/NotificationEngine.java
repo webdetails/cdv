@@ -34,7 +34,7 @@ public class NotificationEngine {
     private NotificationEngine() {
         try {
 
-            Document doc = RepositoryAccess.getRepository().getResourceAsDocument("/solution/cdv/alerts.xml");
+            Document doc = RepositoryAccess.getRepository().getResourceAsDocument("/solution/cdv/notifications.xml");
             listOutlets(doc);
             listAlerts(doc);
         } catch (IOException e) {
