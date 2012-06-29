@@ -20,23 +20,24 @@ public class Alert implements Persistable {
         ALL, OK, WARNING, ERROR, CRITICAL
     }
     private Level level;
-    private String msg, group;
+    private String msg, group, name;
     private Date timestamp;
 
-    public Alert(Level level, String group, String msg) {
-        init(level, group, msg, new Date());
+    public Alert(Level level, String group, String name, String msg) {
+        init(level, group, name, msg, new Date());
     }
 
-    public Alert(String level, String group, String msg) {
-        init(Level.valueOf(level.toUpperCase()), group, msg, new Date());
+    public Alert(String level, String group, String name, String msg) {
+        init(Level.valueOf(level.toUpperCase()), group, name, msg, new Date());
     }
 
     private Alert(JSONObject json) {
         try {
             Level lvl = Level.valueOf(json.getString("level").toUpperCase());
             String g = json.getString("group"),
+                    n = json.getString("group"),
                     m = json.getString("message");
-            init(lvl, g, m, new Date());
+            init(lvl, g, n, m, new Date());
         } catch (JSONException e) {
         }
     }
@@ -51,9 +52,10 @@ public class Alert implements Persistable {
         return alert;
     }
 
-    private void init(Level level, String group, String msg, Date date) {
+    private void init(Level level, String group, String name, String msg, Date date) {
         this.level = level;
         this.msg = msg;
+        this.name = name;
         this.group = group;
         this.timestamp = date;
     }
@@ -74,6 +76,10 @@ public class Alert implements Persistable {
         return timestamp;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getPersistenceClass() {
         return "Alert";
     }
@@ -83,6 +89,7 @@ public class Alert implements Persistable {
         try {
             json.put("level", level.toString());
             json.put("group", group);
+            json.put("name", name);
             json.put("timestamp", timestamp.getTime());
         } catch (JSONException jse) {
         }
