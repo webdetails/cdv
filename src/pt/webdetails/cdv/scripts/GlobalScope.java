@@ -214,10 +214,10 @@ public class GlobalScope extends ImporterTopLevel {
 
     public static Object callWithDefaultSession(Context cx, Scriptable thisObj,
             Object[] args, Function funObj) {
-            Callable callback = (Callable) args[0];
+        Callable callback = (Callable) args[0];
         IPentahoSession old = PentahoSessionHolder.getSession();
         try {
-            IPentahoSession session = getSession();
+            IPentahoSession session = getAdminSession();
             PentahoSessionHolder.setSession(session);
             callback.call(cx, GlobalScope.getInstance(), thisObj, null);
         } finally {
@@ -225,11 +225,21 @@ public class GlobalScope extends ImporterTopLevel {
         }
         return Context.toBoolean(true);
     }
-    
-    private static IPentahoSession getSession(){
+
+    private static IPentahoSession getSession() {
         if (session == null) {
             session = new StandaloneSession("CDV");
         }
+        return session;
+    }
+
+    private static IPentahoSession getAdminSession() {
+        IUserDetailsRoleListService userDetailsRoleListService = PentahoSystem.getUserDetailsRoleListService();
+        UserSession session = new UserSession("admin", null, false, null);
+        GrantedAuthority[] auths = userDetailsRoleListService.getUserRoleListService().getAllAuthorities();
+        Authentication auth = new AnonymousAuthenticationToken("admin", SecurityHelper.SESSION_PRINCIPAL, auths);
+        session.setAttribute(SecurityHelper.SESSION_PRINCIPAL, auth);
+        session.doStartupActions(null);
         return session;
     }
 }
