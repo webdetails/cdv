@@ -48,7 +48,7 @@ public class NotificationEngine {
             listOutlets(doc);
             listAlerts(doc);
         } catch (IOException e) {
-            logger.error("Failed to read alert settings");
+            logger.error("Failed to read alert settings", e);
         }
     }
 
@@ -77,7 +77,7 @@ public class NotificationEngine {
                 Method setDefaults = outletClass.getDeclaredMethod("setDefaults", Node.class);
                 setDefaults.invoke(null, outletNode.selectSingleNode(".//conf"));
             } catch (ClassNotFoundException ex) {
-                logger.error("Failed to read alert settings");
+                logger.error("Class for outlet " + outletClassName + " not found.", ex);
             } catch (NoSuchMethodException ex) {
                 logger.error("Class " + outletClassName + " doesn't provide the necessary interface");
                 logger.error(ex);
@@ -118,9 +118,9 @@ public class NotificationEngine {
                     alerts.get(key).add(outlet);
                 }
             } catch (InstantiationException e) {
-                logger.error("Failed to instantiate " + outletName);
+                logger.error("Failed to instantiate " + outletName, e);
             } catch (ClassNotFoundException ex) {
-                logger.error("Failed to read alert settings");
+                logger.error("Failed to get class for outlet " + outletName, ex);
             } catch (NoSuchMethodException ex) {
                 logger.error("Class " + outletName + " doesn't provide the necessary interface");
                 logger.error(ex);
