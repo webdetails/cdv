@@ -712,15 +712,22 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
         defaults: {
 
             idColIndex: 6,
+            nameColIndex: 1,
+            groupColIndex: 0,
             pathColIndex: 7,
             popup: [
             {
                 name: "Run Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on Run for " + test.id);
-
-                    var result = cdv.runTestById(test.id);
-                    Dashboards.log("Test output: " + result);
+                    $.getJSON('runTest',
+                      {
+                        name: test.name,
+                        group: test.group
+                      },
+                      function(result){
+                        alert(JSON.stringify(result,null,2));
+                      });
 
                 }
             },
@@ -837,6 +844,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 var template = "<div class='validationPopup'>{{#popup}}<button class='validationButton'>{{name}}</button>{{/popup}}</div>";
 
                 var testId = st.rawData.resultset[st.rowIdx][opt.idColIndex];
+                var testName = st.rawData.resultset[st.rowIdx][opt.nameColIndex];
+                var testGroup = st.rawData.resultset[st.rowIdx][opt.groupColIndex];
                 var testPath = st.rawData.resultset[st.rowIdx][opt.pathColIndex];
 
 
@@ -851,6 +860,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
 
                     opt.popup[idx].callback.call(myself, {
                         id: testId, 
+                        name: testName, 
+                        group: testGroup, 
                         path: testPath
                     });
                 })
