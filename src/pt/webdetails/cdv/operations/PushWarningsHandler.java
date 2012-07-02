@@ -138,6 +138,9 @@ public class PushWarningsHandler extends JsonRequestHandler {
           JSONObject obj = event.getJSONObject(field);
 //          logger.debug("obj:" + obj.toString(2));
         }
+        else if(value instanceof StackTraceElement[]){
+            continue;
+        }
         else {
           doc.field(field, value);
         }
@@ -190,7 +193,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
   }
   
   private static Alert getAlertFromEvent(PluginEvent event, String msg){
-    return new Alert(getLevel(event), event.getPlugin(), "event", msg);
+    return new Alert(getLevel(event), event.getPlugin(), event.getName() , msg);
   }
   
   private static Alert.Level getLevel(PluginEvent event) {

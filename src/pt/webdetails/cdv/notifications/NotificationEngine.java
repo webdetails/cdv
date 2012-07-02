@@ -33,8 +33,29 @@ public class NotificationEngine {
 
     private NotificationEngine() {
         try {
-
-            Document doc = RepositoryAccess.getRepository().getResourceAsDocument("/solution/cdv/notifications.xml");
+            
+            
+            // We'll search first in the solution dir, then in the plugin dir
+            // Start crappy code:
+            // We need to search in a bunch of locations due to the bug on http://jira.pentaho.com/browse/BISERVER-1813
+            
+            
+            
+            String notificationFilePath = "";
+            if( RepositoryAccess.getRepository().hasAccess( "/solution/cdv/notifications.xml" , RepositoryAccess.FileAccess.READ) ){
+                notificationFilePath = "/solution/cdv/notifications.xml";
+            }
+            else if(RepositoryAccess.getRepository().hasAccess( "/cdv/notifications.xml" , RepositoryAccess.FileAccess.READ)){
+                notificationFilePath = "/cdv/notifications.xml";
+            }
+            else if( RepositoryAccess.getRepository().hasAccess( "/solution/system/cdv/notifications.xml" , RepositoryAccess.FileAccess.READ) ){
+                notificationFilePath = "/solution/system/cdv/notifications.xml";
+            }
+            else if(RepositoryAccess.getRepository().hasAccess( "/system/cdv/notifications.xml" , RepositoryAccess.FileAccess.READ)){
+                notificationFilePath = "/system/cdv/notifications.xml";
+            }
+            
+            Document doc = RepositoryAccess.getRepository().getResourceAsDocument(notificationFilePath);
             listOutlets(doc);
             listAlerts(doc);
         } catch (IOException e) {
