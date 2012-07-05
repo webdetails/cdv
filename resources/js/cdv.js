@@ -572,6 +572,12 @@ wd.cdv = wd.cdv||{};
                     }).toJSON();
                     var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
                     eventManager.publish(alrt);
+                    var tr =  eventManager.createTestResult(JSON.stringify(result)), doc;
+                    print("TR: " + tr);
+                    if(tr) {
+                      doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
+                      persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
+                    }  
                 }, test.cron);
             }
         };
