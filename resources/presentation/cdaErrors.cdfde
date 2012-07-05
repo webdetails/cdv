@@ -769,7 +769,7 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"validationFile\",\"string\",\"elapsedTime\",\"validationPopup\"]",
+      "value": "[\"groupHeaders\",\"validationFile\",\"string\",\"elapsedTime\",\"cdaPopup\"]",
       "type": "colTypesCustom"
      },
      {
@@ -879,7 +879,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n    // configure addin\n    /*    \n    this.setAddInOptions(\"colType\",\"validationPopup\",{\n            idColIndex: 4,\n            pathColIndex: 7,\n            popup: [\n            {\n                name: \"Rerun query\", \n                callback: function(test){\n                    Dashboards.log(\"Clicked on ReRun for \" + test.id);\n                    $.getJSON('runTest',\n                    {\n                        name: test.name,\n                        group: test.group\n                    },\n                    function(result){\n                        alert(JSON.stringify(result,null,2));\n                    });\n\n                }\n            },\n            {\n                name: \"Delete Test\", \n                callback: function(test){\n                    Dashboards.log(\"Clicked on Delete for \" + test.id);\n                    if(confirm(\"You sure you want to delete this test?\")){\n                        alert(\"Todo: Delete the test\");\n                    }\n                }\n            }\n            ]          \n    });\n    \n    */    \n}\n\n\n",
+      "value": "function f(){\n    // configure addin\n        \n    this.setAddInOptions(\"colType\",\"cdaPopup\",{\n            eventType: \"QueryError\"\n    });\n}\n\n\n",
       "type": "JavaScript"
      },
      {

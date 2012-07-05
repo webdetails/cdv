@@ -878,8 +878,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
     // CDA Popup Addin, which is the same as the one before except with new properties
 
     wd.cdvUI.cdaPopupAddIn = $.extend({}, wd.cdvUI.validationPopupAddIn,{
-        name: "cdaPopupAddIn",
-        label: "cdaPopupAddIn",
+        name: "cdaPopup",
+        label: "cdaPopup",
         defaults: {
             idColIndex: 4,
             pathColIndex: 1,
@@ -922,8 +922,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
             if(confirm("You sure you want to delete this test?")){
                 alert("Todo: Delete the test " + id);
                 Dashboards.fireChange("entriesChanged","xxx");
-                this.popup.hide();
             }
+            this.popup.hide();
         },
         
         deleteAllCDAReportsOfType: function(eventType){
@@ -931,8 +931,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
             if(confirm("You sure you want to delete all entries?")){
                 alert("Todo: Delete all entries of the same type of " + eventType);
                 Dashboards.fireChange("entriesChanged","xxx");
-                this.popup.hide();
             }
+            this.popup.hide();
         }
     });
     
