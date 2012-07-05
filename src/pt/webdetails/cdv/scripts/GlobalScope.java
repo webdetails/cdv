@@ -227,6 +227,8 @@ public class GlobalScope extends ImporterTopLevel {
             IPentahoSession session = getAdminSession();
             PentahoSessionHolder.setSession(session);
             callback.call(cx, GlobalScope.getInstance(), thisObj, null);
+        } catch (Exception e) {
+            logger.error(e);
         } finally {
             PentahoSessionHolder.setSession(old);
         }
