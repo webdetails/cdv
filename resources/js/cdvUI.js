@@ -550,7 +550,7 @@ wd.cdvUI = wd.cdvUI ||{
     
                 var obj = {};
     
-                var arr = e.match(/(.*)\[(.*)] ?(.*)?/);
+                var arr = e.match(/(.*)\[(.*)](?: (.*))?/);
                 obj.cda = arr[1];
                 obj.dataAccessId = arr[2];
     
@@ -564,7 +564,7 @@ wd.cdvUI = wd.cdvUI ||{
     
                 var params = arr[3];
                 if(params){
-                    obj.params = _.map(params.substr(2,params.length-3).split(", "), function(param){
+                    obj.params = _.map(params.substr(1,params.length-2).split(", "), function(param){
                         var a = param.split(": ");
                         return {
                             paramName: a[0], 
@@ -844,7 +844,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                         name: testName, 
                         group: testGroup, 
                         path: testPath
-                    });
+                    }, opt);
                 })
 
                 //myself.popupObj
@@ -883,8 +883,9 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
         defaults: {
             idColIndex: 4,
             pathColIndex: 1,
+            eventType: "QueryError",
             popup: [
-            {
+            /*{
                 name: "Rerun query", 
                 callback: function(test){
                     Dashboards.log("Clicked on ReRun for " + test.id);
@@ -898,11 +899,18 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
                     });
 
                 }
-            },
+            },*/
             {
-                name: "Delete Test", 
+                name: "Delete Entry", 
                 callback: function(test){
                     this.deleteCDAReport(test.id);
+                    
+                }
+            },
+            {
+                name: "Delete all", 
+                callback: function(test, opt){
+                    this.deleteAllCDAReportsOfType(opt.eventType);
                     
                 }
             }
@@ -913,7 +921,16 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
             Dashboards.log("Clicked on Delete for " + id);
             if(confirm("You sure you want to delete this test?")){
                 alert("Todo: Delete the test " + id);
-                Dashboards.fireChange("editorFileSaved","xxx");
+                Dashboards.fireChange("entriesChanged","xxx");
+                this.popup.hide();
+            }
+        },
+        
+        deleteAllCDAReportsOfType: function(eventType){
+            Dashboards.log("Clicked on Delete all cda report of type for " + eventType);
+            if(confirm("You sure you want to delete all entries?")){
+                alert("Todo: Delete all entries of the same type of " + eventType);
+                Dashboards.fireChange("entriesChanged","xxx");
                 this.popup.hide();
             }
         }

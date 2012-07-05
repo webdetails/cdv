@@ -432,6 +432,14 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
     /*    background: rgb(202, 211, 214);*/
 }
 
+
+/* CDA Error table */
+
+.cdaError .tableComponent tbody td:nth-child(3){
+    font-size: 10px;
+}
+
+
 .WDdataCellBody table {}
 
 

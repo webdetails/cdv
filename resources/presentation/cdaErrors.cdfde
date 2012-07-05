@@ -571,7 +571,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "cdaError",
       "type": "String"
      },
      {
@@ -690,6 +690,29 @@
     ]
    },
    {
+    "id": "5a7f59ab-f184-ec82-605a-b2f8c52777ff",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "entriesChanged",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "foo",
+      "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -721,7 +744,7 @@
      },
      {
       "name": "listeners",
-      "value": "[]",
+      "value": "['entriesChanged']",
       "type": "Listeners"
      },
      {
@@ -756,7 +779,7 @@
      },
      {
       "name": "colWidths",
-      "value": "[\"0%\",\"40%\",\"45%\",\"10%\",\"5%\"]",
+      "value": "[\"0%\",\"40%\",\"40%\",\"15%\",\"5%\"]",
       "type": "Array"
      },
      {

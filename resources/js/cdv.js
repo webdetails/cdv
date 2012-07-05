@@ -44,7 +44,7 @@ wd.cdv = wd.cdv||{};
             return {
                 type: spec.type, 
                 description: spec.description
-                };
+            };
         }
     
         myself.clone = function() {
@@ -52,7 +52,7 @@ wd.cdv = wd.cdv||{};
         };
 
         myself.setDescription = function(description) {
-          spec.description = description;
+            spec.description = description;
         }
         return myself;
     }
@@ -547,17 +547,17 @@ wd.cdv = wd.cdv||{};
     
     
         myself.performValidation = function(validation, rs){
-          var validationFunction = myself.getValidationFunction(validation.validationType);
-          return validationFunction.call(myself,validation,rs);
+            var validationFunction = myself.getValidationFunction(validation.validationType);
+            return validationFunction.call(myself,validation,rs);
         }
 
 
         myself.registerValidationFunction = function(type,func){
-          _testTypes[type] = func;
+            _testTypes[type] = func;
         };
 
         myself.getValidationFunction = function(type) {
-          return _testTypes[type];
+            return _testTypes[type];
         };
 
         myself.registerTest = function(test) {
@@ -569,7 +569,7 @@ wd.cdv = wd.cdv||{};
                     var result = myself.runTestById({
                         group: test.group, 
                         name: test.name
-                        }).toJSON();
+                    }).toJSON();
                     var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
                     eventManager.publish(alrt);
                 }, test.cron);
@@ -621,11 +621,16 @@ wd.cdv = wd.cdv||{};
                 // validations will be put here
                 var a = o.queries;
                 o.queries = _.map(a,function(i){
-                    return i.cdaFile + "[" + i.dataAccessId+ "] "
-                    + " ("+_.map(i.parameters,function(v,k){
-                        return k+": "+v
-                    }).join(", ")+")";
-                }).join("; ").replace(/\(\)/g,"");
+                    
+                    var output = i.cdaFile + "[" + i.dataAccessId+ "]";
+                    if(i.parameters){
+                        output += " (" +_.map(i.parameters,function(v,k){
+                            return k+": "+v
+                        }).join(", ")+")";
+                    }
+                    
+                    return output;
+                }).join("; ").replace(/ \(\)/g,"");
                 
                 
                 // Validations will also become a csv of the validations
