@@ -93,11 +93,6 @@ registerHandler("GET", "/runTests", function(out){
       var callback = function(r){
         var result = r.toJSON();
         results.push(result);
-        var tr =  eventManager.createTestResult(JSON.stringify(result)), doc;
-        if(tr) {
-          doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
-          persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
-        }
       }
   
       for (g in groups) if (groups.hasOwnProperty(g)) {
