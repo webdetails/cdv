@@ -85,7 +85,7 @@ registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams)
         var queryInfoRid = JSON.parse(persistenceEngine.query("select queryInfo from cdaEvent where  @rid = :cdaEntryId ", params).getJSONArray("object").toString())[0].queryInfo;
         console.log("Deleting queryInfoRid: " + queryInfoRid);
         persistenceEngine.deleteRecord(queryInfoRid);
-        persinstenceEngine.deleteRecord(cdaEntryId);
+        persistenceEngine.deleteRecord(cdaEntryId);
         
         out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
 
