@@ -878,8 +878,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
     // CDA Popup Addin, which is the same as the one before except with new properties
 
     wd.cdvUI.cdaPopupAddIn = $.extend({}, wd.cdvUI.validationPopupAddIn,{
-        name: "validationPopup",
-        label: "validationPopup",
+        name: "cdaPopupAddIn",
+        label: "cdaPopupAddIn",
         defaults: {
             idColIndex: 4,
             pathColIndex: 1,
