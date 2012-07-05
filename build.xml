@@ -105,6 +105,10 @@
         <include name="**/*.jar"/>
         <exclude name="**/batik-js-1.7.jar"/>
       </fileset>
+		  <fileset dir="${lib.dir}">
+			  <include name="cpf-*.jar" />
+		  </fileset>      
+      
     </copy>
 
 
