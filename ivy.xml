@@ -36,6 +36,10 @@
     <dependency org="pentaho" name="pentaho-bi-platform-web-servlet"
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
                 
+                
+    <dependency org="pentaho" name="cpf"
+			rev="TRUNK-SNAPSHOT" transitive="false" changing="true"/>                   
+                
 <!--    <dependency org="pentaho" name="cpf" rev="TRUNK-SNAPSHOT" changing="true"/>-->
 
     <!--  OrientDB -->
