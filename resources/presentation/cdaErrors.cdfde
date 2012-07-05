@@ -3,6 +3,29 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
+    "id": "acdcc07d-7e43-91ce-61cb-8c0f33c1c485",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/cdv.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
     "id": "0ee64b35-51ab-3cb8-c686-de9b5c884556",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
@@ -408,6 +431,155 @@
       "type": "TextAlign"
      }
     ]
+   },
+   {
+    "id": "0b42a072-6153-8f43-8c21-78bbb0c48718",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "space",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "40",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "401088b3-1708-7dc7-a841-fcc85dbeaf6d",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "dataCell",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDdataCellBody",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "558edb69-ad88-bacf-4ca6-a95ffeff38b1",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "401088b3-1708-7dc7-a841-fcc85dbeaf6d",
+    "properties": [
+     {
+      "name": "name",
+      "value": "tableObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "22",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
    }
   ]
  },
@@ -516,11 +688,304 @@
       "type": "Boolean"
      }
     ]
+   },
+   {
+    "id": "OTHERCOMPONENTS",
+    "name": "Others",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Others",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "c568b33b-4c89-0c08-38ea-1b62ac4ed4dc",
+    "type": "ComponentsTable",
+    "typeDesc": "table Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaError",
+      "type": "Id"
+     },
+     {
+      "name": "htmlObject",
+      "value": "tableObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": "cdaErrors"
+     },
+     {
+      "name": "cccClickAction",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "colHeaders",
+      "value": "[\" \",\"CDA\",\"Message\",\" When\",\" \"]",
+      "type": "Array"
+     },
+     {
+      "name": "colTypes",
+      "value": "[\"groupHeaders\",\"validationFile\",\"string\",\"elapsedTime\",\"validationPopup\"]",
+      "type": "colTypesCustom"
+     },
+     {
+      "name": "colFormats",
+      "value": "[]",
+      "type": "Array"
+     },
+     {
+      "name": "colWidths",
+      "value": "[\"0%\",\"40%\",\"45%\",\"10%\",\"5%\"]",
+      "type": "Array"
+     },
+     {
+      "name": "colSortable",
+      "value": "[]",
+      "type": "Array"
+     },
+     {
+      "name": "colSearchable",
+      "value": "[]",
+      "type": "Array"
+     },
+     {
+      "name": "paginate",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "paginateServerside",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "paginationType",
+      "value": "two_button",
+      "type": "PaginationType"
+     },
+     {
+      "name": "filter",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "info",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "sort",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "sortBy",
+      "value": "[]",
+      "type": "SortByArray"
+     },
+     {
+      "name": "displayLength",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "lengthChange",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "drawCallback",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "sDom",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "oLanguage",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preExecution",
+      "value": "function f(){\n    // configure addin\n    /*    \n    this.setAddInOptions(\"colType\",\"validationPopup\",{\n            idColIndex: 4,\n            pathColIndex: 7,\n            popup: [\n            {\n                name: \"Rerun query\", \n                callback: function(test){\n                    Dashboards.log(\"Clicked on ReRun for \" + test.id);\n                    $.getJSON('runTest',\n                    {\n                        name: test.name,\n                        group: test.group\n                    },\n                    function(result){\n                        alert(JSON.stringify(result,null,2));\n                    });\n\n                }\n            },\n            {\n                name: \"Delete Test\", \n                callback: function(test){\n                    Dashboards.log(\"Clicked on Delete for \" + test.id);\n                    if(confirm(\"You sure you want to delete this test?\")){\n                        alert(\"Todo: Delete the test\");\n                    }\n                }\n            }\n            ]          \n    });\n    \n    */    \n}\n\n\n",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     },
+     {
+      "name": "extraOptions",
+      "value": "[]",
+      "type": "OptionArray"
+     },
+     {
+      "name": "expandParameters",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "expandOnClick",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "expandContainerObject",
+      "value": "",
+      "type": "String"
+     }
+    ]
    }
   ]
  },
  "datasources": {
-  "rows": []
+  "rows": [
+   {
+    "id": "SCRIPTING",
+    "name": "SCRIPTING Queries",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "SCRIPTING Queries",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "d4aa24f2-cf2e-80e5-c7a0-f48e5c459985",
+    "type": "Componentsscriptable_scripting",
+    "typeDesc": "scriptable over scripting",
+    "meta": "CDA",
+    "meta_conntype": "scripting.scripting",
+    "meta_datype": "scriptable",
+    "parent": "SCRIPTING",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdaErrors",
+      "type": "Id"
+     },
+     {
+      "name": "language",
+      "value": "beanshell",
+      "type": "String"
+     },
+     {
+      "name": "initscript",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "access",
+      "value": "public",
+      "type": "Access"
+     },
+     {
+      "name": "parameters",
+      "value": "[]",
+      "type": "CdaParameters"
+     },
+     {
+      "name": "output",
+      "value": "[]",
+      "type": "IndexArray"
+     },
+     {
+      "name": "outputMode",
+      "value": "include",
+      "type": "OutputMode"
+     },
+     {
+      "name": "cdacolumns",
+      "value": "[]",
+      "type": "CdaColumnsArray"
+     },
+     {
+      "name": "cdacalculatedcolumns",
+      "value": "[]",
+      "type": "CdaCalculatedColumnsArray"
+     },
+     {
+      "name": "query",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"file\", \"message\", \"timestamp\", \"rid\"\n});\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getCdaErrors\", params);\nreturn model;",
+      "type": "SqlQuery"
+     },
+     {
+      "name": "cache",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "cacheDuration",
+      "value": 3600,
+      "type": "Integer"
+     }
+    ]
+   }
+  ]
  },
  "filename": "/system/cdv/presentation/cdaErrors.cdfde"
 }

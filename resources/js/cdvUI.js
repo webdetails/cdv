@@ -519,7 +519,6 @@ wd.cdvUI = wd.cdvUI ||{
 };
 
 
-
     wd.cdvUI.validationFileAddin = {
         name: "validationFile",
         label: "ValidationFile",
@@ -529,13 +528,8 @@ wd.cdvUI = wd.cdvUI ||{
         init: function(){
         
             // Register this for datatables sort
-            var myself = this;
-            $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
-                return myself.sort(a,b)
-            };
-            $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
-                return myself.sort(b,a)
-            };     
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
         }, 
         sort: function(a,b){
             return this.sumStrArray(a) - this.sumStrArray(b);
@@ -547,7 +541,7 @@ wd.cdvUI = wd.cdvUI ||{
         
             var $t = $(tgt);
             var text = st.value;
-        
+            
             if($t.find("div.validationFileWrapper").length>0){
                 return; // Done already
             }
@@ -556,7 +550,7 @@ wd.cdvUI = wd.cdvUI ||{
     
                 var obj = {};
     
-                var arr = e.match(/(.*)\[(.*)] (.*)/);
+                var arr = e.match(/(.*)\[(.*)] ?(.*)?/);
                 obj.cda = arr[1];
                 obj.dataAccessId = arr[2];
     
@@ -623,8 +617,6 @@ wd.cdvUI = wd.cdvUI ||{
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationFileAddin));
 
 
-
-
     wd.cdvUI.validationButtonsAddIn = {
         name: "validationButtons",
         label: "ValidationButtons",
@@ -655,15 +647,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationFileAd
         init: function(){
         
             // Register this for datatables sort
-            var myself = this;
-            $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
-                return myself.sort(a,b)
-            };
-            $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
-                return myself.sort(b,a)
-            };
-        
-        
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
         
         },
 
@@ -721,13 +706,13 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 callback: function(test){
                     Dashboards.log("Clicked on Run for " + test.id);
                     $.getJSON('runTest',
-                      {
+                    {
                         name: test.name,
                         group: test.group
-                      },
-                      function(result){
+                    },
+                    function(result){
                         alert(JSON.stringify(result,null,2));
-                      });
+                    });
 
                 }
             },
@@ -762,12 +747,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
 
             // Register this for datatables sort
             var myself = this;
-            $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
-                return myself.sort(a,b)
-            };
-            $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
-                return myself.sort(b,a)
-            };
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
 
 
         },
@@ -892,3 +873,86 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
     };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupAddIn));
+
+
+    // CDA Popup Addin, which is the same as the one before except with new properties
+
+    wd.cdvUI.cdaPopupAddIn = $.extend({}, wd.cdvUI.validationPopupAddIn,{
+        name: "validationPopup",
+        label: "validationPopup",
+        defaults: {
+            idColIndex: 4,
+            pathColIndex: 1,
+            popup: [
+            {
+                name: "Rerun query", 
+                callback: function(test){
+                    Dashboards.log("Clicked on ReRun for " + test.id);
+                    $.getJSON('runTest',
+                    {
+                        name: test.name,
+                        group: test.group
+                    },
+                    function(result){
+                        alert(JSON.stringify(result,null,2));
+                    });
+
+                }
+            },
+            {
+                name: "Delete Test", 
+                callback: function(test){
+                    this.deleteCDAReport(test.id);
+                    
+                }
+            }
+            ]          
+        },
+        
+        deleteCDAReport: function(id){
+            Dashboards.log("Clicked on Delete for " + id);
+            if(confirm("You sure you want to delete this test?")){
+                alert("Todo: Delete the test " + id);
+                Dashboards.fireChange("editorFileSaved","xxx");
+                this.popup.hide();
+            }
+        }
+    });
+    
+//wd.cdvUI.cdaPopupAddIn.name = "validationPopup";
+//wd.cdvUI.cdaPopupAddIn.label = "ValidationPopup";
+//wd.cdvUI.cdaPopupAddIn.defaults = ;
+    
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
+
+
+
+
+
+
+    // Group date
+    wd.cdvUI.elapsedTimeAddIn = {
+        name: "elapsedTime",
+        label: "elapsedTime",
+        defaults: {
+        
+        },
+        init: function(){
+        
+            // Register this for datatables sort
+            var myself = this;
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
+        }, 
+
+        implementation: function (tgt, st, opt) {
+        
+            // encapsulate this
+            var $t = $(tgt);
+            var text = st.value;
+            $t.text(wd.cdv.utils.groupTimestamp(text,1));
+    
+        }
+    };
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.elapsedTimeAddIn));
