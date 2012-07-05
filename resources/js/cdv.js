@@ -41,7 +41,10 @@ wd.cdv = wd.cdv||{};
         }
     
         myself.toJSON = function(){
-            return {type: spec.type, description: spec.description};
+            return {
+                type: spec.type, 
+                description: spec.description
+                };
         }
     
         myself.clone = function() {
@@ -194,17 +197,17 @@ wd.cdv = wd.cdv||{};
         myself.toJSON = function(){
             var result = myself.getTestResult().toJSON();
             var output = {
-                  timestamp: myself.getTimestamp().getTime(),
-                  test: myself.getTest(),
-                  validationResults: myself.getValidationResults(),
-                  testResult: {
+                timestamp: myself.getTimestamp().getTime(),
+                test: myself.getTest(),
+                validationResults: myself.getValidationResults(),
+                testResult: {
                     type: result.type,
                     cause: result,
                     description: myself.getTestResultDescription()
-                  }
-                };
+                }
+            };
             output.validationResults = _.map(output.validationResults,function(e){
-              return e.toJSON();
+                return e.toJSON();
             });
             if (myself.getExpectedDuration() > 0) {
                 output.duration = {
@@ -563,15 +566,18 @@ wd.cdv = wd.cdv||{};
             
             if (spec.isServerSide){
                 scheduler.scheduleTask(function(){
-                  var result = myself.runTestById({group: test.group, name: test.name}).toJSON();
-                  var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
-                  eventManager.publish(alrt);
+                    var result = myself.runTestById({
+                        group: test.group, 
+                        name: test.name
+                        }).toJSON();
+                    var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
+                    eventManager.publish(alrt);
                 }, test.cron);
             }
         };
 
         myself.resetTests = function() {
-          _tests = {};
+            _tests = {};
         };
 
         myself.listTests = function(group){
@@ -659,13 +665,13 @@ wd.cdv = wd.cdv||{};
              * to the type of key that we were given
              */
             if (typeof id == "object") {
-              callback = function(o) {
-                return o.name == id.name && o.group == id.group;
-              }
+                callback = function(o) {
+                    return o.name == id.name && o.group == id.group;
+                }
             } else {
-              callback = function(t){
-                return t.id == id
-            }
+                callback = function(t){
+                    return t.id == id
+                }
             }
         
             return _.chain(_tests)
@@ -699,4 +705,59 @@ wd.cdv = wd.cdv||{};
     }
 
 
+    wd.cdv.utils = wd.cdv.utils || {
+    
+        groupTimestamp: function (d, _level) {
 
+            var level = _level || 1;
+
+            // Level: 1 - group granularity
+            // Level: 2 - smaller granularity
+
+            var now = (new Date()).getTime();
+            var diff = (now - d)/1000;
+    
+            var str;
+            var how_many = 0;
+            var what = '';
+
+            if(level == 1){
+    
+                if (diff >= 86400) {
+                    how_many = Math.floor(diff / 86400);
+                    what = ' day';
+                } else if (diff >= 3600) {
+                    how_many = Math.floor(diff / 3600);
+                    what = ' hour';
+                } else if (diff >= 60) {
+                    how_many = Math.floor(diff / 60);
+                    what = ' minute';
+                } else {
+                    return "Just now";
+                }
+
+                if (how_many > 1) what = what + 's'; // Plural
+                if (how_many != '') var str = how_many + what + ' ago';
+
+            }
+            else{
+    
+                if (diff >= 86400*7) {
+                    str = 'Over one week';
+                } else if (diff >= 86400) {
+                    str = 'Over one day';
+                } else {
+                    return "Today";
+                }
+    
+            }
+    
+            return str;
+
+
+        }
+    
+    };
+
+
+ 
