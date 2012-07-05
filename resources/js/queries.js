@@ -70,6 +70,52 @@ registerHandler("GET", "/getCdaErrors", function(out){
 
 
 
+registerHandler("GET", "/getCdaSlowQueries", function(out){
+    
+    try {
+        
+        persistenceEngine.initializeClass("cdaEvent");
+        var results = persistenceEngine.query("select timestamp, "+
+            "queryInfo.cdaSettingsId.append(\"[\").append(queryInfo.dataAccessId).append(\"]\") as file, queryInfo.parameters as parameters , "+
+            "duration, @rid from cdaEvent where eventType = 'QueryTooLong'  order by timestamp desc limit 100",null);
+        
+        //console.log("Results: " + results.toJSON());
+        
+        var object = JSON.parse(results.getJSONArray("object").toString());
+        _.map(object,function(l){
+            
+            // Add timestamp group
+            l.timestampGroup = wd.cdv.utils.groupTimestamp(l.timestamp,2);
+            
+            
+            // Put the files as we need them
+
+            var params = _.flatten(l.parameters);
+            var paramsArray = [];
+            for(i = 0; i< params.length/2; i++){
+                paramsArray.push([params[i*2],params[i*2+1]]); 
+            }
+    
+            if(paramsArray.length > 0){
+                var paramStr = _.map(paramsArray,function(m){
+                    return m.join(": ")
+                }).join(", ");
+                l.file = l.file + " (" + paramStr + ")";
+            }
+            delete l.parameters;
+            return l;
+  
+        });
+
+        out.write(new java.lang.String(JSON.stringify(object,null,2)).getBytes("utf-8"));
+        
+        
+    } catch (e) {
+        print(e);
+    }
+});
+
+
 registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams){
     
 
