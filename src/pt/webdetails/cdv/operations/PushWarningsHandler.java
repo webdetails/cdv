@@ -28,9 +28,9 @@ public class PushWarningsHandler extends JsonRequestHandler {
 
   private static Map<String, Alert.Level> cdaEventLevels =  new HashMap<String, Alert.Level>();
   static{
-    cdaEventLevels.put("QueryTooLong", Alert.Level.WARNING);
+    cdaEventLevels.put("QueryTooLong", Alert.Level.WARN);
     cdaEventLevels.put("QueryError", Alert.Level.ERROR);
-    cdaEventLevels.put("ParseError", Alert.Level.WARNING);
+    cdaEventLevels.put("ParseError", Alert.Level.WARN);
   }
 
   private static Log logger = LogFactory.getLog(PushWarningsHandler.class); 
@@ -201,7 +201,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
       Alert.Level level = cdaEventLevels.get(event.getEventType());
       if(level != null) return level;
     }
-    return Alert.Level.WARNING;//default
+    return Alert.Level.WARN;//default
   }
 
 }

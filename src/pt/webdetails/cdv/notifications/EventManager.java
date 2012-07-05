@@ -4,6 +4,7 @@
  */
 package pt.webdetails.cdv.notifications;
 
+import pt.webdetails.cdv.results.TestResult;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
@@ -41,5 +42,9 @@ public class EventManager {
     public void publish(Alert alert) {
         pe.store(null, "Alert", alert.toJSON());
         ne.publish(alert);
+    }
+    
+    public TestResult createTestResult(String json) {
+        return new TestResult(json);
     }
 }

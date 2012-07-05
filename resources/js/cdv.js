@@ -19,7 +19,7 @@ wd.cdv = wd.cdv||{};
             level: 0
         };
     
-        spec = _.extend({},_spec,spec);
+        spec = _.extend(_spec,spec);
 
 
         var myself = {};
@@ -44,6 +44,13 @@ wd.cdv = wd.cdv||{};
             return {type: spec.type, description: spec.description};
         }
     
+        myself.clone = function() {
+            return wd.cdv.alert(spec);
+        };
+
+        myself.setDescription = function(description) {
+          spec.description = description;
+        }
         return myself;
     }
 
@@ -341,7 +348,7 @@ wd.cdv = wd.cdv||{};
                 throw new myself.exceptions.UnknowAlertTypeError(alertType);
             }
         
-            return alerts[alertType];
+            return alerts[alertType].clone();
         
         }
     
@@ -361,7 +368,8 @@ wd.cdv = wd.cdv||{};
             shortName: 'CDV',
             isServerSide: true
         },
-        _tests = {};
+        _tests = {},
+        _testTypes = {};
     
         spec = _.extend({},_spec,spec);
 
@@ -536,25 +544,18 @@ wd.cdv = wd.cdv||{};
     
     
         myself.performValidation = function(validation, rs){
-        
-        
-            var validationResult = wd.cdv.validationResult({
-                name: validation.validationName, 
-                type: validation.validationType
-            });
-        
-            // Call test!
-            wd.warn("TODO: Call preexisting validation here");
-            wd.warn("TODO: Pass validation arguments");
-        
-
-            var result = validation.validationFunction.call(myself,rs,[]);
-            validationResult.setAlert(myself.parseAlert(result));
-            return validationResult;
-        
+          var validationFunction = myself.getValidationFunction(validation.validationType);
+          return validationFunction.call(myself,validation,rs);
         }
 
 
+        myself.registerValidationFunction = function(type,func){
+          _testTypes[type] = func;
+        };
+
+        myself.getValidationFunction = function(type) {
+          return _testTypes[type];
+        };
 
         myself.registerTest = function(test) {
             if (!_tests[test.group]) _tests[test.group] = {};
