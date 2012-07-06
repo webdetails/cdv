@@ -10,8 +10,6 @@ wd.cdv.validators.registerValidator("custom", function(validation, rs){
     validationResult.setAlert(wd.cdv.alert(result));
   } else {
     validationResult.setAlert(this.parseAlert(result));
-    print(JSON.stringify(validation));
-    print(result);
     switch(result){
       case "OK":
         if(validation.successMessage) validationResult.getAlert().setDescription(validation.successMessage);
