@@ -3,7 +3,7 @@
   "title": "CDF - Sample structure",
   "rows": [
    {
-    "id": "fdd03569-c00f-289a-3db6-18bf1e5e82cd",
+    "id": "1bcb45aa-f9f0-8586-b154-c8d6679eb3a5",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
     "parent": "UnIqEiD",
@@ -26,7 +26,7 @@
     ]
    },
    {
-    "id": "a6040493-ac4d-ef60-aec0-6ddc77b9f68a",
+    "id": "fdd03569-c00f-289a-3db6-18bf1e5e82cd",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
     "parent": "UnIqEiD",
@@ -49,7 +49,7 @@
     ]
    },
    {
-    "id": "113d29a5-99eb-94b2-93a7-dbc3c31a1733",
+    "id": "a6040493-ac4d-ef60-aec0-6ddc77b9f68a",
     "type": "LayoutResourceFile",
     "typeDesc": "Resource",
     "parent": "UnIqEiD",
@@ -67,6 +67,29 @@
      {
       "name": "resourceFile",
       "value": "js/cdv.js",
+      "type": "ResourceFile"
+     }
+    ]
+   },
+   {
+    "id": "113d29a5-99eb-94b2-93a7-dbc3c31a1733",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "customValidatorJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/validators/customValidator.js",
       "type": "ResourceFile"
      }
     ]

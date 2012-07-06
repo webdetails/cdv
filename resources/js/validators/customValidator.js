@@ -1,4 +1,4 @@
-cdv.registerValidationFunction("custom", function(validation, rs){
+wd.cdv.validators.registerValidator("custom", function(validation, rs){
   var validationResult = wd.cdv.validationResult({
       name: validation.validationName, 
       type: validation.validationType

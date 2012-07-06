@@ -31,7 +31,7 @@ cdv = wd.cdv.cdv();
 /*
  * load core test types
  */
-lib("tests/customTest.js");
+lib("validators/customValidator.js");
 
 /*
  * Load tests

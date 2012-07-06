@@ -372,7 +372,6 @@ wd.cdv = wd.cdv||{};
             isServerSide: true
         },
         _tests = {},
-        _testTypes = {};
     
         spec = _.extend({},_spec,spec);
 
@@ -547,17 +546,8 @@ wd.cdv = wd.cdv||{};
     
     
         myself.performValidation = function(validation, rs){
-            var validationFunction = myself.getValidationFunction(validation.validationType);
+            var validationFunction = wd.cdv.validators.getValidator(validation.validationType);
             return validationFunction.call(myself,validation,rs);
-        }
-
-
-        myself.registerValidationFunction = function(type,func){
-            _testTypes[type] = func;
-        };
-
-        myself.getValidationFunction = function(type) {
-            return _testTypes[type];
         };
 
         myself.registerTest = function(test) {
@@ -786,4 +776,17 @@ wd.cdv = wd.cdv||{};
     };
 
 
- 
+wd.cdv.validators = (function (){
+  var _validators = {},
+      myself = {};
+
+  myself.registerValidator = function(type,fn) {
+      _validators[type] = fn;
+  };
+
+  myself.getValidator = function(type) {
+      return _validators[type];
+  }
+  return myself;
+}());
+
