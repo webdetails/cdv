@@ -144,3 +144,25 @@ registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams)
         print(e);
     }
 });
+
+
+registerHandler("GET", "/deleteCdaEntriesOfEventType", function(out,pathParams,requestParams){
+    
+
+    try {
+        
+        persistenceEngine.initializeClass("cdaEvent");
+        var params = new Packages.java.util.HashMap();
+        var eventType = requestParams.getStringParameter("eventType","")
+        params.put("eventType", eventType);
+        
+        console.log("Deleting eventTypes: " + eventType);
+
+        // 1. Find queryInfo.@rid
+        var result = persistenceEngine.command("delete from cdaEvent where eventType = :eventType ", params)
+        out.write(new java.lang.String(result).getBytes("utf-8"));
+        
+    } catch (e) {
+        print(e);
+    }
+});

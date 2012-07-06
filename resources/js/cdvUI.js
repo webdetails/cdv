@@ -705,6 +705,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 name: "Run Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on Run for " + test.id);
+                    var myself = this;
                     $.getJSON('runTest',
                     {
                         name: test.name,
@@ -712,6 +713,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                     },
                     function(result){
                         alert(JSON.stringify(result,null,2));
+                        myself.popup.hide();
                     });
 
                 }
@@ -920,17 +922,53 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
         deleteCDAReport: function(id){
             Dashboards.log("Clicked on Delete for " + id);
             if(confirm("You sure you want to delete this test?")){
-                alert("Todo: Delete the test " + id);
-                Dashboards.fireChange("entriesChanged","xxx");
+            
+                var myself = this;
+            
+                $.ajax({
+                    url: "deleteCdaEntry",
+                    type: "GET",
+                    data:{
+                        cdaEntryId: id
+                    },
+                    async: true,
+                    success: function(){
+                        Dashboards.fireChange("entriesChanged","xxx");
+                        myself.popup.hide();
+                    },
+                    fail: function(jqXHR, textStatus) {
+                        alert( "Request failed: " + textStatus );
+                        myself.popup.hide();
+                    }
+                })
+                
+                
             }
-            this.popup.hide();
+            
         },
         
         deleteAllCDAReportsOfType: function(eventType){
             Dashboards.log("Clicked on Delete all cda report of type for " + eventType);
             if(confirm("You sure you want to delete all entries?")){
-                alert("Todo: Delete all entries of the same type of " + eventType);
-                Dashboards.fireChange("entriesChanged","xxx");
+            
+                $.ajax({
+                    url: "deleteCdaEntriesOfEventType",
+                    type: "GET",
+                    data:{
+                        eventType: eventType
+                    },
+                    async: true,
+                    success: function(){
+                        Dashboards.fireChange("entriesChanged","xxx");
+                        myself.popup.hide();
+                    },
+                    fail: function(jqXHR, textStatus) {
+                        alert( "Request failed: " + textStatus );
+                        myself.popup.hide();
+                    }
+                })
+            
+
             }
             this.popup.hide();
         }

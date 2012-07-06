@@ -575,8 +575,8 @@ wd.cdv = wd.cdv||{};
                     var tr =  eventManager.createTestResult(JSON.stringify(result)), doc;
                     print("TR: " + tr);
                     if(tr) {
-                      doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
-                      persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
+                        doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
+                        persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
                     }  
                 }, test.cron);
             }
@@ -725,8 +725,7 @@ wd.cdv = wd.cdv||{};
             // Level: 1 - group granularity
             // Level: 2 - smaller granularity
 
-            var now = (new Date()).getTime();
-            var diff = (now - d)/1000;
+            var now = new Date();
     
             var str;
             var how_many = 0;
@@ -734,6 +733,7 @@ wd.cdv = wd.cdv||{};
 
             if(level == 1){
     
+                var diff = (now.getTime() - d)/1000;
                 if (diff >= 86400) {
                     how_many = Math.floor(diff / 86400);
                     what = ' day';
@@ -753,13 +753,28 @@ wd.cdv = wd.cdv||{};
             }
             else{
     
-                if (diff >= 86400*7) {
-                    str = 'Over one week';
-                } else if (diff >= 86400) {
-                    str = 'Over one day';
-                } else {
-                    return "Today";
+                var midnightUnixTime = Math.floor(now.getTime()/(1000*3600))*1000*3600 + (now.getTimezoneOffset() * 1000*60);
+                var yesterdayUnixTime = midnightUnixTime - 1000*3600*24;
+                var thisWeekUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDay());
+                var thisMonthUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDate()-1);
+    
+                if (d > midnightUnixTime ){
+                    str = 'Today';
                 }
+                else if (d > yesterdayUnixTime){
+                    str = 'Yesterday';
+                }
+                else if (d > thisWeekUnixTime){
+                    str = 'This week';
+                }
+                else if (d > thisMonthUnixTime){
+                    str = 'This month';
+                }
+                else{
+                    str = 'Old';
+                }
+               
+                return str;
     
             }
     
