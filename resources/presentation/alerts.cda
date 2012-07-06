@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="alerts" type="scripting.scripting">
+         <Initscript></Initscript>
+         <Language>beanshell</Language>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="false" cacheDuration="3600" connection="alerts"
+               id="alerts"
+               type="scriptable">
+      <Columns/>
+      <Parameters/>
+      <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
+import pt.webdetails.cda.utils.InterPluginUtils;
+
+
+// String[] params = {"timestamp","file", "parameters","message"};
+HashMap params = new HashMap();
+params.put("columns", new String[]{
+    "timestampGroup", "level", "group", "name", "message", "userid", "timestamp", "rid"
+});
+
+TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "getAlerts", params);
+return model;</Query>
+   </DataAccess>
+</CDADescriptor>

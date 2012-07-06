@@ -492,6 +492,11 @@ wd.cdvUI = wd.cdvUI ||{
         sublinks: []
     },
     {
+        name: "Alerts",
+        link: "alerts",
+        sublinks: []
+    },
+    {
         name: "CDA Errors",
         link: "cdaErrors",
         sublinks: []
@@ -974,9 +979,6 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
         }
     });
     
-//wd.cdvUI.cdaPopupAddIn.name = "validationPopup";
-//wd.cdvUI.cdaPopupAddIn.label = "ValidationPopup";
-//wd.cdvUI.cdaPopupAddIn.defaults = ;
     
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
 

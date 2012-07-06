@@ -23,6 +23,42 @@ registerHandler("GET", "/getAlertsByGroup", function(out,pathParams,requestParam
 });
 
 
+
+registerHandler("GET", "/getAlerts", function(out){
+    
+    try {
+        
+        persistenceEngine.initializeClass("Alert");
+        
+        console.log("Starting getAlerts: " +  new Date());
+        
+        var results = persistenceEngine.query("select timestamp, "+
+            " group, name, message, userid, level, @rid as rid from Alert order by rid desc limit 100",null);
+        
+        //console.log("Results: " + results.toJSON());
+        
+        var object = JSON.parse(results.getJSONArray("object").toString());
+        console.log("Finished parsing: " +  new Date());
+                
+        _.map(object,function(l){
+            
+            // Add timestamp group
+            l.timestampGroup = wd.cdv.utils.groupTimestamp(l.timestamp,2);
+            return l;
+  
+        });
+
+        console.log("Finishing getAlerts: " +  new Date());
+        out.write(new java.lang.String(JSON.stringify(object,null,2)).getBytes("utf-8"));
+        
+        
+    } catch (e) {
+        print(e);
+    }
+});
+
+
+
 registerHandler("GET", "/getCdaErrors", function(out){
     
     try {

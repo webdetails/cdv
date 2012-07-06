@@ -58,6 +58,11 @@ public class CdvContentGenerator extends RestContentGenerator {
     }
 
     @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void alerts(OutputStream out) throws UnsupportedEncodingException, IOException {
+        callCDE("alerts.wcdf", out);
+    }
+
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
     public void cdaErrors(OutputStream out) throws UnsupportedEncodingException, IOException {
         callCDE("cdaErrors.wcdf", out);
     }
