@@ -954,6 +954,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
         
         deleteAllCDAReportsOfType: function(eventType){
             Dashboards.log("Clicked on Delete all cda report of type for " + eventType);
+            var myself = this;
             if(confirm("You sure you want to delete all entries?")){
             
                 $.ajax({
@@ -983,7 +984,87 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
 
 
+    // CDA Popup Addin, which is the same as the one before except with new properties
 
+    wd.cdvUI.alertsAddIn = $.extend({}, wd.cdvUI.validationPopupAddIn,{
+        name: "alertsPopup",
+        label: "alertsPopup",
+        defaults: {
+            idColIndex: 7,
+            popup: [
+            {
+                name: "Delete Entry", 
+                callback: function(test){
+                    this.deleteAlert(test.id);
+                    
+                }
+            },
+            {
+                name: "Delete all", 
+                callback: function(test, opt){
+                    this.deleteAllAlerts();
+                    
+                }
+            }
+            ]          
+        },
+        
+        deleteAlert: function(id){
+            Dashboards.log("Clicked on Delete for " + id);
+            if(confirm("You sure you want to delete this alert?")){
+            
+                var myself = this;
+            
+                $.ajax({
+                    url: "deleteAlert",
+                    type: "GET",
+                    data:{
+                        alertId: id
+                    },
+                    async: true,
+                    success: function(){
+                        Dashboards.fireChange("entriesChanged","xxx");
+                        myself.popup.hide();
+                    },
+                    fail: function(jqXHR, textStatus) {
+                        alert( "Request failed: " + textStatus );
+                        myself.popup.hide();
+                    }
+                })
+                
+                
+            }
+            
+        },
+        
+        deleteAllAlerts: function(){
+            Dashboards.log("Clicked on Delete all alerts");
+            var myself = this;
+            if(confirm("You sure you want to delete all alerts?")){
+            
+                $.ajax({
+                    url: "deleteAllAlerts",
+                    type: "GET",
+                    data:{},
+                    async: true,
+                    success: function(){
+                        Dashboards.fireChange("entriesChanged","xxx");
+                        myself.popup.hide();
+                    },
+                    fail: function(jqXHR, textStatus) {
+                        alert( "Request failed: " + textStatus );
+                        myself.popup.hide();
+                    }
+                })
+            
+
+            }
+            this.popup.hide();
+        }
+    });
+    
+    
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
 
 
 
@@ -1013,3 +1094,33 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
     };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.elapsedTimeAddIn));
+
+
+    // Group date
+    wd.cdvUI.alertTypeAddIn = {
+        name: "alertType",
+        label: "alertType",
+        defaults: {
+        
+        },
+        init: function(){
+        
+            // Register this for datatables sort
+            var myself = this;
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
+        }, 
+
+        implementation: function (tgt, st, opt) {
+        
+            // encapsulate this
+            var $t = $(tgt);
+            var text = st.value;
+            
+            $t.parent("tr").addClass('alert' + text.toLowerCase());
+    
+        }
+    };
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertTypeAddIn));
+

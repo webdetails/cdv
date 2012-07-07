@@ -471,6 +471,190 @@
     ]
    },
    {
+    "id": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "filter",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "0396a92e-fb25-c04a-ed02-1e9ea2267ba4",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "properties": [
+     {
+      "name": "name",
+      "value": "filterLabel",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "8",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "00c3608e-27c9-1f27-277e-909435b02258",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "properties": [
+     {
+      "name": "name",
+      "value": "filterObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "16",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "right",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
     "id": "401088b3-1708-7dc7-a841-fcc85dbeaf6d",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -713,6 +897,29 @@
     ]
    },
    {
+    "id": "1eafd19e-bb11-62fe-cb1c-5831cdee5247",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "alertType",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "[\"WARN\",\"ERROR\",\"CRITICAL\"]",
+      "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -744,12 +951,12 @@
      },
      {
       "name": "listeners",
-      "value": "['entriesChanged']",
+      "value": "['entriesChanged','alertType']",
       "type": "Listeners"
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[]",
+      "value": "[[\"alertType\",\"alertType\"]]",
       "type": "ValuesArray"
      },
      {
@@ -769,7 +976,7 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"string\",\"string\",\"string\",\"string\",\"elapsedTime\",\"cdaPopup\"]",
+      "value": "[\"groupHeaders\",\"alertType\",\"string\",\"string\",\"string\",\"string\",\"elapsedTime\",\"alertsPopup\"]",
       "type": "colTypesCustom"
      },
      {
@@ -918,6 +1125,118 @@
       "type": "String"
      }
     ]
+   },
+   {
+    "id": "SELECTORS",
+    "name": "Selects",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Selects",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "f26d654b-5039-300c-ff31-ff5b1b7358db",
+    "type": "ComponentsmultiButton",
+    "typeDesc": "Multiple button Component",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "errorTypeSelector",
+      "type": "Id"
+     },
+     {
+      "name": "parameter",
+      "value": "alertType",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "filterObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "valuesArray",
+      "value": "[[\"NA\",\"N/A\"],[\"OK\",\"Ok\"],[\"WARN\",\"Warn\"],[\"ERROR\",\"Error\"],[\"CRITICAL\",\"Critical\"]]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "valueAsId",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "separator",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "isMultiple",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
    }
   ]
  },
@@ -968,7 +1287,7 @@
      },
      {
       "name": "parameters",
-      "value": "[]",
+      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"]]",
       "type": "CdaParameters"
      },
      {
@@ -993,7 +1312,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"message\", \"userid\", \"timestamp\", \"rid\"\n});\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\"));\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"message\", \"userid\", \"timestamp\", \"rid\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {

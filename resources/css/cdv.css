@@ -1692,3 +1692,23 @@ div.testPromptPopup button{
     width: 100%;
     margin-bottom: 10px;
 }
+
+
+/*  AlertType Addin */
+
+tr.alertok td{
+    background-color: #94E08A;
+}
+
+tr.alertwarn td{
+    background-color: #E0C48A;
+}
+
+tr.alerterror td{
+    background-color: #FF5757;
+}
+
+
+tr.alertcritical td{
+    background-color: #FFAAAA;
+}

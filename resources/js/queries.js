@@ -24,16 +24,32 @@ registerHandler("GET", "/getAlertsByGroup", function(out,pathParams,requestParam
 
 
 
-registerHandler("GET", "/getAlerts", function(out){
+registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
     
     try {
         
         persistenceEngine.initializeClass("Alert");
         
-        console.log("Starting getAlerts: " +  new Date());
+        var params = new Packages.java.util.HashMap();
+        var alertType = requestParams.getStringArrayParameter("alertType",null);
+        params.put("alertType", alertType);
         
-        var results = persistenceEngine.query("select timestamp, "+
-            " group, name, message, userid, level, @rid as rid from Alert order by rid desc limit 100",null);
+        console.log("Starting getAlerts: " +  new Date() + "; " + alertType);
+        
+        var results;
+        
+        console.log("Alert filters: DISABLED FOR NOW UNTIL WE MAKE THIS WORK ");
+        if(alertType && false){ 
+            results = persistenceEngine.query("select timestamp, "+
+                " group, name, message, userid, level, @rid as rid from Alert where level in [ :alertType ] order by rid desc limit 100", params );
+            
+        }
+        else{
+            results = persistenceEngine.query("select timestamp, "+
+                " group, name, message, userid, level, @rid as rid from Alert order by rid desc limit 100",null);
+            
+        }
+        
         
         //console.log("Results: " + results.toJSON());
         
@@ -171,7 +187,7 @@ registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams)
         
         out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
 
-        /*
+    /*
         var results = persistenceEngine.query("delete from ( traverse * from (select from cdaEvent where  @rid = \"" + cdaEntryId + "\" ) where  $depth <= 1 )", params);
         out.write(new java.lang.String(results).getBytes("utf-8"));
         */
@@ -198,6 +214,45 @@ registerHandler("GET", "/deleteCdaEntriesOfEventType", function(out,pathParams,r
         var result = persistenceEngine.command("delete from cdaEvent where eventType = :eventType ", params)
         out.write(new java.lang.String(result).getBytes("utf-8"));
         
+    } catch (e) {
+        print(e);
+    }
+});
+
+registerHandler("GET", "/deleteAlert", function(out,pathParams,requestParams){
+    
+
+    try {
+        
+        console.log("deleteAlert method ");
+        persistenceEngine.initializeClass("Alerts");
+        var params = new Packages.java.util.HashMap();
+        var cdaEntryId = requestParams.getStringParameter("alertId","")
+        params.put("alertId", cdaEntryId);
+        
+        // 1. Delete it
+        var result = persistenceEngine.command("delete from Alert where  @rid = :alertId ", params);
+        out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
+
+
+    } catch (e) {
+        print(e);
+    }
+});
+
+registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams){
+    
+
+    try {
+        
+        console.log("deleteAllAlerts method ");
+        persistenceEngine.initializeClass("Alerts");
+        
+        // 1. Truncate it
+        var result = persistenceEngine.command("truncate class Alert ", null);
+        out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
+
+
     } catch (e) {
         print(e);
     }
