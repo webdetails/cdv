@@ -487,6 +487,16 @@ wd.cdv = wd.cdv||{};
 
             myself.log( testResult.toString(), testResult.getLogType());
         
+            if (spec.isServerSide) {
+              var resJSON = testResult.toJSON();
+              var alrt = eventManager.createAlert(resJSON.testResult.type, resJSON.test.group, resJSON.test.name, resJSON.testResult.description);
+              eventManager.publish(alrt);
+              var tr =  eventManager.createTestResult(JSON.stringify(resJSON)), doc;
+              if(tr) {
+                  doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
+                  persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
+              }
+            } 
             // Do we have a user callback?
             if( opts && typeof opts.callback === 'function'){
                 opts.callback(testResult);
@@ -560,14 +570,7 @@ wd.cdv = wd.cdv||{};
                         group: test.group, 
                         name: test.name
                     }).toJSON();
-                    var alrt = eventManager.createAlert(result.testResult.type, result.test.group, result.test.name, result.testResult.description);
-                    eventManager.publish(alrt);
-                    var tr =  eventManager.createTestResult(JSON.stringify(result)), doc;
-                    print("TR: " + tr);
-                    if(tr) {
-                        doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
-                        persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
-                    }  
+
                 }, test.cron);
             }
         };
