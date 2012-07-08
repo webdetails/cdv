@@ -736,7 +736,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
             {
                 name: "View Previous Executions", 
                 callback: function(test){
-                    Dashboards.log("View Previous Executions " + test.id);
+                    Dashboards.log("View Previous Executions " + test.group + "test.name");
+                    document.location.href="alerts?cdvGroup=" + encodeURIComponent(test.group) + "&cdvName=" + encodeURIComponent(test.name);
                 }
             },
             {

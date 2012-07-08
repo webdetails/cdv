@@ -32,21 +32,40 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         
         var params = new Packages.java.util.HashMap();
         var alertType = requestParams.getStringArrayParameter("alertType",null);
-        params.put("alertType", alertType);
         
-        console.log("Starting getAlerts: " +  new Date() + "; " + alertType);
+        var viewHistory = false;
+        var cdvGroup = requestParams.getStringParameter("cdvGroup",null);
+        var cdvName = requestParams.getStringParameter("cdvName",null);
+        
+        if(cdvGroup.length() > 0 && cdvName.length() > 0){
+            viewHistory = true;
+        }
+        
+        // params.put("alertType", alertType);
+        params.put("cdvGroup", cdvGroup);
+        params.put("cdvName", cdvName);
+        
+        console.log("Starting getAlerts: " +  new Date() + "; " + alertType + "; >" + (viewHistory?("View History: " + cdvGroup + ':' + cdvName):"<"));
         
         var results;
         
         console.log("Alert filters: DISABLED FOR NOW UNTIL WE MAKE THIS WORK ");
+        
+        var where = "";
+        if(viewHistory){
+            // where = " and group = \""+cdvGroup+"\" and name = \""+cdvName+"\" ";
+            console.log("Setting where");
+            where = " and group = :cdvGroup and name = :cdvName ";
+        }
+        
         if(alertType && false){ 
             results = persistenceEngine.query("select timestamp, "+
-                " group, name, message, userid, level, @rid as rid from Alert where level in [ :alertType ] order by rid desc limit 100", params );
+                " group, name, message, userid, level, @rid as rid from Alert where level in [ :alertType ] " + where + " order by rid desc limit 100", params );
             
         }
         else{
             results = persistenceEngine.query("select timestamp, "+
-                " group, name, message, userid, level, @rid as rid from Alert order by rid desc limit 100",null);
+                " group, name, message, userid, level, @rid as rid from Alert where 1 = 1 " + where + " order by rid desc limit 100",params);
             
         }
         
@@ -246,7 +265,7 @@ registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams
     try {
         
         console.log("deleteAllAlerts method ");
-        persistenceEngine.initializeClass("Alerts");
+        persistenceEngine.initializeClass("Alert");
         
         // 1. Truncate it
         var result = persistenceEngine.command("truncate class Alert ", null);
