@@ -71,7 +71,7 @@ var TextEditorComponent = BaseComponent.extend({
         "<div class='textEditorButtons'>{{#buttons}}<button class='{{clazz}}'>{{label}}</button>{{/buttons}}</div>" +
         "</div><div class='textEditorNotification'><span class='textEditorNotificationMsg'>Test</span></div>"+
         "<div class='textEditorRightPanel'></div>"+
-        "<div class='textEditorIframeContainer'><div class='textEditorIframe'><iframe></iframe></div>"+
+        "<div class='textEditorIframeContainer'><div class='textEditorIframe'><iframe seamless='true' marginheight='0'></iframe></div>"+
         "</div>";
         
         this.$ph.html(Mustache.render(template, {
@@ -124,7 +124,9 @@ var TextEditorComponent = BaseComponent.extend({
         $('button.save',this.$ph).attr('disabled', true);
 
         this.externalEditor = $('iframe',this.$ph);
-        //this.externalEditor.height(window.innerHeight - 200 -5);
+        var headerHeight = $('.textEditorControls', this.$ph).height() + $('.textEditorNotification', this.$ph).height();
+        var editorHeight = this.$ph.height() - headerHeight - 5;
+        this.externalEditor.height(editorHeight);
 
         this.externalEditor.load(function() 
         {
@@ -137,7 +139,7 @@ var TextEditorComponent = BaseComponent.extend({
       
             $('#notifications').hide();
         });
-        //var width = this.externalEditor.width() -10;
+
         this.externalEditor.attr('src','../pentaho-cdf-dd/extEditor?path=' + this.file + '&theme=ace/theme/eclipse&editorOnly=true');// &width='+width );        
         
     },
@@ -546,7 +548,7 @@ wd.cdvUI = wd.cdvUI ||{
         
             var $t = $(tgt);
             var text = st.value;
-            
+        
             if($t.find("div.validationFileWrapper").length>0){
                 return; // Done already
             }
@@ -555,7 +557,7 @@ wd.cdvUI = wd.cdvUI ||{
     
                 var obj = {};
     
-                var arr = e.match(/(.*)\[(.*)](?: (.*))?/);
+                var arr = e.match(/(.*?)\[(.*?)](?: (.*))?/);
                 obj.cda = arr[1];
                 obj.dataAccessId = arr[2];
     

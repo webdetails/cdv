@@ -8,38 +8,13 @@
         <property name='plain-text' value='true'/>
       </conf>
     </outlet>
-    <outlet name='logger' class='pt.webdetails.cdv.notifications.LogOutlet' >
-      <conf>
-        <property name='file' value='/solution/cdv/cdv.log'/>
-      </conf>
+    <outlet name='logger' class='pt.webdetails.cdv.notifications.LoggingOutlet' >
     </outlet>
-    <outlet name='file' class='pt.webdetails.cdv.notifications.FileOutlet' />
   </outlets>
   <alerts>
-    <alert outlet='email'>
-      <groups>
-        <group name='blocklist' threshold='CRITICAL' />
-        <group name='amo' threshold='ERROR' /> 
-      </groups>
-    </alert>
-    <alert outlet='email'>
-      <conf>
-        <property name='to' value='pedro.alves@webdetails.pt'/>
-        <property name='plain-text' value='false'/>
-      </conf>
-      <groups>
-        <group name='blocklist' threshold='*' />
-        <group name='amo' threshold='*' />
-        <group name='sumo' threshold='*' />
-      </groups>
-    </alert>
-    <alert outlet='email'>
-      <groups>
-        <group name='*' threshold='ERROR' />
-      </groups>
-    </alert>
     <alert outlet='logger'>
       <groups>
+        <group name='cda' threshold='WARN' />
         <group name='*' threshold='*' />
       </groups>
     </alert>
