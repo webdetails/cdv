@@ -293,7 +293,7 @@ wd.cdv = wd.cdv||{};
 
         myself.toString = function(){
         
-            var str = " Validation '" + myself.getName() + "' : [" + myself.getAlert().getType() +"] " + myself.getDescription();
+            var str = " Validation '" + myself.getName() + "' : [" + myself.getAlert().getType() +"] " + myself.getAlert().getDescription();
             return str;
         
         }
@@ -504,7 +504,7 @@ wd.cdv = wd.cdv||{};
               var fullMessage = "";
               
               _.map(testResult.getValidationResults(), function (validationResult, i) {
-                  fullMessage += validationResult.toString() + " <br/>";
+                  fullMessage += " * " + validationResult.toString() + " \\n\\0";
               });
               
               
