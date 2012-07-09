@@ -526,6 +526,65 @@ wd.cdvUI = wd.cdvUI ||{
 };
 
 
+   wd.cdvUI.alertDescriptionAddin = {
+        name: "alertDescription",
+        label: "alertDescription",
+        defaults: {
+        
+        },
+        init: function(){
+        
+            // Register this for datatables sort
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
+        }, 
+        sort: function(a,b){
+            return this.sumStrArray(a) - this.sumStrArray(b);
+        }, 
+
+        implementation: function (tgt, st, opt) {
+        
+            // encapsulate this
+        
+            var $t = $(tgt);
+            var text = st.value;
+            var popup =  st.tableData[st.rowIdx][8];
+        
+            if($t.find("div.alertPopup").length>0){
+                return; // Done already
+            }
+            
+            var template = "<div class='alertPopup'>" + 
+              "<div class='cda'><div class='cdaFile'>" +
+            "<span class='cdaPath' title='{{popup}}'>{{val}}</span>" + 
+            "</div></div></div>";
+
+            $t.html(Mustache.render(template, {
+                val: text,
+                popup: popup
+            }));
+        
+            $t.find("a.params").tipsy({
+                gravity: 's', 
+                html:true
+            });
+            $t.find("span.cdaPath").tipsy({
+                gravity: 's', 
+                html:true
+            });
+            
+            
+            
+        }
+
+    };
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertDescriptionAddin));
+
+
+
+
+
     wd.cdvUI.validationFileAddin = {
         name: "validationFile",
         label: "ValidationFile",

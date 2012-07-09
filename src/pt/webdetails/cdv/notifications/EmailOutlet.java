@@ -170,7 +170,7 @@ public class EmailOutlet implements NotificationOutlet {
     }
 
     private String getSubject(Alert alert) {
-        return "[" + alert.getLevel().toString() + "] " + alert.getGroup(); 
+        return alert.getSummary(); 
     }
     private Multipart getMultipartBody(final Session session, final Alert alert) throws MessagingException, IOException {
 

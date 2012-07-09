@@ -46,7 +46,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
 
       
       //publish and store alert;
-      Alert alert = getAlertFromEvent(event, event.toString());
+      Alert alert = getAlertFromEvent(event, request);
       EventManager.getInstance().publish(alert);
       
       //store on the side
@@ -192,8 +192,25 @@ public class PushWarningsHandler extends JsonRequestHandler {
     
   }
   
-  private static Alert getAlertFromEvent(PluginEvent event, String msg){
-    return new Alert(getLevel(event), event.getPlugin(), event.getName() , msg);
+  private static Alert getAlertFromEvent(PluginEvent event, JSONObject request){
+    
+    String msg = event.toString();
+    String subject = "[" + getLevel(event) + "] " + event.getPlugin();
+    if ("QueryTooLong".equals(event.getEventType())) {
+      
+      try {
+        JSONObject queryInfo = new JSONObject(request.getString("queryInfo"));
+        msg = "Query " +   queryInfo.getString("dataAccessId") + " in " + request.getString("name") + 
+                " has taken " +  request.getString("duration") + " seconds. \n\n Actual Query: " + 
+                queryInfo.getString("query")+ " \n\nParameters: " + queryInfo.getString("parameters"); 
+      subject = "CDA Slow Query Alert: " + queryInfo.getString("dataAccessId") + 
+              " took " + request.getString("duration") + " seconds";         
+      } catch (JSONException jsoe) {
+        logger.error("Error while getting alert message from original event", jsoe);
+      }     
+    }
+    
+    return new Alert(getLevel(event), event.getPlugin(), event.getName() , msg, subject);
   }
   
   private static Alert.Level getLevel(PluginEvent event) {

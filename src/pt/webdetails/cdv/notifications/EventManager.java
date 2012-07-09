@@ -35,8 +35,8 @@ public class EventManager {
         return getInstance();
     }
 
-    public Alert createAlert(String lvl, String group, String name, String msg) {
-        return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, name, msg);
+    public Alert createAlert(String lvl, String group, String name, String subject, String msg) {
+      return new Alert(Alert.Level.valueOf(lvl.toUpperCase()), group, name, msg, subject);
     }
 
     public void publish(Alert alert) {

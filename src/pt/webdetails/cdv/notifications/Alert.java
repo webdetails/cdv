@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package pt.webdetails.cdv.notifications;
 
 import java.util.Date;
@@ -20,24 +16,25 @@ public class Alert implements Persistable {
         ALL, OK, WARN, ERROR, CRITICAL
     }
     private Level level;
-    private String msg, group, name;
+    private String msg, group, name, summary;
     private Date timestamp;
 
-    public Alert(Level level, String group, String name, String msg) {
-        init(level, group, name, msg, new Date());
+    public Alert(Level level, String group, String name, String msg, String summary) {
+        init(level, group, name, msg, summary, new Date());
     }
 
-    public Alert(String level, String group, String name, String msg) {
-        init(Level.valueOf(level.toUpperCase()), group, name, msg, new Date());
-    }
+ //   public Alert(String level, String group, String name, String msg) {
+ //       init(Level.valueOf(level.toUpperCase()), group, name, msg, null, new Date());
+ //   }
 
     private Alert(JSONObject json) {
         try {
             Level lvl = Level.valueOf(json.getString("level").toUpperCase());
             String g = json.getString("group"),
                     n = json.getString("group"),
-                    m = json.getString("message");
-            init(lvl, g, n, m, new Date());
+                    m = json.getString("message"),
+                    s = json.getString("summary");
+            init(lvl, g, n, m, s, new Date());
         } catch (JSONException e) {
         }
     }
@@ -52,12 +49,13 @@ public class Alert implements Persistable {
         return alert;
     }
 
-    private void init(Level level, String group, String name, String msg, Date date) {
+    private void init(Level level, String group, String name, String msg, String summary, Date date) {
         this.level = level;
         this.msg = msg;
         this.name = name;
         this.group = group;
         this.timestamp = date;
+        this.summary = summary;
     }
 
     public Level getLevel() {
@@ -80,6 +78,10 @@ public class Alert implements Persistable {
         return name;
     }
 
+    public String getSummary() {
+        return summary;
+    }
+            
     public String getPersistenceClass() {
         return "Alert";
     }
@@ -99,6 +101,7 @@ public class Alert implements Persistable {
     public JSONObject toJSON() {
         JSONObject json = getKey();
         try {
+            json.put("summary", summary);
             json.put("message", msg);
         } catch (JSONException jse) {
         }

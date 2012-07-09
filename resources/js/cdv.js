@@ -501,7 +501,14 @@ wd.cdv = wd.cdv||{};
         
             if (spec.isServerSide) {
               var resJSON = testResult.toJSON();
-              var alrt = eventManager.createAlert(resJSON.testResult.type, resJSON.test.group, resJSON.test.name, resJSON.testResult.description);
+              var fullMessage = "";
+              
+              _.map(testResult.getValidationResults(), function (validationResult, i) {
+                  fullMessage += validationResult.toString() + "\\n";
+              });
+              
+              
+              var alrt = eventManager.createAlert(resJSON.testResult.type, resJSON.test.group, resJSON.test.name, resJSON.testResult.description, fullMessage);
               eventManager.publish(alrt);
               var tr =  eventManager.createTestResult(JSON.stringify(resJSON)), doc;
               if(tr) {

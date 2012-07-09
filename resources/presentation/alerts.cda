@@ -25,7 +25,7 @@ System.out.println("Parameters to getAlerts: " + dataRow.get("alertType") +
 // String[] params = {"timestamp","file", "parameters","message"};
 HashMap params = new HashMap();
 params.put("columns", new String[]{
-    "timestampGroup", "level", "group", "name", "message", "userid", "timestamp", "rid"
+    "timestampGroup", "level", "group", "name", "summary", "userid", "timestamp", "rid", "message"
 });
 params.put("alertType", dataRow.get("alertType"));
 params.put("cdvGroup", dataRow.get("cdvGroup"));
