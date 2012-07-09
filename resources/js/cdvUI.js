@@ -924,7 +924,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationPopupA
             }
             ]          
         },
-        
+       
         deleteCDAReport: function(id){
             Dashboards.log("Clicked on Delete for " + id);
             if(confirm("You sure you want to delete this test?")){
@@ -992,7 +992,16 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
         label: "alertsPopup",
         defaults: {
             idColIndex: 7,
+            nameColIndex: 3,
+            groupColIndex: 2,
             popup: [
+            {
+                name: "Focus on this test", 
+                callback: function(test){
+                    this.focusOnTest(test);
+                    
+                }
+            },
             {
                 name: "Delete Entry", 
                 callback: function(test){
@@ -1008,6 +1017,14 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
                 }
             }
             ]          
+        },
+                
+        focusOnTest: function(test){
+          
+            this.popup.hide();
+            Dashboards.setParameter('cdvGroup',test.group);
+            Dashboards.fireChange('cdvName',test.name);
+            return;
         },
         
         deleteAlert: function(id){

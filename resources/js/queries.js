@@ -37,9 +37,17 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         var cdvGroup = requestParams.getStringParameter("cdvGroup",null);
         var cdvName = requestParams.getStringParameter("cdvName",null);
         
-        if(cdvGroup.length() > 0 && cdvName.length() > 0){
+        
+        var isEmpty = function(s){
+            return (s == null || s == "");
+            
+        }
+        
+        if( !isEmpty(cdvGroup) && !isEmpty(cdvName) ){
             viewHistory = true;
         }
+
+        console.log("cdvGroup: " + (cdvName==null) + "; ViewHistory: " + viewHistory);
         
         // params.put("alertType", alertType);
         params.put("cdvGroup", cdvGroup);
@@ -56,6 +64,22 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
             // where = " and group = \""+cdvGroup+"\" and name = \""+cdvName+"\" ";
             console.log("Setting where");
             where = " and group = :cdvGroup and name = :cdvName ";
+            
+        }
+        
+        // TODO - Get this into prepared statements. Currently, seems orient doesn't properly support them
+        if (alertType != null){
+            var alertTypes = [], i = 0;
+            for( i = 0; i < alertType.length; i++ ){
+                var s = '"'+alertType[i] + '"';
+                alertTypes.push(s);
+                console.log("AlertType " + i + ": " + s);
+            }
+            
+            if(alertTypes.length > 0){
+                where += " and level in [ " + alertTypes.join(" , ") + "]";
+            }
+                
         }
         
         if(alertType && false){ 
@@ -229,7 +253,7 @@ registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams)
     /*
         var results = persistenceEngine.query("delete from ( traverse * from (select from cdaEvent where  @rid = \"" + cdaEntryId + "\" ) where  $depth <= 1 )", params);
         out.write(new java.lang.String(results).getBytes("utf-8"));
-        */
+         */
        
     } catch (e) {
         print(e);

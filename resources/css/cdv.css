@@ -414,6 +414,15 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 }
 
 
+.tableComponent tr.odd td.sorting_1{
+    background-color: inherit;
+}
+
+.tableComponent tr.even td.sorting_1{
+    background-color: inherit;
+}
+
+
 /* Validation table */
 
 .validationTable tr td{
@@ -1696,19 +1705,25 @@ div.testPromptPopup button{
 
 /*  AlertType Addin */
 
-tr.alertok td{
+.tableComponent tr.alertok td, .tableComponent tr.alertok td.sorting_1 {
     background-color: #94E08A;
 }
 
-tr.alertwarn td{
+.tableComponent tr.alertwarn td, .tableComponent tr.alertwarn td.sorting_1{
     background-color: #E0C48A;
 }
 
-tr.alerterror td{
+.tableComponent tr.alerterror td, .tableComponent tr.alerterror td.sorting_1{
     background-color: #FF5757;
 }
 
 
-tr.alertcritical td{
+.tableComponent tr.alertcritical td, .tableComponent tr.alertcritical td.sorting_1{
     background-color: #FFAAAA;
+}
+
+
+/* FocusTest */
+.focusedTestButton button{
+    margin-right: 7px;
 }
