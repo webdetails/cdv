@@ -929,12 +929,12 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\"group\",\"Test\",\"Files\",\"Validations\",\"Expected\",\" \",\"Test\",\" \"]",
+      "value": "[\"group\",\"Test\",\"Files\",\"Validations\",\"Expected\",\" \",\"Test\",\" \",\"Result\"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\",\"hidden\"]",
+      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\",\"hidden\",\"testResult\"]",
       "type": "colTypesCustom"
      },
      {
@@ -1138,7 +1138,7 @@
      },
      {
       "name": "output",
-      "value": "[\"1\",\"12\",\"9\",\"10\",\"8\",\"15\",\"11\",\"0\"]",
+      "value": "[\"2\",\"13\",\"10\",\"11\",\"9\",\"16\",\"12\",\"0\",\"1\"]",
       "type": "IndexArray"
      },
      {
