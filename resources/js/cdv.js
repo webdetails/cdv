@@ -494,6 +494,13 @@ wd.cdv = wd.cdv||{};
               var tr =  eventManager.createTestResult(JSON.stringify(resJSON)), doc;
               if(tr) {
                   doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
+                  /* Set the */
+                  var params = new Packages.java.util.HashMap();
+                  params.put("name", resJSON.test.name);
+                  params.put("group", resJSON.test.group);
+                  // persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
+                  persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
+                  doc.field("latest", true);
                   persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
               }
             } 

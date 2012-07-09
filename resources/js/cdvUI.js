@@ -1096,32 +1096,63 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.elapsedTimeAddIn));
 
-
-    // Group date
-    wd.cdvUI.alertTypeAddIn = {
-        name: "alertType",
-        label: "alertType",
-        defaults: {
-        
-        },
-        init: function(){
-        
-            // Register this for datatables sort
-            var myself = this;
-            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
-            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
-        }, 
-
-        implementation: function (tgt, st, opt) {
-        
-            // encapsulate this
-            var $t = $(tgt);
-            var text = st.value;
-            
-            $t.parent("tr").addClass('alert' + text.toLowerCase());
+// Group date
+wd.cdvUI.alertTypeAddIn = {
+    name: "alertType",
+    label: "alertType",
+    defaults: {
     
-        }
-    };
+    },
+    init: function(){
+    
+        // Register this for datatables sort
+        var myself = this;
+        $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
+        $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
+    }, 
+
+    implementation: function (tgt, st, opt) {
+    
+        // encapsulate this
+        var $t = $(tgt);
+        var text = st.value;
+        
+        $t.parent("tr").addClass('alert' + text.toLowerCase());
+
+    }
+};
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertTypeAddIn));
 
+wd.cdvUI.testResultAddIn = {
+    name: "testResult",
+    label: "TestResult",
+    defaults: {
+    
+    },
+    init: function(){
+    
+        // Register this for datatables sort
+        $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+        $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
+    }, 
+    sort: function(a,b){
+        return this.sumStrArray(a) - this.sumStrArray(b);
+    }, 
+
+    implementation: function (tgt, st, opt) {
+    
+        // encapsulate this
+    
+        var $t = $(tgt).empty();
+        var result = st.value.split('|');
+        var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
+        $elem.tipsy({
+            gravity: 's', 
+            html:true
+        });
+
+    }
+};
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));

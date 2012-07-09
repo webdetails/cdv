@@ -73,13 +73,33 @@ registerHandler("GET", "/listTests", function(out){
 });
 
 registerHandler("GET", "/listTestsFlatten", function(out){
-    try { 
-        this.setOutputType(this.MIME_JSON);
-        var str = JSON.stringify(cdv.listTestsFlatten());
-        out.write(new java.lang.String(str).getBytes("utf-8"));
-    } catch(e) {
-        print(e);
-    }
+  try {
+    persistenceEngine.initializeClass("TestResult");
+    var results = persistenceEngine.query("select test.name as name, test.group as group, testResult.type as level, testResult.description as message" +
+          " from TestResult where latest = true",null),
+        object = JSON.parse(results.getJSONArray("object").toString()),
+        testResults = {};
+    _(object).each(function(o){
+      if(!(typeof testResults[o.group] == "object")) {
+        testResults[o.group] = {};
+      }
+      testResults[o.group][o.name] = o.level + "|" + o.message;
+    });
+
+    this.setOutputType(this.MIME_JSON);
+    var json = cdv.listTestsFlatten();
+    _(json).each(function(o){
+      try {
+        o.result = testResults[o.group][o.name];
+      } catch(e){
+        o.result = "OK|No Results";
+      }
+    });
+    var str = JSON.stringify(json);
+    out.write(new java.lang.String(str).getBytes("utf-8"));
+  } catch(e) {
+    print(e);
+  }
 });
 
 
@@ -145,4 +165,5 @@ registerHandler("GET",'/foo',function(out){
 });
 lib("selftest.js");
 lib("queries.js");
+
 
