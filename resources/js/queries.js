@@ -96,8 +96,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         
         //console.log("Results: " + results.toJSON());
         
-        var object = JSON.parse(results.toString());
-        console.log("Finished parsing: " +  new Date());
+        var object = JSON.parse(results.getJSONArray("object").toString());
                 
         _.map(object,function(l){
             
