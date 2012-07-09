@@ -555,7 +555,7 @@ wd.cdvUI = wd.cdvUI ||{
     
                 var obj = {};
     
-                var arr = e.match(/(.*)\[(.*)](?: (.*))?/);
+                var arr = e.match(/(.*?)\[(.*?)](?: (.*))?/);
                 obj.cda = arr[1];
                 obj.dataAccessId = arr[2];
     

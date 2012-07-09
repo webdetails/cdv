@@ -1714,12 +1714,13 @@ div.testPromptPopup button{
 }
 
 .tableComponent tr.alerterror td, .tableComponent tr.alerterror td.sorting_1{
-    background-color: #FF5757;
+    background-color: #FFAAAA;
 }
 
 
 .tableComponent tr.alertcritical td, .tableComponent tr.alertcritical td.sorting_1{
-    background-color: #FFAAAA;
+    background-color: #FF5757;
+
 }
 
 
