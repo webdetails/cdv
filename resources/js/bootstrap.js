@@ -92,7 +92,7 @@ registerHandler("GET", "/listTestsFlatten", function(out){
       try {
         o.result = testResults[o.group][o.name];
       } catch(e){
-        o.result = "OK|No Results";
+        o.result = "N/A|No Results";
       }
     });
     var str = JSON.stringify(json);

@@ -511,7 +511,7 @@ wd.cdv = wd.cdv||{};
                   params.put("name", resJSON.test.name);
                   params.put("group", resJSON.test.group);
                   // persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
-                  persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
+                  persistenceEngine.command("update TestResult set latest = false where test.group = :group and test.name = :name and latest = true",params);
                   doc.field("latest", true);
                   persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
               }
