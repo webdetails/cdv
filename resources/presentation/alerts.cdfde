@@ -498,7 +498,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "focusedTest collapsed",
       "type": "String"
      },
      {
@@ -571,7 +571,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "focusedTestLabel",
       "type": "String"
      },
      {
@@ -594,7 +594,7 @@
      },
      {
       "name": "html",
-      "value": "Showing results for test <span class=\"focusedTest\">group:name</span> ",
+      "value": "Showing results for test <span id=\"focusedTestName\">group:name</span> ",
       "type": "Html"
      },
      {
@@ -1204,7 +1204,7 @@
     "properties": [
      {
       "name": "name",
-      "value": "cdaError",
+      "value": "alerts",
       "type": "Id"
      },
      {
@@ -1349,7 +1349,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n    // configure addin\n        \n    this.setAddInOptions(\"colType\",\"cdaPopup\",{\n            eventType: \"QueryError\"\n    });\n}\n\n\n",
+      "value": "function f(){\n\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
       "type": "JavaScript"
      },
      {
