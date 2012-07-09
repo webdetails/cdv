@@ -471,6 +471,223 @@
     ]
    },
    {
+    "id": "cd579121-6362-0b16-7485-cdd56690da80",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "focusedTest",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "99cda871-4a18-2bd1-3041-16d998386c64",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "cd579121-6362-0b16-7485-cdd56690da80",
+    "properties": [
+     {
+      "name": "name",
+      "value": "focusedTestLabel",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "21",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "right",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "000f0024-9070-dec9-5005-fd334814426f",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "99cda871-4a18-2bd1-3041-16d998386c64",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "Showing results for test <span class=\"focusedTest\">group:name</span> ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e5d19e70-d342-81ce-12d6-af31879ec8e1",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "cd579121-6362-0b16-7485-cdd56690da80",
+    "properties": [
+     {
+      "name": "name",
+      "value": "focusedTestButton",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "3",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "focusedTestButton",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "right",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
     "id": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -909,7 +1126,53 @@
      },
      {
       "name": "javaScript",
-      "value": "[\"WARN\",\"ERROR\",\"CRITICAL\"]",
+      "value": "[\"OK\",\"WARN\",\"ERROR\",\"CRITICAL\"]",
+      "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
+    "id": "4c364078-acb4-f324-8439-9d5dcd01dfae",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvGroup",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "Dashboards.getQueryParameter(\"cdvGroup\")",
+      "type": "JavaScript"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
+    "id": "f6e555ee-a5b7-a6a4-6c3a-922e25da2968",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvName",
+      "type": "Id"
+     },
+     {
+      "name": "javaScript",
+      "value": "Dashboards.getQueryParameter(\"cdvName\")",
       "type": "JavaScript"
      },
      {
@@ -951,12 +1214,12 @@
      },
      {
       "name": "listeners",
-      "value": "['entriesChanged','alertType']",
+      "value": "['entriesChanged','alertType','cdvGroup','cdvName']",
       "type": "Listeners"
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[[\"alertType\",\"alertType\"]]",
+      "value": "[[\"alertType\",\"alertType\"],[\"cdvGroup\",\"cdvGroup\"],[\"cdvName\",\"cdvName\"]]",
       "type": "ValuesArray"
      },
      {
@@ -1127,6 +1390,79 @@
     ]
    },
    {
+    "id": "778671d1-2451-0139-7a3d-12bc08be4170",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "resetFocus",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Reset",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "focusedTestButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function f(){\n    Dashboards.setParameter('cdvGroup',\"\");\n    Dashboards.fireChange('cdvName',\"\");\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
     "id": "SELECTORS",
     "name": "Selects",
     "type": "Label",
@@ -1287,7 +1623,7 @@
      },
      {
       "name": "parameters",
-      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"]]",
+      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"]]",
       "type": "CdaParameters"
      },
      {
@@ -1312,7 +1648,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\"));\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"message\", \"userid\", \"timestamp\", \"rid\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"message\", \"userid\", \"timestamp\", \"rid\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\n\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {
