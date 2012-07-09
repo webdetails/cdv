@@ -151,11 +151,14 @@ wd.cdv = wd.cdv||{};
     
     
         myself.getTestResultDescription = function(){
+            
+            var testName = myself.getTest().group + ": " + myself.getTest().name + " - ";
+            
             var resultMap = {},keys=[], alertMap=[];
             var count = myself.getValidationResults().length;
         
             _.each(myself.getValidationResults().sort(function(a,b){
-                return b.getAlert().getLevel() - a.getAlert().getLevel()
+                return a.getAlert().getLevel() - b.getAlert().getLevel()
             }),function(r){
              
                 var alert = r.getAlert();
@@ -175,7 +178,7 @@ wd.cdv = wd.cdv||{};
         
 
             if(keys.length == 1 && keys[0]==="OK"){
-                return "All " + resultMap.OK + " validation(s) passed successfully";
+                return testName + "All " + resultMap.OK + " validation(s) passed successfully";
  
             }       
         
@@ -183,12 +186,21 @@ wd.cdv = wd.cdv||{};
                 return str.charAt(0).toUpperCase() + str.slice(1);
             }
             
+            var isFirst = true;
             var r = _.map(keys, function(type){
-                var alertCount = resultMap[type];
-                return alertCount + " validations " + lowercaseFirstLetter(alertMap[type].getDescription());
+                
+                var alertCount = resultMap[type],
+                str = "";
+                if(isFirst && type !== "OK" && alertCount == 1){
+                    str = " ["+alertMap[type].getDescription() + "] ";
+                }
+                isFirst = false;
+                
+                
+                return alertCount + " " + type + (alertCount>1?"s":"") + str;
             });
         
-            return r.join(", ");
+            return testName +  r.join(", ");
             
         
         };
