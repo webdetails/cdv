@@ -1173,3 +1173,40 @@ wd.cdvUI.testResultAddIn = {
 };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
+
+wd.cdvUI.testResultAddIn = {
+    name: "testResult",
+    label: "TestResult",
+    defaults: {
+    
+    },
+    init: function(){
+        var levels = ["OK", "WARN", "ERROR", "CRITICAL"],
+            compare = function(a,b) {return levels.indexOf(a) - levels.indexOf(b);};
+        
+        // Register this for datatables sort
+        $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){return compare(a,b);};
+        $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){return compare(b,a);};
+    }, 
+    sort: function(a,b){
+        return this.sumStrArray(a) - this.sumStrArray(b);
+    }, 
+
+    implementation: function (tgt, st, opt) {
+    
+        // encapsulate this
+    
+        var $t = $(tgt).empty();
+        var result = st.value.split('|');
+        $t.parent("tr").addClass('alert' + result[0].toLowerCase());
+        var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
+        if(result.length > 1) {
+          $elem.tipsy({
+              gravity: 's', 
+              html:true
+          });
+        }
+    }
+};
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
