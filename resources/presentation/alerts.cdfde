@@ -1239,7 +1239,7 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"alertType\",\"string\",\"string\",\"string\",\"string\",\"elapsedTime\",\"alertsPopup\"]",
+      "value": "[\"groupHeaders\",\"testResult\",\"string\",\"string\",\"string\",\"string\",\"elapsedTime\",\"alertsPopup\"]",
       "type": "colTypesCustom"
      },
      {
