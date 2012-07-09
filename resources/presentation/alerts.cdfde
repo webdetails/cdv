@@ -1239,7 +1239,8 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"alertType\",\"string\",\"string\",\"alertDescription\",\"string\",\"elapsedTime\",\"alertsPopup\",\"hidden\"]",
+
+      "value": "[\"groupHeaders\",\"testResult\",\"string\",\"string\",\"alertDescription\",\"string\",\"elapsedTime\",\"alertsPopup\",\"hidden\"]",
       "type": "colTypesCustom"
      },
      {

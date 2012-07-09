@@ -97,7 +97,6 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         //console.log("Results: " + results.toJSON());
         
         var object = JSON.parse(results.getJSONArray("object").toString());
-        console.log("Finished parsing: " +  new Date());
                 
         _.map(object,function(l){
             
@@ -116,6 +115,26 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
     }
 });
 
+registerHandler("GET", "/getLatestResults", function(out){
+    
+    try {
+        
+        persistenceEngine.initializeClass("TestResult");
+        
+        
+        var results = persistenceEngine.query("select test.name as name, test.group as group, testResult.type as level, testResult.description as message" +
+            " from TestResult where latest = true",null);
+        
+        
+        var object = JSON.parse(results.getJSONArray("object").toString());
+
+        out.write(new java.lang.String(JSON.stringify(object,null,2)).getBytes("utf-8"));
+        
+        
+    } catch (e) {
+        print(e);
+    }
+});
 
 
 registerHandler("GET", "/getCdaErrors", function(out){
