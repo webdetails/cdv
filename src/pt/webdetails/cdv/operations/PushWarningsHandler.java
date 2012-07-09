@@ -67,7 +67,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
   }
   
   public static JsonSerializable listClass(String tableClass) throws JSONException {
-    Map<String,String> params = new HashMap<String, String>();
+    Map<String,Object> params = new HashMap<String, Object>();
 //  params.put("classTable", classTable);
     JSONArray array = new JSONArray();
     for(ODocument doc : PersistenceEngine.getInstance().executeQuery("select * from " + tableClass, params)){
@@ -78,7 +78,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
   }
   
   public static JsonSerializable listClass(String settings, String dataAccessId){
-    Map<String,String> params = new HashMap<String, String>();
+    Map<String,Object> params = new HashMap<String, Object>();
     params.put("settingsId", settings);
     params.put("dataAccessId", dataAccessId);
     String query = "select * from " + CLASS + " where queryInfo.dataAccessId = :dataAccessId AND queryInfo.cdaSettingsId = :settingsId";
