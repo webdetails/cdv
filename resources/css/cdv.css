@@ -1684,7 +1684,7 @@ div.testPromptPopup div.arrow{
 
 
 div.testPromptPopup div.title{
-    
+
     text-align: center;
     font-size: 12px;
     margin-top: 15px;
@@ -1724,6 +1724,33 @@ div.testPromptPopup button{
 
 
 /* FocusTest */
+.focusedTest{
+    height: 26px;
+    overflow: hidden;
+    color: rgb(128, 128, 128);
+
+    -webkit-transition: height 300ms ease-in;
+    -moz-transition: height 300ms ease-in;
+    -ms-transition: height 300ms ease-in;
+    -o-transition: height 300ms ease-in;
+    transition: height 300ms ease-in;
+
+}
+
+.focusedTest.collapsed{
+    height: 0px;
+}
+
+#focusedTestName{
+    color: black;
+}
+
+
+.focusedTestLabel{
+    font-size: 16px;
+
+}
+
 .focusedTestButton button{
     margin-right: 7px;
 }
