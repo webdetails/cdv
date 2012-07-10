@@ -201,7 +201,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
       try {
         JSONObject queryInfo = new JSONObject(request.getString("queryInfo"));
         msg = "Query " +   queryInfo.getString("dataAccessId") + " in " + request.getString("name") + 
-                " has taken " +  request.getString("duration") + " seconds. \n\n Actual Query: " + 
+                " took " +  request.getString("duration") + " seconds. \n\n Actual Query: " + 
                 queryInfo.getString("query")+ " \n\nParameters: " + queryInfo.getString("parameters"); 
       subject = "CDA Slow Query Alert: " + queryInfo.getString("dataAccessId") + 
               " took " + request.getString("duration") + " seconds";         
