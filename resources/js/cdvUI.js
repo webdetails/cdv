@@ -647,7 +647,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertDescription
                 
                     var n = obj.params.length;
                     var template = " <a title='" + _.map(obj.params,function(p){
-                        return p.paramName+": "+p.paramValue;
+                        return p.paramName+": "+p.paramValue.replace(/'/g,"&quot;");
                     }).join("<br />") + "' class='params'>(" + n + " param" + (n>1?"s":"") +")</a>";
                 
                     return template;
