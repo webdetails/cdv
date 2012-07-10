@@ -207,7 +207,7 @@ var PopupTextEditorComponent = BaseComponent.extend({
     defaultButtons: [    
     {
         clazz: "run",
-        label: "Run Test", 
+        label: "Preview Test", 
         callback: function(){
             this.runTest();
         }
