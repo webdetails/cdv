@@ -504,7 +504,7 @@ wd.cdv = wd.cdv||{};
               var fullMessage = "";
               
               _.map(testResult.getValidationResults(), function (validationResult, i) {
-                  fullMessage += " * " + validationResult.toString() + " \\n\\0";
+                  fullMessage += " * " + validationResult.toString() + "         ";
               });
               
               

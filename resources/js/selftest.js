@@ -1,7 +1,6 @@
 registerHandler("GET", "/testPersistence", function(out){
     
     try {
-        persistenceEngine.initializeClass("test");
         var results = persistenceEngine.query("select * from test",null);
         out.write(new java.lang.String(results).getBytes("utf-8"));
     } catch (e) {

@@ -53,8 +53,17 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     }
 
     public static void reInit() {
-        NotificationEngine.getInstance();
         PersistenceEngine pe  = PersistenceEngine.getInstance();
+        
+        
+        //Make sure the CDV document classes exist
+        pe.initializeClass("TestResult");
+        pe.initializeClass("Alert");
+        pe.initializeClass("cdaEvent");
+        pe.initializeClass("test");
+        
+        
+        NotificationEngine.getInstance();
         GlobalScope scope = GlobalScope.reset();
         Router.resetBaseRouter().registerHandler(HttpMethod.GET, "/hello", new DummyHandler());
         Router.getBaseRouter().registerHandler(HttpMethod.GET, "/warnings", new PushWarningsHandler());

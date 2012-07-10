@@ -1,7 +1,6 @@
 registerHandler("GET", "/lastExecution", function(out){
     
     try {
-        persistenceEngine.initializeClass("Alert");
         var result = persistenceEngine.query("select max(timestamp) as lastExecution from Alert",null);
         out.write(new java.lang.String(result.get("object")).getBytes("utf-8"));
     } catch (e) {
@@ -12,7 +11,6 @@ registerHandler("GET", "/lastExecution", function(out){
 registerHandler("GET", "/getAlertsByGroup", function(out,pathParams,requestParams){
     
     try {
-        persistenceEngine.initializeClass("Alert");
         var params = new Packages.java.util.HashMap();
         params.put("group", requestParams.getStringParameter("group",""));
         var results = persistenceEngine.query("select * from Alert where group = :group",params);
@@ -27,9 +25,6 @@ registerHandler("GET", "/getAlertsByGroup", function(out,pathParams,requestParam
 registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
     
     try {
-        
-        persistenceEngine.initializeClass("Alert");
-        
         var params = new Packages.java.util.HashMap();
         var alertType = requestParams.getStringArrayParameter("alertType",null);
         
@@ -118,10 +113,6 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
 registerHandler("GET", "/getLatestResults", function(out){
     
     try {
-        
-        persistenceEngine.initializeClass("TestResult");
-        
-        
         var results = persistenceEngine.query("select test.name as name, test.group as group, testResult.type as level, testResult.description as message" +
             " from TestResult where latest = true",null);
         
@@ -139,9 +130,7 @@ registerHandler("GET", "/getLatestResults", function(out){
 
 registerHandler("GET", "/getCdaErrors", function(out){
     
-    try {
-        
-        persistenceEngine.initializeClass("cdaEvent");
+    try {        
         var results = persistenceEngine.query("select timestamp, "+
             "queryInfo.cdaSettingsId.append(\"[\").append(queryInfo.dataAccessId).append(\"]\") as file, queryInfo.parameters as parameters , "+
             "message, @rid from cdaEvent where eventType = 'QueryError'  order by timestamp desc limit 100",null);
@@ -187,8 +176,6 @@ registerHandler("GET", "/getCdaErrors", function(out){
 registerHandler("GET", "/getCdaSlowQueries", function(out){
     
     try {
-        
-        persistenceEngine.initializeClass("cdaEvent");
         var results = persistenceEngine.query("select timestamp, "+
             "queryInfo.cdaSettingsId.append(\"[\").append(queryInfo.dataAccessId).append(\"]\") as file, queryInfo.parameters as parameters , "+
             "duration, @rid from cdaEvent where eventType = 'QueryTooLong'  order by timestamp desc limit 100",null);
@@ -233,10 +220,8 @@ registerHandler("GET", "/getCdaSlowQueries", function(out){
 registerHandler("GET", "/deleteCdaEntry", function(out,pathParams,requestParams){
     
 
-    try {
-        
+    try {        
         console.log("deleteCdaEntry method ");
-        persistenceEngine.initializeClass("cdaEvent");
         var params = new Packages.java.util.HashMap();
         var cdaEntryId = requestParams.getStringParameter("cdaEntryId","")
         params.put("cdaEntryId", cdaEntryId);
@@ -264,8 +249,6 @@ registerHandler("GET", "/deleteCdaEntriesOfEventType", function(out,pathParams,r
     
 
     try {
-        
-        persistenceEngine.initializeClass("cdaEvent");
         var params = new Packages.java.util.HashMap();
         var eventType = requestParams.getStringParameter("eventType","")
         params.put("eventType", eventType);
@@ -284,10 +267,8 @@ registerHandler("GET", "/deleteCdaEntriesOfEventType", function(out,pathParams,r
 registerHandler("GET", "/deleteAlert", function(out,pathParams,requestParams){
     
 
-    try {
-        
+    try {        
         console.log("deleteAlert method ");
-        persistenceEngine.initializeClass("Alerts");
         var params = new Packages.java.util.HashMap();
         var cdaEntryId = requestParams.getStringParameter("alertId","")
         params.put("alertId", cdaEntryId);
@@ -308,7 +289,7 @@ registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams
     try {
         
         console.log("deleteAllAlerts method ");
-        persistenceEngine.initializeClass("Alert");
+
         
         // 1. Truncate it
         var result = persistenceEngine.command("truncate class Alert ", null);
