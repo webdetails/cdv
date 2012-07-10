@@ -1,3 +1,6 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
 package pt.webdetails.cdv.operations;
 
 import java.text.SimpleDateFormat;
@@ -208,6 +211,27 @@ public class PushWarningsHandler extends JsonRequestHandler {
       } catch (JSONException jsoe) {
         logger.error("Error while getting alert message from original event", jsoe);
       }     
+    } else if ("QueryError".equals(event.getEventType())) {
+      try {
+        JSONObject queryInfo = new JSONObject(request.getString("queryInfo"));
+        msg = "Query " + queryInfo.getString("dataAccessId") + " in " + request.getString("name") + 
+                " has failed with exception " + request.getString("message") + " \n\n" +
+                "Stack Trace: ";
+        
+        StackTraceElement[] sTrace = ((StackTraceElement[]) request.get("stackTrace"));
+        for (int i=0; i < sTrace.length; i++)
+            msg += "\n" + sTrace[i].toString();
+        msg += "\n\n Actual Query: " + queryInfo.getString("query")+ " \n\nParameters: " + 
+                queryInfo.getString("parameters"); 
+        subject = "CDA ERROR: Query " + queryInfo.getString("dataAccessId") + " in " + request.getString("name") + 
+                " has failed with exception " + request.getString("message");
+      } catch (JSONException jsoe) {
+        logger.error("Error while getting alert message from original event", jsoe);
+      }     
+                
+                
+      
+      
     }
     
     return new Alert(getLevel(event), event.getPlugin(), event.getName() , msg, subject);
