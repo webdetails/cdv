@@ -15,6 +15,7 @@
          <Parameter default="" name="alertType" type="StringArray"/>
          <Parameter default="" name="cdvGroup" type="String"/>
          <Parameter default="" name="cdvName" type="String"/>
+         <Parameter default="" name="excludeCda" type="String"/>
       </Parameters>
       <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
 import pt.webdetails.cda.utils.InterPluginUtils;
@@ -31,7 +32,7 @@ params.put("columns", new String[]{
 params.put("alertType", dataRow.get("alertType"));
 params.put("cdvGroup", dataRow.get("cdvGroup"));
 params.put("cdvName", dataRow.get("cdvName"));
-
+params.put("excludeCda", dataRow.get("excludeCda"));
 
 TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "getAlerts", params);
 return model;</Query>

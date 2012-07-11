@@ -433,44 +433,6 @@
     ]
    },
    {
-    "id": "0b42a072-6153-8f43-8c21-78bbb0c48718",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "value": "space",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "5",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
     "id": "cd579121-6362-0b16-7485-cdd56690da80",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -2077,7 +2039,7 @@
      },
      {
       "name": "parameters",
-      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"]]",
+      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"],[\"excludeCda\",\"\",\"String\",\"\"]]",
       "type": "CdaParameters"
      },
      {
@@ -2102,7 +2064,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\n\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\nparams.put(\"excludeCda\", dataRow.get(\"excludeCda\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {
