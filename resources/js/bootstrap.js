@@ -151,6 +151,7 @@ registerHandler("GET", "/refreshNotifications", function(out){
 
 registerHandler("GET", "/refreshTests", function(out){
   scheduler.reset();
+  cdv.resetTests();
   loadTests();
 });
 
