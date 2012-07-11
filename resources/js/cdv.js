@@ -517,8 +517,7 @@ wd.cdv = wd.cdv||{};
                   var params = new Packages.java.util.HashMap();
                   params.put("name", resJSON.test.name);
                   params.put("group", resJSON.test.group);
-                  // persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
-                  persistenceEngine.command("update TestResult set latest = false where test.group = :group and test.name = :name and latest = true",params);
+                  persistenceEngine.command("update TestResult set latest = false where test[group] = :group and test[name] = :name and latest = true",params);
                   doc.field("latest", true);
                   persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
               }
@@ -674,6 +673,7 @@ wd.cdv = wd.cdv||{};
             // Get the keys, deep copying initial obj
             var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
             wd.log("Debug: " + arr);
+            arr = arr.sort(function(a,b){return a.group > b.group? 1 : a.group < b.group ? -1 : 0;});
             return _.map(arr,preprocessObj);
         
         

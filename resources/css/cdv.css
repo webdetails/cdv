@@ -1703,20 +1703,19 @@ div.testPromptPopup button{
 /*  AlertType Addin */
 
 .tableComponent tr.alertok td, .tableComponent tr.alertok td.sorting_1 {
-    background-color: #94E08A;
 }
 
 .tableComponent tr.alertwarn td, .tableComponent tr.alertwarn td.sorting_1{
-    background-color: #E0C48A;
+    color: #ff9900;
 }
 
 .tableComponent tr.alerterror td, .tableComponent tr.alerterror td.sorting_1{
-    background-color: #FFAAAA;
+    color: #FFAAAA;
 }
 
 
 .tableComponent tr.alertcritical td, .tableComponent tr.alertcritical td.sorting_1{
-    background-color: #FF5757;
+    color: #FF5757;
 
 }
 
