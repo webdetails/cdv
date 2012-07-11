@@ -526,6 +526,77 @@ wd.cdvUI = wd.cdvUI ||{
 };
 
 
+wd.cdvUI.newValidation = function () {
+
+
+     // Also generate a textEditorComponent
+     
+     var popupTextEditor = Dashboards.getComponent("popupTextEditorComponent");
+     if (!popupTextEditor) {
+        popupTextEditor = {
+            name: "popupTextEditorComponent", 
+            type: "popupTextEditor", 
+            file: undefined, // will be set later
+            saveCallback: function(){
+             // We want to refresh CDV
+                $.ajax({
+                    url: "refreshTests",
+                    type: "GET",
+                    async: true,
+                    success: function(){
+                        Dashboards.fireChange("editorFileSaved","xxx");
+                    }
+                })
+            }
+        };
+        // Call cdf comp
+        Dashboards.addComponents([popupTextEditor]);
+        this.popupTextEditor.update();
+    }
+
+
+    var txt = 'New Test name: <input id="testName" type="text" placeholder="newTest"></input>';                                                            
+    var callBackFunction = function (v,m,f) {
+        if(v !== undefined){
+            if (v === "ok"){                                
+                var newFileName = m.children()[0].value;     
+                                
+                if (newFileName.length == 0) {
+                    alert("Please enter a file name");
+                } else {
+                    $.ajax({
+                        url: "newTest",
+                        data: {newName: newFileName},
+                        type: "GET",
+                        async: true,
+                        success: function(response){
+                            if (response.success == "true") {
+
+                                popupTextEditor.setFile(response.path);
+                                popupTextEditor.update();
+                                popupTextEditor.show();                            
+                            } else {
+                                alert("Error while creating new test");
+                            }  
+                        }
+                    });                                                        
+                }
+			}	
+		}
+    };
+
+    var promptConfig = {
+        callback: callBackFunction,
+        buttons: {
+            Cancel: 'cancel'
+        },
+        loaded: function(){}
+    };
+        
+    promptConfig.buttons['New'] = "ok";    
+    $.prompt(txt,promptConfig);                                                            
+};
+
    wd.cdvUI.alertDescriptionAddin = {
         name: "alertDescription",
         label: "alertDescription",
@@ -809,7 +880,54 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                         alert("Todo: Delete the test");
                     }
                 }
-            }
+            },
+      {
+                name: "Duplicate Test", 
+                callback: function(test){
+                    Dashboards.log("Clicked on Duplicate for " + test.id);                    
+
+                    var myself= this;
+                    var txt = 'New file name: <input id="testName" type="text" placeholder="New Test Name"></input>';                                                            
+                	var callBackFunction = function (v,m,f) {
+                        if(v !== undefined){
+                            if (v === "ok"){                                
+                                var newFileName = m.children()[1].value;     
+                                
+                                if (newFileName.length == 0) {
+                                    alert("Please enter a file name");
+                                } else {
+                                    $.ajax({
+                                        url: "duplicateTest",
+                                        data: {path: test.path, newName: newFileName},
+                                        type: "GET",
+                                        async: true,
+                                        success: function(response){
+                                          if (response.success == "true") {
+                                              myself.editFile(response.path);
+                                              myself.popup.hide();                                
+                                          } else {
+                                            alert("Error while duplicating");
+                                          }  
+                                        }
+                                    });                                                        
+                                }
+				            }	
+			            }
+                	};
+
+                    var promptConfig = {
+                        callback: callBackFunction,
+                        buttons: {
+                            Cancel: 'cancel'
+                        },
+                        loaded: function(){}
+                    };
+        
+                    promptConfig.buttons['Duplicate'] = "ok";
+                    this.popup.hide();
+                    $.prompt(txt,promptConfig);                                                            
+                }
+            }            
             ]  
         },
         init: function(){
