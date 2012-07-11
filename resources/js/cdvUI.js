@@ -891,7 +891,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 	var callBackFunction = function (v,m,f) {
                         if(v !== undefined){
                             if (v === "ok"){                                
-                                var newFileName = m.children()[1].value;     
+                                var newFileName = m.children()[0].value;     
                                 
                                 if (newFileName.length == 0) {
                                     alert("Please enter a file name");
