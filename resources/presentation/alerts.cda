@@ -10,6 +10,7 @@
                id="alerts"
                type="scriptable">
       <Columns/>
+      <Output indexes="0,6,2,3,5,4,1,7,8" mode="include"/>
       <Parameters>
          <Parameter default="" name="alertType" type="StringArray"/>
          <Parameter default="" name="cdvGroup" type="String"/>
