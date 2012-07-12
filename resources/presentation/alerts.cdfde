@@ -433,44 +433,6 @@
     ]
    },
    {
-    "id": "0b42a072-6153-8f43-8c21-78bbb0c48718",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "value": "space",
-      "type": "Id"
-     },
-     {
-      "name": "height",
-      "value": "40",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
     "id": "cd579121-6362-0b16-7485-cdd56690da80",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -726,6 +688,185 @@
     ]
    },
    {
+    "id": "4ea3e355-0076-0269-8c04-9e831d85e562",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "properties": [
+     {
+      "name": "name",
+      "value": "showCdaLabel",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "7",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "buttonLabel",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "b38ba8d1-2358-5ad1-ad24-6bac0564c768",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "4ea3e355-0076-0269-8c04-9e831d85e562",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "Show CDA: ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "5e4eaabc-8161-e9ea-a45c-21044f6d520b",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "properties": [
+     {
+      "name": "name",
+      "value": "showCdaButton",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "fixMargin",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
     "id": "0396a92e-fb25-c04a-ed02-1e9ea2267ba4",
     "type": "LayoutColumn",
     "typeDesc": "Column",
@@ -734,6 +875,112 @@
      {
       "name": "name",
       "value": "filterLabel",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "2",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "buttonLabel",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "7c01a549-5e8f-3be8-371e-da030d10ed68",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "0396a92e-fb25-c04a-ed02-1e9ea2267ba4",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "Display: ",
+      "type": "Html"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "00c3608e-27c9-1f27-277e-909435b02258",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
+    "properties": [
+     {
+      "name": "name",
+      "value": "filterObj",
       "type": "Id"
      },
      {
@@ -783,35 +1030,35 @@
      },
      {
       "name": "height",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "alertTypes",
       "type": "String"
      },
      {
       "name": "textAlign",
-      "value": "",
+      "value": "right",
       "type": "TextAlign"
      }
     ]
    },
    {
-    "id": "00c3608e-27c9-1f27-277e-909435b02258",
+    "id": "65f7b8a4-91a9-5874-09d2-1568e54d29ed",
     "type": "LayoutColumn",
     "typeDesc": "Column",
     "parent": "798cee70-c585-d6d4-92a8-6ec9322a17fc",
     "properties": [
      {
       "name": "name",
-      "value": "filterObj",
+      "value": "deleteAllButton",
       "type": "Id"
      },
      {
       "name": "columnSpan",
-      "value": "16",
+      "value": "3",
       "type": "Integer"
      },
      {
@@ -861,12 +1108,12 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "fixMargin lastButton",
       "type": "String"
      },
      {
       "name": "textAlign",
-      "value": "right",
+      "value": "",
       "type": "TextAlign"
      }
     ]
@@ -899,7 +1146,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCellBody",
+      "value": "",
       "type": "String"
      },
      {
@@ -922,17 +1169,17 @@
      },
      {
       "name": "columnSpan",
-      "value": "22",
+      "value": "24",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -1183,6 +1430,29 @@
     ]
    },
    {
+    "id": "f6a8b2af-1a19-e09c-17a0-92409efe472c",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "showCda",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "true",
+      "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -1234,13 +1504,12 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\" \",\"Level\",\"Group\",\"Name\",\"Message\",\"User\",\"When\",\" \",\" \"]",
+      "value": "[\" \",\"When\",\"Group\",\"Name\",\"User\",\"Message\",\"Status\",\" \",\" \"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-
-      "value": "[\"groupHeaders\",\"testResult\",\"string\",\"string\",\"alertDescription\",\"string\",\"elapsedTime\",\"alertsPopup\",\"hidden\"]",
+      "value": "[\"groupHeaders\",\"elapsedTime\",\"string\",\"string\",\"string\",\"alertDescription\",\"testResult\",\"alertsPopup\",\"hidden\"]",
       "type": "colTypesCustom"
      },
      {
@@ -1250,7 +1519,7 @@
      },
      {
       "name": "colWidths",
-      "value": "[\"0%\",\"10%\",\"15%\",\"15%\",\"25%\",\"10%\",\"20%\",\"5%\"]",
+      "value": "[\"0%\",\"15%\",\"15%\",\"15%\",\"5%\",\"40%\",\"5%\",\"5%\"]",
       "type": "Array"
      },
      {
@@ -1350,7 +1619,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
+      "value": "function f(){\n\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
       "type": "JavaScript"
      },
      {
@@ -1424,6 +1693,152 @@
      {
       "name": "expression",
       "value": "function f(){\n    Dashboards.setParameter('cdvGroup',\"\");\n    Dashboards.fireChange('cdvName',\"\");\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "ec36e51c-86b8-eba1-5abd-86f1a9a4da01",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "toggleCDA",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Yes",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "showCdaButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "['showCda']",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function f(){\n    Dashboards.fireChange(\"showCda\", !Dashboards.getParameterValue(\"showCda\"));\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "function f() {\n    this.label = Dashboards.getParameterValue(\"showCda\") ? \"Yes\" : \"No\";\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "2f22175e-3579-5b75-24f6-490a196821b3",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "deleteAll",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "Delete All",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "deleteAllButton",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "",
       "type": "JavaScript"
      },
      {
@@ -1624,12 +2039,12 @@
      },
      {
       "name": "parameters",
-      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"]]",
+      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"],[\"excludeCda\",\"\",\"String\",\"\"]]",
       "type": "CdaParameters"
      },
      {
       "name": "output",
-      "value": "[]",
+      "value": "[\"0\",\"6\",\"2\",\"3\",\"5\",\"4\",\"1\",\"7\",\"8\"]",
       "type": "IndexArray"
      },
      {
@@ -1649,7 +2064,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\n\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\nparams.put(\"excludeCda\", dataRow.get(\"excludeCda\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {

@@ -354,8 +354,8 @@ div.container  {
 /* Standard table */
 
 table.tableComponent{
-    border-collapse: separate;
-    border-spacing: 0px 10px;
+    border-collapse: collapse;
+    border-spacing: 0px 0px;
     background-color: white;
 }
 
@@ -375,21 +375,21 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 .tableComponent tr td{
 
     font-size: 12px;
-    padding: 1px 5px;
+    padding: 5px 10px;
     border-top: 1px solid rgb(132, 143, 149);
     border-bottom: 1px solid rgb(132, 143, 149);
 }
 
-.tableComponent tr td:nth-child(2){
+.tableComponent tr td:nth-child(2) {
     border-left: 1px solid rgb(132, 143, 149);
 }
 
-.tableComponent tr td:last-child{
+.tableComponent tr td:last-child {
     border-right: 1px solid rgb(132, 143, 149);
 }
 
 
-.tableComponent tr.groupHeader td{
+.tableComponent tr.groupHeader {
     border: 1px solid rgb(132, 143, 149);
     font-size: 16px;
 
@@ -403,14 +403,53 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 
 }
 
+.tableComponent tr.groupHeader.preSpace,
+.tableComponent tr.groupHeader.preSpace td,
+.tableComponent tr.groupHeader.postSpace,
+.tableComponent tr.groupHeader.postSpace td {
+  background: none;
+  border-left: none;
+  border-right: none;
+  padding: 0
+}
+
+.tableComponent tr.groupHeader.preSpace td:last-child,
+.tableComponent tr.groupHeader.postSpace td:last-child {
+  border-right: none;
+}
+
+.tableComponent tr.groupHeader.postSpace {
+  height: 7px;
+}
+
+.tableComponent tr.groupHeader.preSpace {
+  height: 22px;
+}
+.tableComponent tr.groupHeader.preSpace:first-child, .tableComponent tr.groupHeader.preSpace:first-child td {
+  border-top: none;
+  height:0;
+}
+
+
+.tableComponent tr.groupHeader td {
+    font-size: 13px;
+    color: #444;
+    text-shadow: #ddd 0px 1px 0;
+}
+
+.tableComponent tr.groupHeader td.groupName {
+    font-size: 16px;
+    color: black;
+    text-shadow: none;
+}
 .tableComponent td.numeric{
     padding-right: 10px;
     font-size: 11px;
 }
 
 .dataTables_filter{
-    color: grey;
-
+    color: black;
+    font-size: 14px;
 }
 
 
@@ -442,19 +481,56 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 }
 
 
+/* Validations table */
 
-/* Alerts table */
-
-.alerts .tableComponent tbody td:nth-child(5){
+.validationTable .tableComponent tbody tr:not(.groupHeader) td:nth-child(6) {
     font-size: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
+.validationTable .dataTables_filter {
+    float: none;
+    text-size: 14px;
+    display: inline-block;
+    width: auto;
+    margin: 10px 9px;
+}
 
+.validationTable .dataTables_filter input {
+    width: 204px;
+    height: 18px;
+    margin-left: 10px;
+    border: 1px solid #829299;
+}
+
+/* Alerts table */
+
+.alerts .tableComponent tbody tr:not(.groupHeader) td:nth-child(6) {
+    font-size: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.alerts .dataTables_filter {
+    position: absolute;
+    left: -200px;
+    top: -32px;
+}
+
+.alerts .dataTables_filter input {
+    width: 204px;
+    height: 18px;
+    margin-left: 10px;
+    border: 1px solid #829299;
+}
+
+.testResult, .testResult div {
+  text-align: center;
+}
 /* CDA Error table */
 
-.cdaError .tableComponent tbody td:nth-child(3){
+.cdaError .tableComponent tbody tr:not(.groupHeader) td:nth-child(3){
     font-size: 10px;
 }
 
@@ -618,6 +694,7 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 .WDfilterCell select{
 }
 
+
 button {
     color: #0f1414;
     height: 22px;
@@ -653,17 +730,44 @@ button:disabled {
     cursor: default;
 }
 
+.buttonLabel {
+  text-align: right;
+  margin-top: 7px;
+  font-size: 14px;
+}
+.fixMargin button {
+  margin: 5px;
+}
 
+.lastButton {
+  position: relative;
+  left: 8px;
+}
 /* Multi Button */
+
+.alertTypes {
+  border: 1px solid #829299;
+  box-sizing: border-box;
+  background: white;
+  margin-top: 5px;
+}
+.boxshadow .container .pentaho-toggle-button button {
+  min-width:52px;
+  border: none;
+}
+
 .pentaho-toggle-button {
     display:  inline-block;
-    margin: 5px;
+    margin-left: 4px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    margin-right:0;
 }
 .pentaho-toggle-button-horizontal-first {
-    margin-left: 7px;
+    margin-left: 4px;
 }
 .pentaho-toggle-button-horizontal-last {
-    margin-right: 7px;
+    margin-right: 4px;
 }
 .pentaho-toggle-button:hover,
 .pentaho-toggle-button:hover button{
@@ -678,6 +782,9 @@ button:disabled {
     background: white;
     border: solid 1px #A6B0B5;
     box-shadow: none;
+    height: 18px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 .pentaho-toggle-button-horizontal-last button {
 }
@@ -686,7 +793,8 @@ button:disabled {
 .boxshadow .pentaho-toggle-button-down button {
     border: solid 1px #829299;
     box-shadow: none;
-    background: #cad3d6; /* Old browsers */
+    background: #cad3d6;
+    color: #0070a0
 }
 
 
@@ -1079,6 +1187,7 @@ button, button *, input[type=button], input[type=button] * {
 
 .groupHeader {
     height: 30px;
+    margin-top: 20px;
 }
 
 button .label{  
@@ -1541,12 +1650,6 @@ div.validationPopup button{
 
 }
 
-td.validationPopup button{
-    margin-top: 10px;
-    margin-bottom: 10px;
-
-}
-
 div.validationPopup{
 
     margin-top: 0px;
@@ -1710,12 +1813,12 @@ div.testPromptPopup button{
 }
 
 .tableComponent tr.alerterror td, .tableComponent tr.alerterror td.sorting_1{
-    color: #FFAAAA;
+    color: #FF0000;
 }
 
 
 .tableComponent tr.alertcritical td, .tableComponent tr.alertcritical td.sorting_1{
-    color: #FF5757;
+    color: #cc17d7;
 
 }
 
@@ -1752,6 +1855,13 @@ div.testPromptPopup button{
     margin-right: 7px;
 }
 
+.container table.tableComponent {
+    background: none;   
+}
+
+.container table.tableComponent tr:not(.groupHeader) {
+    background: white;
+    border-spacing: 0;   
 
 
 div.jqi {

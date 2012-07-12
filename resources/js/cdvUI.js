@@ -1270,7 +1270,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
         name: "elapsedTime",
         label: "elapsedTime",
         defaults: {
-        
+          longFormat: true
         },
         init: function(){
         
@@ -1285,7 +1285,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
             // encapsulate this
             var $t = $(tgt);
             var text = st.value;
-            $t.text(wd.cdv.utils.groupTimestamp(text,1));
+            $t.text(wd.cdv.utils.groupTimestamp(text,1,opt));
     
         }
     };

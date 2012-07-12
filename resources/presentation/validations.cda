@@ -19,7 +19,7 @@
             <Formula>="O"</Formula>
          </CalculatedColumn>
       </Columns>
-      <Output indexes="2,13,10,11,9,16,12,0,1" mode="include"/>
+      <Output indexes="2,13,10,11,9,12,0,1,16" mode="include"/>
       <Parameters/>
       <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
 import pt.webdetails.cda.utils.InterPluginUtils;

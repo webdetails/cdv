@@ -663,7 +663,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCellBody",
+      "value": "",
       "type": "String"
      },
      {
@@ -686,17 +686,17 @@
      },
      {
       "name": "columnSpan",
-      "value": "22",
+      "value": "24",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "1",
+      "value": "0",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "1",
+      "value": "0",
       "type": "Integer"
      },
      {
@@ -1040,12 +1040,12 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\"group\",\"Test\",\"Files\",\"Validations\",\"Expected\",\" \",\"Test\",\" \",\"Result\"]",
+      "value": "[\"group\",\"Test\",\"Data Sources\",\"Validations\",\"Expected Duration\",\" \",\"Test\",\" Status\",\" \"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\",\"hidden\",\"testResult\"]",
+      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"hidden\",\"hidden\",\"testResult\",\"validationPopup\"]",
       "type": "colTypesCustom"
      },
      {
@@ -1155,7 +1155,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function() {\n         this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n\n}",
       "type": "JavaScript"
      },
      {
@@ -1322,7 +1322,7 @@
      },
      {
       "name": "output",
-      "value": "[\"2\",\"13\",\"10\",\"11\",\"9\",\"16\",\"12\",\"0\",\"1\"]",
+      "value": "[\"2\",\"13\",\"10\",\"11\",\"9\",\"12\",\"0\",\"1\",\"16\"]",
       "type": "IndexArray"
      },
      {
