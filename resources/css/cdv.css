@@ -1862,4 +1862,35 @@ div.testPromptPopup button{
 .container table.tableComponent tr:not(.groupHeader) {
     background: white;
     border-spacing: 0;   
+
+
+div.jqi {
+  background-color: #57A32B;
+}
+
+div.jqi .jqimessage {
+  background-color: white;
+}
+
+
+div.jqi .jqicontainer {
+  background-color: white;
+  color: black;
+}
+
+.jqidefaultbutton {
+   color: #0f1414;
+    height: 22px;
+    border: 1px solid #829299;
+    font-size: 12px;
+    min-width: 85px;
+    background-color: #ffffff;
+    padding-bottom: 2px;
+
+
+    -webkit-transition: background 300ms ease;
+    -moz-transition: background 300ms ease;
+    -ms-transition: background 300ms ease;
+    -o-transition: background 300ms ease;
+    transition: background 300ms ease;  
 }
