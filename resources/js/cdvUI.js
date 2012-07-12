@@ -551,7 +551,7 @@ wd.cdvUI.newValidation = function () {
         };
         // Call cdf comp
         Dashboards.addComponents([popupTextEditor]);
-        this.popupTextEditor.update();
+        popupTextEditor.update();
     }
 
 
@@ -570,7 +570,7 @@ wd.cdvUI.newValidation = function () {
                         type: "GET",
                         async: true,
                         success: function(response){
-                            if (response.success == "true") {
+                            if (response && response.success == "true") {
 
                                 popupTextEditor.setFile(response.path);
                                 popupTextEditor.update();
@@ -902,7 +902,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                                         type: "GET",
                                         async: true,
                                         success: function(response){
-                                          if (response.success == "true") {
+                                          if (response && response.success == "true") {
                                               myself.editFile(response.path);
                                               myself.popup.hide();                                
                                           } else {

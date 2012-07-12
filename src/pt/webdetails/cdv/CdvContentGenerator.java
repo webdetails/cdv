@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletRequest;
 
 import org.json.JSONObject;
@@ -100,12 +101,11 @@ public class CdvContentGenerator extends RestContentGenerator {
           }
               
           String originalTest = repAccess.getResourceAsString(origin);
-          String segment = originalTest.substring(originalTest.indexOf("path:"), originalTest.indexOf("createdBy:"));
-          originalTest = originalTest.replaceAll(Matcher.quoteReplacement(segment), "path: '" + newFileName + "',");
-          segment = originalTest.substring(originalTest.indexOf("name:"), originalTest.indexOf("group:"));
-          originalTest = originalTest.replace(Matcher.quoteReplacement(segment),"name: '" + newFileName.substring(newFileName.lastIndexOf("/")+1).replaceAll(Matcher.quoteReplacement(".cdv"), "")  + "',");
-          segment = originalTest.substring(originalTest.indexOf("createdBy:"), originalTest.indexOf("createdAt:"));              
-          originalTest = originalTest.replace(Matcher.quoteReplacement(segment),"createdBy: '" + PentahoSessionHolder.getSession().getName()  + "',");              
+          
+                             
+          originalTest = Pattern.compile("path:\\s*['\"].*['\"]\\s*,").matcher(originalTest).replaceFirst("path: '" + newFileName + "',");
+          originalTest = Pattern.compile("name:\\s*['\"].*['\"]\\s*,").matcher(originalTest).replaceFirst("name: '" + newFileName.substring(newFileName.lastIndexOf("/")+1).replaceAll(Matcher.quoteReplacement(".cdv"), "")  + "',");
+          originalTest = Pattern.compile("createdBy:\\s*['\"].*['\"]\\s*,").matcher(originalTest).replaceFirst("createdBy: '" + PentahoSessionHolder.getSession().getName()  + "',");
           repAccess.publishFile(newFileName, originalTest, false);
           result.put("success", "true");
           result.put("path", newFileName);
