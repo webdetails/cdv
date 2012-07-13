@@ -85,7 +85,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         
         if(alertType && false){ 
             results = persistenceEngine.query("select timestamp, "+
-                " group, name, summary, message, userid, level, @rid as rid from Alert where level in [ :alertType ] " + where + " order by rid desc limit 100", params );
+                " group, name, summary, message, userid, level, @rid as rid from Alert where level in [ :alertType ] " + where + " order by timestamp desc limit 100", params );
             
         }
         else{
