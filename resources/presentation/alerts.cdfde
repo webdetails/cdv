@@ -1484,12 +1484,12 @@
      },
      {
       "name": "listeners",
-      "value": "['entriesChanged','alertType','cdvGroup','cdvName']",
+      "value": "['entriesChanged','alertType','cdvGroup','cdvName','showCda']",
       "type": "Listeners"
      },
      {
       "name": "xActionArrayParameter",
-      "value": "[[\"alertType\",\"alertType\"],[\"cdvGroup\",\"cdvGroup\"],[\"cdvName\",\"cdvName\"]]",
+      "value": "[[\"alertType\",\"alertType\"],[\"cdvGroup\",\"cdvGroup\"],[\"cdvName\",\"cdvName\"],[\"showCda\",\"showCda\"]]",
       "type": "ValuesArray"
      },
      {
@@ -1509,7 +1509,7 @@
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"elapsedTime\",\"string\",\"string\",\"string\",\"alertDescription\",\"testResult\",\"alertsPopup\",\"hidden\"]",
+      "value": "[\"groupHeaders\",\"elapsedTime\",\"string\",\"clippedText\",\"string\",\"alertDescription\",\"testResult\",\"alertsPopup\",\"hidden\"]",
       "type": "colTypesCustom"
      },
      {
@@ -1589,7 +1589,7 @@
      },
      {
       "name": "sDom",
-      "value": "",
+      "value": "lfrtp",
       "type": "JavaScript"
      },
      {
@@ -1619,7 +1619,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
+      "value": "function f(){\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"clippedText\",{\n        style:{\"max-width\": \"134px\"},\n        showTooltip: true,\n        useTipsy: true\n    });\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
       "type": "JavaScript"
      },
      {
@@ -1838,7 +1838,7 @@
      },
      {
       "name": "expression",
-      "value": "",
+      "value": "function() {\n  Dashboards.log(\"Clicked on Delete all alerts\");\n  var myself = this;\n  if(confirm(\"You sure you want to delete all alerts?\")){\n  \n      $.ajax({\n          url: \"deleteAllAlerts\",\n          type: \"GET\",\n          data:{},\n          async: true,\n          success: function(){\n              Dashboards.fireChange(\"entriesChanged\",\"xxx\");\n          },\n          fail: function(jqXHR, textStatus) {\n              alert( \"Request failed: \" + textStatus );\n          }\n      })\n  \n\n  }\n}\n",
       "type": "JavaScript"
      },
      {
@@ -2039,7 +2039,7 @@
      },
      {
       "name": "parameters",
-      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"],[\"excludeCda\",\"\",\"String\",\"\"]]",
+      "value": "[[\"alertType\",\"\",\"StringArray\",\"\"],[\"cdvGroup\",\"\",\"String\",\"\"],[\"cdvName\",\"\",\"String\",\"\"],[\"showCda\",\"\",\"String\",\"\"]]",
       "type": "CdaParameters"
      },
      {
@@ -2064,7 +2064,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\nparams.put(\"excludeCda\", dataRow.get(\"excludeCda\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\n\nSystem.out.println(\"Parameters to getAlerts: \" + dataRow.get(\"alertType\") + \n\" - \" + dataRow.get(\"cdvGroup\") + \":\" +  dataRow.get(\"cdvName\") );\n\n// String[] params = {\"timestamp\",\"file\", \"parameters\",\"message\"};\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n    \"timestampGroup\", \"level\", \"group\", \"name\", \"summary\", \"userid\", \"timestamp\", \"rid\", \"message\"\n});\nparams.put(\"alertType\", dataRow.get(\"alertType\"));\nparams.put(\"cdvGroup\", dataRow.get(\"cdvGroup\"));\nparams.put(\"cdvName\", dataRow.get(\"cdvName\"));\nparams.put(\"showCda\", dataRow.get(\"showCda\"));\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"getAlerts\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {
