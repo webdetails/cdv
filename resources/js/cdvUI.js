@@ -1187,15 +1187,8 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
                     this.deleteAlert(test.id);
                     
                 }
-            },
-            {
-                name: "Delete all", 
-                callback: function(test, opt){
-                    this.deleteAllAlerts();
-                    
-                }
             }
-            ]          
+          ]          
         },
                 
         focusOnTest: function(test){
@@ -1389,3 +1382,144 @@ wd.cdvUI.testResultAddIn = {
 };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
+
+$.fn.dataTableExt.oPagination.splitWithDescription = {
+/*
+       * Function: oPagination.full_numbers.fnInit
+       * Purpose:  Initalise dom elements required for pagination with a list of the pages
+       * Returns:  -
+       * Inputs:   object:oSettings - dataTables settings object
+       *           node:nPaging - the DIV which contains this pagination control
+       *           function:fnCallbackDraw - draw function which must be called on update
+       */
+      "fnInit": function ( oSettings, nPaging, fnCallbackDraw )
+      {
+        var nList = document.createElement( 'span' );
+        var nNext = document.createElement( 'span' );
+        var nPrevious = document.createElement( 'span' );
+        
+        nPrevious.innerHTML = "&nbsp;";
+        nNext.innerHTML = "&nbsp;";
+        
+        var oClasses = oSettings.oClasses;
+        nPrevious.className = oClasses.sPageButton+" "+oClasses.sPagePrevious;
+        nNext.className= oClasses.sPageButton+" "+oClasses.sPageNext;
+        
+        nPaging.appendChild( nPrevious );
+        nPaging.appendChild( nList );
+        nPaging.appendChild( nNext );
+        
+        $(nPrevious).click( function() {
+          if ( oSettings.oApi._fnPageChange( oSettings, "previous" ) )
+          {
+            fnCallbackDraw( oSettings );
+          }
+        } );
+        
+        $(nNext).click( function() {
+          if ( oSettings.oApi._fnPageChange( oSettings, "next" ) )
+          {
+            fnCallbackDraw( oSettings );
+          }
+        } );
+        
+        /* Take the brutal approach to cancelling text selection */
+        $('span', nPaging)
+          .bind( 'mousedown', function () { return false; } )
+          .bind( 'selectstart', function () { return false; } );
+        
+        /* ID the first elements only */
+        if ( oSettings.sTableId !== '' && typeof oSettings.aanFeatures.p == "undefined" )
+        {
+          nPaging.setAttribute( 'id', oSettings.sTableId+'_paginate' );
+          nPrevious.setAttribute( 'id', oSettings.sTableId+'_previous' );
+          nList.setAttribute( 'id', oSettings.sTableId+'_list' );
+          nNext.setAttribute( 'id', oSettings.sTableId+'_next' );
+        }
+      },
+      
+      /*
+       * Function: oPagination.full_numbers.fnUpdate
+       * Purpose:  Update the list of page buttons shows
+       * Returns:  -
+       * Inputs:   object:oSettings - dataTables settings object
+       *           function:fnCallbackDraw - draw function to call on page change
+       */
+      "fnUpdate": function ( oSettings, fnCallbackDraw )
+      {
+        if ( !oSettings.aanFeatures.p )
+        {
+          return;
+        }
+        
+        var iPageCount = 5;
+        var iPageCountHalf = Math.floor(iPageCount / 2);
+        var iPages = Math.ceil((oSettings.fnRecordsDisplay()) / oSettings._iDisplayLength);
+        var iCurrentPage = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
+        var sList = "";
+        var iStartButton, iEndButton, i, iLen;
+        var oClasses = oSettings.oClasses;
+        
+
+        var templ = "Showing entries {{start}}-{{end}} of {{total}}",
+            opts = {
+              total: oSettings.fnRecordsDisplay(),
+              start: oSettings._iDisplayStart + 1,
+              end: oSettings._iDisplayStart + oSettings._iDisplayLength
+            }
+        $('#'+oSettings.sTableId+'_list').text(Mustache.render(templ, opts));
+        
+        
+        /* Loop over each instance of the pager */
+        var an = oSettings.aanFeatures.p;
+        var anButtons, anStatic, nPaginateList;
+        var fnClick = function() {
+          /* Use the information in the element to jump to the required page */
+          var iTarget = (this.innerHTML * 1) - 1;
+          oSettings._iDisplayStart = iTarget * oSettings._iDisplayLength;
+          fnCallbackDraw( oSettings );
+          return false;
+        };
+        var fnFalse = function () { return false; };
+        
+        for ( i=0, iLen=an.length ; i<iLen ; i++ )
+        {
+          if ( an[i].childNodes.length === 0 )
+          {
+            continue;
+          }
+          
+          /* Build up the dynamic list forst - html and listeners */
+          var qjPaginateList = $('span:eq(2)', an[i]);
+          qjPaginateList.html( sList );
+          $('span', qjPaginateList).click( fnClick ).bind( 'mousedown', fnFalse )
+            .bind( 'selectstart', fnFalse );
+          
+          /* Update the 'premanent botton's classes */
+          anButtons = an[i].getElementsByTagName('span');
+          $(anButtons[1]).addClass('description');
+          anStatic = [
+            anButtons[0], anButtons[anButtons.length-1]
+          ];
+          $(anStatic).removeClass( oClasses.sPageButton+" "+oClasses.sPageButtonActive+" "+oClasses.sPageButtonStaticDisabled );
+          if ( iCurrentPage == 1 )
+          {
+            anStatic[0].className += " "+oClasses.sPageButtonStaticDisabled;
+          }
+          else
+          {
+            anStatic[0].className += " "+oClasses.sPageButton;
+          }
+          
+          if ( iPages === 0 || iCurrentPage == iPages || oSettings._iDisplayLength == -1 )
+          {
+            anStatic[1].className += " "+oClasses.sPageButtonStaticDisabled;
+          }
+          else
+          {
+            anStatic[1].className += " "+oClasses.sPageButton;
+          }
+        }
+      }
+
+}

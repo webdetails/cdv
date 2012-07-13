@@ -515,9 +515,13 @@ wd.cdv = wd.cdv||{};
                   doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
                   /* Set the */
                   var params = new Packages.java.util.HashMap();
+                  var group = resJSON.test.group.replace(/"/,"\\\"");
+                  var name = resJSON.test.name.replace(/"/,"\\\"");
                   params.put("name", resJSON.test.name);
                   params.put("group", resJSON.test.group);
-                  persistenceEngine.command("update TestResult set latest = false where test[group] = :group and test[name] = :name and latest = true",params);
+                  var stmt = "update TestResult set latest = false where test[group] = \"" + group + "\" and test[name] = \"" + name + "\" and latest = true";
+                  print(stmt);
+                  persistenceEngine.command(stmt,params);
                   doc.field("latest", true);
                   persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
               }

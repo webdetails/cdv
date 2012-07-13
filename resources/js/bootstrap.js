@@ -74,7 +74,7 @@ registerHandler("GET", "/listTests", function(out){
 
 registerHandler("GET", "/listTestsFlatten", function(out){
   try {
-    var results = persistenceEngine.query("select test.name as name, test.group as group, testResult.type as level, testResult.description as message" +
+    var results = persistenceEngine.query("select test[name] as name, test[group] as group, testResult[type] as level, testResult[description] as message" +
           " from TestResult where latest = true",null),
         object = JSON.parse(results.getJSONArray("object").toString()),
         testResults = {};

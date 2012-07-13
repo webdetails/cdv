@@ -502,29 +502,6 @@
     ]
    },
    {
-    "id": "4b76ebde-37c0-a93a-4094-faef9b72bb85",
-    "type": "LayoutSpace",
-    "typeDesc": "Space",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "height",
-      "value": "40",
-      "type": "Integer"
-     },
-     {
-      "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     }
-    ]
-   },
-   {
     "id": "877457b8-a653-c5a8-54ac-fe00c992aa02",
     "type": "LayoutRow",
     "typeDesc": "Row",
@@ -552,7 +529,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCellBody",
+      "value": "",
       "type": "String"
      },
      {
@@ -575,17 +552,17 @@
      },
      {
       "name": "columnSpan",
-      "value": "22",
+      "value": "5",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "1",
+      "value": "19",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "1",
+      "value": "",
       "type": "Integer"
      },
      {
@@ -625,7 +602,7 @@
      },
      {
       "name": "cssClass",
-      "value": "",
+      "value": "fixMargin newValidation",
       "type": "String"
      },
      {
@@ -1070,7 +1047,7 @@
      },
      {
       "name": "paginate",
-      "value": "false",
+      "value": "true",
       "type": "Boolean"
      },
      {
@@ -1105,7 +1082,7 @@
      },
      {
       "name": "displayLength",
-      "value": "",
+      "value": "10",
       "type": "Integer"
      },
      {
@@ -1125,7 +1102,7 @@
      },
      {
       "name": "sDom",
-      "value": "",
+      "value": "lfrtp",
       "type": "JavaScript"
      },
      {
@@ -1155,7 +1132,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function() {\n         this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n\n}",
+      "value": "function() {\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n}",
       "type": "JavaScript"
      },
      {
