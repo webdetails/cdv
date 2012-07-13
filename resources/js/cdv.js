@@ -517,8 +517,7 @@ wd.cdv = wd.cdv||{};
                   var params = new Packages.java.util.HashMap();
                   params.put("name", resJSON.test.name);
                   params.put("group", resJSON.test.group);
-                  // persistenceEngine.command("update TestResult set latest = false where test.group = ":group and test.name = :name and latest = true",params);
-                  persistenceEngine.command("update TestResult set latest = false where test.group = :group and test.name = :name and latest = true",params);
+                  persistenceEngine.command("update TestResult set latest = false where test[group] = :group and test[name] = :name and latest = true",params);
                   doc.field("latest", true);
                   persistenceEngine.store(null, tr.getPersistenceClass(), null, doc);
               }
@@ -674,6 +673,7 @@ wd.cdv = wd.cdv||{};
             // Get the keys, deep copying initial obj
             var arr = JSON.parse(JSON.stringify(_.flatten(_.map(t,_.values)))); 
             wd.log("Debug: " + arr);
+            arr = arr.sort(function(a,b){return a.group > b.group? 1 : a.group < b.group ? -1 : 0;});
             return _.map(arr,preprocessObj);
         
         
@@ -737,8 +737,12 @@ wd.cdv = wd.cdv||{};
 
     wd.cdv.utils = wd.cdv.utils || {
     
-        groupTimestamp: function (d, _level) {
+        groupTimestamp: function (d, _level, opt) {
 
+            var defaults = {
+              longFormat: true
+            }
+            opt = _.extend({},defaults,opt);
             var level = _level || 1;
 
             // Level: 1 - group granularity
@@ -755,18 +759,18 @@ wd.cdv = wd.cdv||{};
                 var diff = (now.getTime() - d)/1000;
                 if (diff >= 86400) {
                     how_many = Math.floor(diff / 86400);
-                    what = ' day';
+                    what = opt.longFormat ? ' day' : 'd';
                 } else if (diff >= 3600) {
                     how_many = Math.floor(diff / 3600);
-                    what = ' hour';
+                    what = opt.longFormat ? ' hour' : 'h';
                 } else if (diff >= 60) {
                     how_many = Math.floor(diff / 60);
-                    what = ' minute';
+                    what = opt.longFormat ? ' minute' : 'm';
                 } else {
                     return "Just now";
                 }
 
-                if (how_many > 1) what = what + 's'; // Plural
+                if (opt.longFormat && how_many > 1) what = what + 's'; // Plural
                 if (how_many != '') var str = how_many + what + ' ago';
 
             }

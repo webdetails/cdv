@@ -525,14 +525,14 @@
     ]
    },
    {
-    "id": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "id": "877457b8-a653-c5a8-54ac-fe00c992aa02",
     "type": "LayoutRow",
     "typeDesc": "Row",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "name",
-      "value": "dataCell",
+      "value": "",
       "type": "Id"
      },
      {
@@ -563,14 +563,14 @@
     ]
    },
    {
-    "id": "9415c320-b23d-31da-17cd-80539f8949fb",
+    "id": "23afdc42-d9d6-a23e-ba9f-3e41900c0df3",
     "type": "LayoutColumn",
     "typeDesc": "Column",
-    "parent": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "parent": "877457b8-a653-c5a8-54ac-fe00c992aa02",
     "properties": [
      {
       "name": "name",
-      "value": "tableObj",
+      "value": "newButtonObj",
       "type": "Id"
      },
      {
@@ -586,6 +586,117 @@
      {
       "name": "columnAppend",
       "value": "1",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "right",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "dataCell",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     }
+    ]
+   },
+   {
+    "id": "9415c320-b23d-31da-17cd-80539f8949fb",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "6fa4db01-097a-7f50-779a-cdcca6a78c86",
+    "properties": [
+     {
+      "name": "name",
+      "value": "tableObj",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "24",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "0",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "0",
       "type": "Integer"
      },
      {
@@ -929,12 +1040,12 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\"group\",\"Test\",\"Files\",\"Validations\",\"Expected\",\" \",\"Test\",\" \",\"Result\"]",
+      "value": "[\"group\",\"Test\",\"Data Sources\",\"Validations\",\"Expected Duration\",\" \",\"Test\",\" Status\",\" \"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"validationPopup\",\"hidden\",\"hidden\",\"testResult\"]",
+      "value": "[\"groupHeaders\",\"string\",\"validationFile\",\"string\",\"numeric\",\"hidden\",\"hidden\",\"testResult\",\"validationPopup\"]",
       "type": "colTypesCustom"
      },
      {
@@ -1044,7 +1155,7 @@
      },
      {
       "name": "preExecution",
-      "value": "",
+      "value": "function() {\n         this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n\n}",
       "type": "JavaScript"
      },
      {
@@ -1081,6 +1192,79 @@
       "name": "expandContainerObject",
       "value": "",
       "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "9f0a6316-6eb2-7ad1-d502-fc527145cfa1",
+    "type": "ComponentsbuttonComponent",
+    "typeDesc": "Button Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "newQueryButton",
+      "type": "Id"
+     },
+     {
+      "name": "label",
+      "value": "New Validation",
+      "type": "String"
+     },
+     {
+      "name": "htmlObject",
+      "value": "newButtonObj",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "tableStyle",
+      "value": "classic",
+      "type": "TableStyle"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function () {\n    wd.cdvUI.newValidation();\n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
      }
     ]
    }
@@ -1138,7 +1322,7 @@
      },
      {
       "name": "output",
-      "value": "[\"2\",\"13\",\"10\",\"11\",\"9\",\"16\",\"12\",\"0\",\"1\"]",
+      "value": "[\"2\",\"13\",\"10\",\"11\",\"9\",\"12\",\"0\",\"1\",\"16\"]",
       "type": "IndexArray"
      },
      {

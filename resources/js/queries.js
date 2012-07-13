@@ -113,15 +113,13 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
 registerHandler("GET", "/getLatestResults", function(out){
     
     try {
-        var results = persistenceEngine.query("select test.name as name, test.group as group, testResult.type as level, testResult.description as message" +
+        var results = persistenceEngine.query("select test[name] as name, test[group] as group, testResult[type] as level, testResult.description as message" +
             " from TestResult where latest = true",null);
-        
         
         var object = JSON.parse(results.getJSONArray("object").toString());
 
         out.write(new java.lang.String(JSON.stringify(object,null,2)).getBytes("utf-8"));
-        
-        
+       
     } catch (e) {
         print(e);
     }
@@ -132,7 +130,7 @@ registerHandler("GET", "/getCdaErrors", function(out){
     
     try {        
         var results = persistenceEngine.query("select timestamp, "+
-            "queryInfo.cdaSettingsId.append(\"[\").append(queryInfo.dataAccessId).append(\"]\") as file, queryInfo.parameters as parameters , "+
+            "queryInfo[cdaSettingsId]append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
             "message, @rid from cdaEvent where eventType = 'QueryError'  order by timestamp desc limit 100",null);
         
         //console.log("Results: " + results.toJSON());
@@ -177,7 +175,7 @@ registerHandler("GET", "/getCdaSlowQueries", function(out){
     
     try {
         var results = persistenceEngine.query("select timestamp, "+
-            "queryInfo.cdaSettingsId.append(\"[\").append(queryInfo.dataAccessId).append(\"]\") as file, queryInfo.parameters as parameters , "+
+            "queryInfo[cdaSettingsId]append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
             "duration, @rid from cdaEvent where eventType = 'QueryTooLong'  order by timestamp desc limit 100",null);
         
         //console.log("Results: " + results.toJSON());
@@ -292,7 +290,11 @@ registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams
 
         
         // 1. Truncate it
-        var result = persistenceEngine.command("truncate class Alert ", null);
+        persistenceEngine.command("truncate class Alert ", null);
+        var truncateResults = requestParams.getBooleanParameter("truncateResults",false);
+        if(truncateResults) {
+          persistenceEngine.command("truncate class TestResult ", null);
+        }
         out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
 
 
