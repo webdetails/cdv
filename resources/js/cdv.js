@@ -795,7 +795,7 @@ wd.cdv = wd.cdv||{};
             }
             else{
     
-                var midnightUnixTime = Math.floor(now.getTime()/(1000*3600))*1000*3600 + (now.getTimezoneOffset() * 1000*60);
+                var midnightUnixTime = new Date(now.getYear(),now.getMonth(),now.getDate()).getTime();
                 var yesterdayUnixTime = midnightUnixTime - 1000*3600*24;
                 var thisWeekUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDay());
                 var thisMonthUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDate()-1);
