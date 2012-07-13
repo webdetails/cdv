@@ -1319,7 +1319,7 @@
      },
      {
       "name": "query",
-      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"listTestsFlatten\");\nreturn model;",
+      "value": "import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;\nimport pt.webdetails.cda.utils.InterPluginUtils;\n\nHashMap params = new HashMap();\nparams.put(\"columns\", new String[]{\n\"path\", \"result\", \"group\", \"warnPercentage\", \"validationType\",\n\"type\", \"errorOnLow\",\"createdAt\", \"cron\", \"expected\", \"queries\",\n\"validationName\", \"id\", \"name\", \"errorPercentage\", \"createdBy\"\n});\n\nTypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall(\"cdv\", \"listTestsFlatten\", params);\nreturn model;",
       "type": "SqlQuery"
      },
      {
