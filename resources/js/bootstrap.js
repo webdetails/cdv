@@ -3,6 +3,7 @@
  */
 lib("lib/json2.js");
 lib("lib/underscore.js");
+lib("lib/mustache.js");
 lib("lib/timers.js");
 lib("lib/later.js");
 lib("lib/wd.js");

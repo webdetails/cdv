@@ -507,9 +507,24 @@ wd.cdv = wd.cdv||{};
                   fullMessage += " * " + validationResult.toString() + "         ";
               });
               
-              
+              /* Emit an alert for the test result*/ 
               var alrt = eventManager.createAlert(resJSON.testResult.type, resJSON.test.group, resJSON.test.name, resJSON.testResult.description, fullMessage);
               eventManager.publish(alrt);
+              /* Emit an alert for the test's duration */
+              var description = "Query execution time: {{duration}}ms (Expected {{expected}}ms)",
+                  descriptionVals = {
+                    duration: resJSON.duration.duration,
+                    expected: resJSON.duration.expected
+                  },
+                  title = "{{group}}: {{name}} - Unexpected query execution time",
+                  titleVals = {
+                    level: resJSON.duration.type,
+                    name: resJSON.test.name,
+                    group: resJSON.test.group,
+                  };
+              var durationAlert = eventManager.createAlert(resJSON.duration.type, resJSON.test.group, resJSON.test.name, Mustache.render(title,titleVals), Mustache.render(description,descriptionVals));
+              eventManager.publish(durationAlert);
+
               var tr =  eventManager.createTestResult(JSON.stringify(resJSON)), doc;
               if(tr) {
                   doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
