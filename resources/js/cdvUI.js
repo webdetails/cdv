@@ -833,10 +833,10 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
         textEditorObj: undefined,
         defaults: {
 
-            idColIndex: 6,
+            idColIndex: 5,
             nameColIndex: 1,
             groupColIndex: 0,
-            pathColIndex: 7,
+            pathColIndex: 6,
             popup: [
             {
                 name: "Run Test", 
