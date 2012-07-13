@@ -1,11 +1,17 @@
 cdv.registerTest({
 	id: 1,
     type: "query",
-    name: "",
+
+    name: "name",
+
     group: "",
+
 	path: "",
+
 	createdBy: "",
+
 	createdAt: 1339430893246,
+
     queries: [ 
 	{
         cdaFile: "", 

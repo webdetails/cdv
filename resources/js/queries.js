@@ -95,7 +95,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         }
         
         
-        //console.log("Results: " + results.toJSON());
+        wd.log("Starting parse of results"); // TODO - Change this code. It's taking ages!
         
         var object = JSON.parse(results.getJSONArray("object").toString());
                 

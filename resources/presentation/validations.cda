@@ -24,7 +24,15 @@
       <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
 import pt.webdetails.cda.utils.InterPluginUtils;
 
-TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "listTestsFlatten");
+HashMap params = new HashMap();
+params.put("columns", new String[]{
+"path", "result", "group", "warnPercentage", "validationType",
+"type", "errorOnLow","createdAt", "cron", "expected", "queries",
+"validationName", "id", "name", "errorPercentage", "createdBy"
+});
+
+TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", 
+"listTestsFlatten", params);
 return model;</Query>
    </DataAccess>
 </CDADescriptor>
