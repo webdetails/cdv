@@ -495,6 +495,9 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
     display: inline-block;
     width: auto;
     margin: 10px 9px;
+    position: absolute;
+    top: -37px;
+    left: 0px;
 }
 
 .validationTable .dataTables_filter input {
@@ -515,7 +518,7 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 .alerts .dataTables_filter {
     position: absolute;
     left: -200px;
-    top: -32px;
+    top: -27px;
 }
 
 .alerts .dataTables_filter input {
@@ -743,11 +746,16 @@ button:disabled {
   position: relative;
   left: 8px;
 }
+
+.newValidation button {
+margin-right: 12px;
+}
 /* Multi Button */
 
 .alertTypes {
   border: 1px solid #829299;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
   background: white;
   margin-top: 5px;
 }
@@ -1414,6 +1422,9 @@ button .label{
 }
 
 /* Multi Button */
+.pentaho-toggle-button:hover button:not(:disabled) {
+  border: 0;
+}
 .removeGroupOrQueries .pentaho-toggle-button,
 .queriesToRemove .pentaho-toggle-button,
 .availableGroups .pentaho-toggle-button {
@@ -1603,6 +1614,10 @@ textarea#code {
 
 .validationFileWrapper div.cda{
     margin-bottom: 5px;
+}
+
+.validationFileWrapper div.cdaFile{
+    color: black;
 }
 
 .validationFileWrapper span.cdaPath{
@@ -1862,7 +1877,7 @@ div.testPromptPopup button{
 .container table.tableComponent tr:not(.groupHeader) {
     background: white;
     border-spacing: 0;   
-
+}
 
 div.jqi {
   background-color: #57A32B;
@@ -1894,3 +1909,28 @@ div.jqi .jqicontainer {
     -o-transition: background 300ms ease;
     transition: background 300ms ease;  
 }
+
+.dataTables_paginate.paging_splitWithDescription {
+  float: right;
+  width: auto;
+  margin-top: 3px;
+}
+
+.dataTables_paginate.paging_splitWithDescription .description {
+  float: left;
+  margin: 3px;
+  line-height: 22px;
+}
+.paginate_button {
+  margin: 3px;
+  width: 23px;
+  height: 22px;
+  float: left;
+}
+.paginate_button.previous {
+  background-image: url('img/arrowLeft.png');
+} 
+.paginate_button.next {
+  background-image: url('img/arrowRight.png');
+  margin-right:-1px;
+} 
