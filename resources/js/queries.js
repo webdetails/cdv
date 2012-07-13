@@ -31,7 +31,8 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         var viewHistory = false;
         var cdvGroup = requestParams.getStringParameter("cdvGroup",null);
         var cdvName = requestParams.getStringParameter("cdvName",null);
-        
+        var showCda = requestParams.getStringParameter("showCda","true");
+        showCda = (showCda == null || showCda == "true");
         
         var isEmpty = function(s){
             return (s == null || s == "");
@@ -47,6 +48,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         // params.put("alertType", alertType);
         params.put("cdvGroup", cdvGroup);
         params.put("cdvName", cdvName);
+        params.put("showCda", showCda);
         
         console.log("Starting getAlerts: " +  new Date() + "; " + alertType + "; >" + (viewHistory?("View History: " + cdvGroup + ':' + cdvName):"<"));
         
@@ -60,6 +62,10 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
             console.log("Setting where");
             where = " and group = :cdvGroup and name = :cdvName ";
             
+        }
+
+        if(!showCda) {
+          where += " and group <> 'cda' ";
         }
         
         // TODO - Get this into prepared statements. Currently, seems orient doesn't properly support them
