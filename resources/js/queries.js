@@ -82,17 +82,18 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
             }
                 
         }
-        
-        if(alertType && false){ 
-            results = persistenceEngine.query("select timestamp, "+
-                " group, name, summary, message, userid, level, @rid as rid from Alert where level in [ :alertType ] " + where + " order by timestamp desc limit 100", params );
+        var query;
+        if(alertType && false){
+            query = "select timestamp, group, name, summary, message, userid, level, @rid as rid" +
+                " from Alert where level in [ :alertType ] " + where + " order by timestamp desc limit 100";
             
         }
         else{
-            results = persistenceEngine.query("select timestamp, "+
-                " group, name, summary, message, userid, level, @rid as rid from Alert where 1 = 1 " + where + " order by rid desc limit 100",params);
+            query  = "select timestamp, group, name, summary, message, userid, level, @rid as rid" +
+                " from Alert where 1 = 1 " + where + " order by timestamp desc limit 100";
             
         }
+        results = persistenceEngine.query(query, params );
         
         
         wd.log("Starting parse of results"); // TODO - Change this code. It's taking ages!
@@ -136,7 +137,7 @@ registerHandler("GET", "/getCdaErrors", function(out){
     
     try {        
         var results = persistenceEngine.query("select timestamp, "+
-            "queryInfo[cdaSettingsId]append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
+            "queryInfo[cdaSettingsId].append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
             "message, @rid from cdaEvent where eventType = 'QueryError'  order by timestamp desc limit 100",null);
         
         //console.log("Results: " + results.toJSON());
@@ -181,7 +182,7 @@ registerHandler("GET", "/getCdaSlowQueries", function(out){
     
     try {
         var results = persistenceEngine.query("select timestamp, "+
-            "queryInfo[cdaSettingsId]append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
+            "queryInfo[cdaSettingsId].append(\"[\").append(queryInfo[dataAccessId]).append(\"]\") as file, queryInfo[parameters] as parameters , "+
             "duration, @rid from cdaEvent where eventType = 'QueryTooLong'  order by timestamp desc limit 100",null);
         
         //console.log("Results: " + results.toJSON());
@@ -291,20 +292,23 @@ registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams
     
 
     try {
-        
-        console.log("deleteAllAlerts method ");
+        var alertType = requestParams.getStringArrayParameter("alertType",null) || [''],
+            alertStr = _(alertType).map(function(e){
+              return '"' + (e + "").replace(/"/g, '\\"') + '"';
+            }).join(", "),
+            whereAlert = 'where level in [' + alertStr +']';
+            whereTestResult = 'where testResult[level] in [' + alertStr +']';
 
-        
         // 1. Truncate it
-        persistenceEngine.command("truncate class Alert ", null);
-        var truncateResults = requestParams.getBooleanParameter("truncateResults",false);
-        if(truncateResults) {
-          persistenceEngine.command("truncate class TestResult ", null);
+        print(whereAlert);
+        print(whereTestResult);
+        persistenceEngine.command("delete from Alert " + whereAlert, null);
+        var truncateResults = requestParams.getStringParameter("truncateResults","false");
+        if(truncateResults == "true") {
+          persistenceEngine.command("delete from TestResult " + whereTestResult, null);
         }
         out.write(new java.lang.String("{result: true}").getBytes("utf-8"));
-
-
-    } catch (e) {
+   } catch (e) {
         print(e);
     }
 });
