@@ -483,11 +483,11 @@ wd.cdvUI = wd.cdvUI ||{
     
 
     siteMap: [
-    {
+    /*{
         name: "Home",
         link: "home",
         sublinks: []
-    },
+    },*/
     {
         name: "Validations",
         link: "validations",
