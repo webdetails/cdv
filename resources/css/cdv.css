@@ -503,6 +503,7 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 }
 
 .slowQuery .dataTables_filter input,
+.cdaError .dataTables_filter input,
 .validationTable .dataTables_filter input {
     width: 204px;
     height: 18px;
