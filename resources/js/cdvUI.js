@@ -843,16 +843,20 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                 callback: function(test){
                     Dashboards.log("Clicked on Run for " + test.id);
                     var myself = this;
-                    $.getJSON('runTest',
-                    {
-                        name: test.name,
-                        group: test.group
-                    },
-                    function(result){
-                        alert(JSON.stringify(result,null,2));
-                        myself.popup.hide();
-                    });
-
+                    Dashboards.incrementRunningCalls();
+                    setTimeout(function(){
+                      $.getJSON('runTest',
+                      {
+                          name: test.name,
+                          group: test.group
+                      },
+                      function(result){
+                          alert(JSON.stringify(result,null,2));
+                          Dashboards.fireChange("tableChanged",true);
+                          Dashboards.decrementRunningCalls();
+                          myself.popup.hide();
+                      });
+                    }, 1);
                 }
             },
             {

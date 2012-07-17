@@ -31,8 +31,7 @@ params.put("columns", new String[]{
 "validationName", "id", "name", "errorPercentage", "createdBy"
 });
 
-TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", 
-"listTestsFlatten", params);
+TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "listTestsFlatten", params);
 return model;</Query>
    </DataAccess>
 </CDADescriptor>

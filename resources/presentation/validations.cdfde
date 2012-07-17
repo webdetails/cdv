@@ -966,6 +966,29 @@
     ]
    },
    {
+    "id": "9f2ef09a-290d-95e1-637c-17ca37215eb1",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "tableChanged",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -997,7 +1020,7 @@
      },
      {
       "name": "listeners",
-      "value": "['editorFileSaved']",
+      "value": "['editorFileSaved','tableChanged']",
       "type": "Listeners"
      },
      {
