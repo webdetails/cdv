@@ -445,7 +445,7 @@
      },
      {
       "name": "height",
-      "value": "40",
+      "value": "32",
       "type": "Integer"
      },
      {
@@ -498,7 +498,7 @@
      },
      {
       "name": "cssClass",
-      "value": "WDdataCellBody",
+      "value": "",
       "type": "String"
      },
      {
@@ -521,17 +521,17 @@
      },
      {
       "name": "columnSpan",
-      "value": "22",
+      "value": "24",
       "type": "Integer"
      },
      {
       "name": "columnPrepend",
-      "value": "1",
+      "value": "0",
       "type": "Integer"
      },
      {
       "name": "columnAppend",
-      "value": "1",
+      "value": "0",
       "type": "Integer"
      },
      {
@@ -571,7 +571,7 @@
      },
      {
       "name": "cssClass",
-      "value": "cdaError",
+      "value": "slowQuery",
       "type": "String"
      },
      {
@@ -764,22 +764,22 @@
      },
      {
       "name": "colHeaders",
-      "value": "[\" \",\"CDA\",\"Duration\",\"When\",\" \"]",
+      "value": "[\" \",\" \",\"Data Source\",\"Duration\",\" \"]",
       "type": "Array"
      },
      {
       "name": "colTypes",
-      "value": "[\"groupHeaders\",\"validationFile\",\"string\",\"elapsedTime\",\"cdaPopup\"]",
+      "value": "[\"groupHeaders\",\"elapsedTime\",\"validationFile\",\"numeric\",\"cdaPopup\"]",
       "type": "colTypesCustom"
      },
      {
       "name": "colFormats",
-      "value": "[null,null,\"%.0f sec\",null,null]",
+      "value": "[null,null,null,\"%.0fs\",null]",
       "type": "Array"
      },
      {
       "name": "colWidths",
-      "value": "[\"0%\",\"60%\",\"20%\",\"15%\",\"5%\"]",
+      "value": "[\"0%\",\"10%\",\"78%\",\"7%\",\"5%\"]",
       "type": "Array"
      },
      {
@@ -879,7 +879,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n    // configure addin\n        \n    this.setAddInOptions(\"colType\",\"cdaPopup\",{\n            eventType: \"QueryTooLong\"\n    });\n}\n\n\n",
+      "value": "function f(){\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n    \n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    this.setAddInOptions(\"colType\",\"cdaPopup\",{\n            eventType: \"QueryTooLong\"\n    });\n}\n\n",
       "type": "JavaScript"
      },
      {
@@ -973,7 +973,7 @@
      },
      {
       "name": "output",
-      "value": "[]",
+      "value": "[\"0\",\"3\",\"1\",\"2\",\"4\"]",
       "type": "IndexArray"
      },
      {
