@@ -126,6 +126,14 @@
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
 
 
+	<replace file="${stage.dir}/${plugin.name}/presentation/alerts.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+	<replace file="${stage.dir}/${plugin.name}/presentation/cdaErrors.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+    <replace file="${stage.dir}/${plugin.name}/presentation/home.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+	<replace file="${stage.dir}/${plugin.name}/presentation/notificationSettings.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+	<replace file="${stage.dir}/${plugin.name}/presentation/slowQueries.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+	<replace file="${stage.dir}/${plugin.name}/presentation/validations.cdfde" token="v TRUNK-SNAPSHOT" value="v ${project.revision}"/> 
+	
+
 	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='STABLE'>${distribution.version}&lt;/version>"/>		       
 
 
