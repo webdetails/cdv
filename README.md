@@ -139,9 +139,7 @@ You can set diferent data sources by selecting diferent cda files, and set the t
 
 When you have a set of tests created this it what the validations screen looks like:
 
-![CDV header](http://www.webdetails.pt/cdv/cdv_tests.png)
 
-(paths to cda files where removed due to privacy issues)
 
 The tests will be sorted by groups, defined when creating each test. In each group, each line corresponds
 to a test, where we can see the name of the test, the path to the cda file used as Data Source,
@@ -169,7 +167,7 @@ Alerts
 
 On Alerts you can see the runned tests sorted by time of run and filter them by the Status of the test:
 
-![CDV alerts](http://www.webdetails.pt/cdv/cdv_alerts.png)
+
 
 CDA Errors
 ----------
