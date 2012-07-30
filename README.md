@@ -28,7 +28,7 @@ Very often we want that several questions related to the data would be answered 
 * We need a way to handleknow effects (eg: Christmas dip)
 * We need to correlate independent datasources
 * Be able to validade big chnks of reprocessing
-* Do we have clearly wrong lines in resultset? (eg: a `<null>` line there)
+* Do we have clearly wrong rows in resultset? (eg: a `<null>` line there)
 * etc
 
 So we decide to build CDV - a data validator that periodically do a set of tests that answer all the above questions.
