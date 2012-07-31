@@ -516,7 +516,7 @@ wd.cdv = wd.cdv||{};
                     duration: resJSON.duration.duration,
                     expected: resJSON.duration.expected
                   },
-                  title = "{{group}}: {{name}} - Unexpected query execution time",
+                  title = "Unexpected Query Duration - {{group}}: {{name}}",
                   titleVals = {
                     level: resJSON.duration.type,
                     name: resJSON.test.name,
@@ -609,13 +609,16 @@ wd.cdv = wd.cdv||{};
             _tests[test.group][test.name] = test;
             
             if (spec.isServerSide){
+              if(getPluginSetting("scheduler/active") == "true") {
                 scheduler.scheduleTask(function(){
-                    var result = myself.runTestById({
-                        group: test.group, 
-                        name: test.name
-                    }).toJSON();
-
+                  var result = myself.runTestById({
+                      group: test.group, 
+                      name: test.name
+                  }).toJSON();
                 }, test.cron);
+              } else {
+                wd.log("Test scheduling skipped");
+              }
             }
         };
 
