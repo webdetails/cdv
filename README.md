@@ -143,20 +143,20 @@ We'll be using the Steel-Wheels Sample Data to create some examples of the valid
 
 As an example, the following MDX query returns the # of Quantity and Sales for a specific year:
 
-`select NON EMPTY {[Measures].[Quantity], [Measures].[Sales]} ON COLUMNS,
-{Descendants 
-   ( [Time].[${yearParameter}], 
-     [Time].[${yearParameter}], AFTER
-   )  
-} ON ROWS
-from [SteelWheelsSales]`
+	select NON EMPTY {[Measures].[Quantity], [Measures].[Sales]} ON COLUMNS,
+	{Descendants 
+		( [Time].[${yearParameter}], 
+		[Time].[${yearParameter}], AFTER
+		)
+	} ON ROWS
+	from [SteelWheelsSales]`
 
 For example, for 2003 the resultset is:
 
-`["QTR1", 4561, 445094.69], ["Jan", 1357, 129753.6], ["Feb", 1449, 140836.19000000006], ["Mar", 1755, 174504.89999999997], 
-["QTR2", 5695, 564842.02], ["Apr", 1993, 201609.55], ["May", 2017, 192673.11000000002], ["Jun", 1685, 170559.36000000004], 
-["QTR3", 6629, 687268.8699999998], ["Jul", 2145, 225486.21000000002], ["Aug", 1974, 197809.30000000002], ["Sep", 2510, 263973.36], 
-["QTR4", 19554, 1980178.4199999995], ["Oct", 5731, 589963.9], ["Nov", 10862, 1086720.4000000001], ["Dec", 2961, 303494.11999999994]`
+	["QTR1", 4561, 445094.69], ["Jan", 1357, 129753.6], ["Feb", 1449, 140836.19000000006], ["Mar", 1755, 174504.89999999997],
+	["QTR2", 5695, 564842.02], ["Apr", 1993, 201609.55], ["May", 2017, 192673.11000000002], ["Jun", 1685, 170559.36000000004],
+	["QTR3", 6629, 687268.8699999998], ["Jul", 2145, 225486.21000000002], ["Aug", 1974, 197809.30000000002], ["Sep", 2510, 263973.36], 
+	["QTR4", 19554, 1980178.4199999995], ["Oct", 5731, 589963.9], ["Nov", 10862, 1086720.4000000001], ["Dec", 2961, 303494.11999999994]
 
 We can test if the resultset has data for all months and quarters as expected, and test the variations between
 months and quarters to detect peaks or valleys in the data due to double process or no process.
