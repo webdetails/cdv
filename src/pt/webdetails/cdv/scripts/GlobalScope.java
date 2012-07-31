@@ -19,6 +19,7 @@ import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.pentaho.platform.api.engine.IPentahoSession;
+import org.pentaho.platform.api.engine.IPluginResourceLoader;
 import org.pentaho.platform.api.engine.ISolutionFile;
 import org.pentaho.platform.api.engine.IUserDetailsRoleListService;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
@@ -29,6 +30,7 @@ import org.pentaho.platform.engine.security.SecurityHelper;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
+import pt.webdetails.cdv.CdvContentGenerator;
 import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 import pt.webdetails.cdv.notifications.EventManager;
@@ -73,7 +75,7 @@ public class GlobalScope extends ImporterTopLevel {
         try {
             cx.initStandardObjects(this);
             String[] names = {
-                "registerHandler", "callWithDefaultSession", "print", "lib", "load", "loadTests"};
+                "registerHandler", "callWithDefaultSession", "print", "lib", "load", "loadTests", "getPluginSetting"};
             defineFunctionProperties(names, GlobalScope.class,
                     ScriptableObject.DONTENUM);
             Object wrappedEventManager = Context.javaToJS(EventManager.getInstance(), this);
@@ -157,6 +159,8 @@ public class GlobalScope extends ImporterTopLevel {
 
         /* For each test file, read it into a stream and execute it. */
         for (ISolutionFile file : files) {
+            if(file.isDirectory())
+                continue;
             String path = file.getFullPath();
             // workaround for http://jira.pentaho.com/browse/BISERVER-3538
             path = StringUtils.removeStart(path, "/solution");
@@ -166,7 +170,7 @@ public class GlobalScope extends ImporterTopLevel {
                 stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);
                 cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 logger.error(e);
             } finally {
                 IOUtils.closeQuietly(stream);
@@ -233,6 +237,14 @@ public class GlobalScope extends ImporterTopLevel {
             PentahoSessionHolder.setSession(old);
         }
         return Context.toBoolean(true);
+    }
+
+    public static Object getPluginSetting(Context cx, Scriptable thisObj,
+            Object[] args, Function funObj) {
+        String path = args[0].toString();
+        final IPluginResourceLoader resLoader = PentahoSystem.get(IPluginResourceLoader.class, null);
+        String settingValue = resLoader.getPluginSetting(CdvContentGenerator.class, path);
+        return Context.toString(settingValue);
     }
 
     private static IPentahoSession getSession() {
