@@ -111,7 +111,9 @@ There are some specific tests we can do on the sanity of a datawarehouse.
 Creating New Validations
 ------------------------
 
-All the specific information will be stored in `solution/cdv/tests/`
+
+
+All the validations created will be stored in `solution/cdv/tests/`
 
 The files will have the format `Name.cdv` and will internally be a _JSON_ file with the following structure:
 
@@ -137,8 +139,124 @@ You can set diferent data sources by selecting diferent cda files, and set the t
 	}],
 
 
-When you have a set of tests created this it what the validations screen looks like:
+We'll be using the Steel-Wheels Sample Data to create some examples of the validations that can be done.
 
+As an example, the following MDX query returns the # of Quantity and Sales for a specific year:
+
+`select NON EMPTY {[Measures].[Quantity], [Measures].[Sales]} ON COLUMNS,
+{Descendants 
+   ( [Time].[${yearParameter}], 
+     [Time].[${yearParameter}], AFTER
+   )  
+} ON ROWS
+from [SteelWheelsSales]`
+
+For example, for 2003 the resultset is:
+
+`["QTR1", 4561, 445094.69], ["Jan", 1357, 129753.6], ["Feb", 1449, 140836.19000000006], ["Mar", 1755, 174504.89999999997], 
+["QTR2", 5695, 564842.02], ["Apr", 1993, 201609.55], ["May", 2017, 192673.11000000002], ["Jun", 1685, 170559.36000000004], 
+["QTR3", 6629, 687268.8699999998], ["Jul", 2145, 225486.21000000002], ["Aug", 1974, 197809.30000000002], ["Sep", 2510, 263973.36], 
+["QTR4", 19554, 1980178.4199999995], ["Oct", 5731, 589963.9], ["Nov", 10862, 1086720.4000000001], ["Dec", 2961, 303494.11999999994]`
+
+We can test if the resultset has data for all months and quarters as expected, and test the variations between
+months and quarters to detect peaks or valleys in the data due to double process or no process.
+
+For that here is an test as example using the CDA file with the MDX query shown above:
+
+
+
+		cdv.registerTest({
+			id: 1,
+			type: "query",
+			name: 'Existence of data and variation',
+			group: "Steel-Wheels",
+			path: 'cdv/tests/monyhlyVariation.cdv',
+			createdBy: 'Webdetails',
+			createdAt: 1339430893246,
+			queries: [ 
+			{
+				cdaFile: "/steel-wheels/steel-wheels-tests.cda", 
+				dataAccessId: "monthlyQuery" , 
+				parameters: {   
+					yearParameter: "2003"
+				}
+			}
+			],
+			validations:[{
+				validationName: "Steel-Wheels Data Validation",
+				validationType: "custom",
+				validationFunction:  function(rs, conf) {
+					var success = true,
+					dif1 = [], dif2 = [];
+					
+					//Test existence of data
+					var i = rs[0].resultset.length;
+					if ( i < 16 ) {
+						return {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+					}
+					
+					//Test quarter variations
+					var quarter = [];
+					for ( i = 0; i < rs[0].resultset.length; i+=4){
+						quarter.push(rs[0].resultset[i]);
+					}
+					for (i = 0; i < quarter.length - 1; i++){
+						dif1[i] = (quarter[i+1][1]/quarter[i][1] - 1) * 100;
+						dif2[i] = (quarter[i+1][2]/quarter[i][2] - 1) * 100;
+						if ( Math.abs(dif1[i]) < 10 || Math.abs(dif2[i]) < 10 ){
+							return {type: "WARN", description: "Variation by quarter is lower than expected!"};
+						}
+					}
+					
+					//Test monthly variations
+					var months = []; dif1 = []; dif2 = [];
+					for ( i = 1; i < rs[0].resultset.length; i+=4){
+						months.push(rs[0].resultset[i]);
+						months.push(rs[0].resultset[i+1]);
+						months.push(rs[0].resultset[i+2]);
+					}
+					
+					for (i = 0; i < months.length - 1; i++){
+						dif1[i] = (months[i+1][1]/months[i][1] - 1) * 100;
+						dif2[i] = (months[i+1][2]/months[i][2] - 1) * 100;
+						if ( Math.abs(dif1[i]) > 200 || Math.abs(dif2[i]) > 200 ){
+							return {type: "WARN", description: "Variation by months is greater than expected!"};
+						}
+					}
+					
+					return success ? "OK" : {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+				}
+			}],
+			executionTimeValidation: {
+				expected: 100,
+				warnPercentage: 0.30,
+				errorPercentage: 0.70,
+				errorOnLow: true
+			},
+		 
+
+			cron: "0 0 10 * ? *" 
+		});
+		
+
+
+Since the resultset is supposed to show all quarters and months of a year, we expect that it has 16 rows,
+so we can use that to check if we have all the data for the year we want.
+As alternative we can also check if there are `<null>` values on the resultset.
+
+If the test fails is shows the messaged settled in the return command: 
+
+`Steel-Wheels: Existence of data and variation - 1 ERROR [Missing data in Steels-Wheels!]`
+
+If the previous test pass then it will do the variations tests. It uses a trigger of lower than 10% for quarter variation
+and greater than 200% for monthly variation, but feel free to change it as you will and see the results.
+
+At the bottom, in `executionTimeValidation`, you can set the `expected` time that a query should take to run
+and set the `warnPercentage` and `errorPercentage` margin to receive alerts when a certain query takes too long to run.
+Also if the query runs too fast you should receive an alerts if you set the `errorOnLow` to true.
+
+
+For last, you can schedule a time for the test to run automatically on the `cron` line, using the cron predefined scheduling definitions.
 
 
 The tests will be sorted by groups, defined when creating each test. In each group, each line corresponds
@@ -166,7 +284,6 @@ Alerts
 ------
 
 On Alerts you can see the runned tests sorted by time of run and filter them by the Status of the test:
-
 
 
 CDA Errors
