@@ -257,7 +257,7 @@ Also if the query runs too fast you should receive an alerts if you set the `err
 
 For last, you can schedule a time for the test to run automatically on the `cron` line, using the cron predefined scheduling definitions.
 
-If we were using another CDA file or had another DataAccessId returning a new resultset, it can be called with `rs[1].resultset`,
+If we were using another CDA file or had another `dataAccessId` returning a new resultset, it can be called with `rs[1].resultset`,
 where `1` is according to the order settled in the queries section, from top to bottom.
 
 The tests will be sorted by groups, defined when creating each test. In each group, each line corresponds
