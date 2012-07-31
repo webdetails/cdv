@@ -159,6 +159,8 @@ public class GlobalScope extends ImporterTopLevel {
 
         /* For each test file, read it into a stream and execute it. */
         for (ISolutionFile file : files) {
+            if(file.isDirectory())
+                continue;
             String path = file.getFullPath();
             // workaround for http://jira.pentaho.com/browse/BISERVER-3538
             path = StringUtils.removeStart(path, "/solution");
