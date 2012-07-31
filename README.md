@@ -255,9 +255,10 @@ At the bottom, in `executionTimeValidation`, you can set the `expected` time tha
 and set the `warnPercentage` and `errorPercentage` margin to receive alerts when a certain query takes too long to run.
 Also if the query runs too fast you should receive an alerts if you set the `errorOnLow` to true.
 
-
 For last, you can schedule a time for the test to run automatically on the `cron` line, using the cron predefined scheduling definitions.
 
+If we were using another CDA file or had another DataAccessId returning a new resultset, it can be called with `rs[1].resultset`,
+where `1` is according to the order settled in the queries section, from top to bottom.
 
 The tests will be sorted by groups, defined when creating each test. In each group, each line corresponds
 to a test, where we can see the name of the test, the path to the cda file used as Data Source,
