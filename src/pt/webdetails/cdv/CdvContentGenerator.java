@@ -193,13 +193,14 @@ public class CdvContentGenerator extends RestContentGenerator {
     private void callCDE(String file, OutputStream out) throws UnsupportedEncodingException, IOException {
 
         ServletRequest wrapper = getRequest();
-        String root = wrapper.getServerName() + ":" + wrapper.getServerPort();
+        String root = wrapper.getScheme() + "://"+ wrapper.getServerName() + ":" + wrapper.getServerPort();
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
         params.put("path", "cdv/presentation/");
         params.put("file", file);
         params.put("absolute", "true");
+        params.put("inferScheme", "false");
         params.put("root", root);
         IParameterProvider requestParams = getRequestParameters();
         copyParametersFromProvider(params, requestParams);
