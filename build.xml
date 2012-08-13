@@ -100,10 +100,10 @@
       <fileset dir="${dist.dir}">
         <include name="${ivy.artifact.id}-${project.revision}.jar"/>
       </fileset>
-      <fileset dir="dev-lib">
+      <fileset dir="${devlib.dir}">
         <include name="**/*.jar"/>
       </fileset>
-      <fileset dir="${runtimelib.dir}">
+  <fileset dir="runtime-lib">
         <include name="**/*.jar"/>
         <exclude name="**/batik-js-1.7.jar"/>
       </fileset>
@@ -171,8 +171,8 @@
     <mkdir dir="${samples.stage.dir}"/>
 
     <!-- copy over all the xactions within the cdf-samples folder -->
-    <copy todir="${samples.stage.dir}/bi-developers" overwrite="true" >
-      <fileset dir="solution/bi-developers"></fileset>
+    <copy todir="${samples.stage.dir}/plugin-samples" overwrite="true" >
+      <fileset dir="plugin-samples"></fileset>
     </copy>
 
     <zip zipfile="${dist.dir}/${plugin.samples.zipfile}"
@@ -188,7 +188,7 @@
 
               Installs the plugin locally
               ====================================================================-->
-  <target name="install-plugin" depends="clean, jar, dist-plugin" description="Installs the plugin locally">
+  <target name="install-plugin" depends="clean, jar, dist-plugin,dist-samples" description="Installs the plugin locally">
 
     <fail message="plugin.local.install.solutions.dir not set - cannot copy"
           unless="plugin.local.install.solutions.dir"/>
@@ -201,11 +201,11 @@
     </copy>
 
     <!-- Copy samples -->
-    <!--copy todir="${plugin.local.install.solutions.dir}/">
-      <fileset dir="${samples.stage.dir}/">
+    <copy todir="${plugin.local.install.solutions.dir}/plugin-samples">
+      <fileset dir="${samples.stage.dir}/plugin-samples/">
         <include name="**/*" />
       </fileset>
-    </copy-->
+    </copy>
 
     <get src="http://127.0.0.1:8080/pentaho/Publish?publish=now&amp;class=org.pentaho.platform.plugin.services.pluginmgr.PluginAdapter&amp;userid=${plugin.local.install.user}&amp;password=${plugin.local.install.pass}"
          dest="${stage.dir}/blah.html"/>
