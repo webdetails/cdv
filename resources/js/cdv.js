@@ -507,9 +507,24 @@ wd.cdv = wd.cdv||{};
                   fullMessage += " * " + validationResult.toString() + "         ";
               });
               
-              
+              /* Emit an alert for the test result*/ 
               var alrt = eventManager.createAlert(resJSON.testResult.type, resJSON.test.group, resJSON.test.name, resJSON.testResult.description, fullMessage);
               eventManager.publish(alrt);
+              /* Emit an alert for the test's duration */
+              var description = "Query execution time: {{duration}}ms (Expected {{expected}}ms)",
+                  descriptionVals = {
+                    duration: resJSON.duration.duration,
+                    expected: resJSON.duration.expected
+                  },
+                  title = "Unexpected Query Duration - {{group}}: {{name}}",
+                  titleVals = {
+                    level: resJSON.duration.type,
+                    name: resJSON.test.name,
+                    group: resJSON.test.group,
+                  };
+              var durationAlert = eventManager.createAlert(resJSON.duration.type, resJSON.test.group, resJSON.test.name, Mustache.render(title,titleVals), Mustache.render(description,descriptionVals));
+              eventManager.publish(durationAlert);
+
               var tr =  eventManager.createTestResult(JSON.stringify(resJSON)), doc;
               if(tr) {
                   doc = persistenceEngine.createDocument(tr.getPersistenceClass(), tr.toJSON().toString());
@@ -594,13 +609,16 @@ wd.cdv = wd.cdv||{};
             _tests[test.group][test.name] = test;
             
             if (spec.isServerSide){
+              if(getPluginSetting("scheduler/active") == "true") {
                 scheduler.scheduleTask(function(){
-                    var result = myself.runTestById({
-                        group: test.group, 
-                        name: test.name
-                    }).toJSON();
-
+                  var result = myself.runTestById({
+                      group: test.group, 
+                      name: test.name
+                  }).toJSON();
                 }, test.cron);
+              } else {
+                wd.log("Test scheduling skipped");
+              }
             }
         };
 
@@ -780,7 +798,7 @@ wd.cdv = wd.cdv||{};
             }
             else{
     
-                var midnightUnixTime = Math.floor(now.getTime()/(1000*3600))*1000*3600 + (now.getTimezoneOffset() * 1000*60);
+                var midnightUnixTime = new Date(now.getYear(),now.getMonth(),now.getDate()).getTime();
                 var yesterdayUnixTime = midnightUnixTime - 1000*3600*24;
                 var thisWeekUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDay());
                 var thisMonthUnixTime = midnightUnixTime - 1000*3600*24 * (now.getDate()-1);

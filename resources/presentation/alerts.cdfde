@@ -1453,6 +1453,29 @@
     ]
    },
    {
+    "id": "8923f5b0-bf2d-b5ba-f140-fb51fe6f999f",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "tableChanged",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   },
+   {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
     "type": "Label",
@@ -1519,7 +1542,7 @@
      },
      {
       "name": "colWidths",
-      "value": "[\"0%\",\"15%\",\"15%\",\"15%\",\"5%\",\"40%\",\"5%\",\"5%\"]",
+      "value": "[\"0%\",\"10%\",\"15%\",\"15%\",\"5%\",\"45%\",\"5%\",\"5%\"]",
       "type": "Array"
      },
      {
@@ -1838,7 +1861,7 @@
      },
      {
       "name": "expression",
-      "value": "function() {\n  Dashboards.log(\"Clicked on Delete all alerts\");\n  var myself = this;\n  if(confirm(\"You sure you want to delete all alerts?\")){\n  \n      $.ajax({\n          url: \"deleteAllAlerts\",\n          type: \"GET\",\n          data:{},\n          async: true,\n          success: function(){\n              Dashboards.fireChange(\"entriesChanged\",\"xxx\");\n          },\n          fail: function(jqXHR, textStatus) {\n              alert( \"Request failed: \" + textStatus );\n          }\n      })\n  \n\n  }\n}\n",
+      "value": "function() {\n  Dashboards.log(\"Clicked on Delete all alerts\");\n  var myself = this,\n      params = {\n        'alertType': Dashboards.getParameterValue('alertType'),\n        'truncateResults': true\n      };\n  if(confirm(\"You sure you want to delete all alerts?\")){\n  \n      $.ajax({\n          url: \"deleteAllAlerts\",\n          type: \"GET\",\n          data: params,\n          async: true,\n          success: function(){\n              Dashboards.fireChange(\"entriesChanged\",\"xxx\");\n          },\n          fail: function(jqXHR, textStatus) {\n              alert( \"Request failed: \" + textStatus );\n          }\n      })\n  \n\n  }\n}\n",
       "type": "JavaScript"
      },
      {

@@ -3,6 +3,7 @@
  */
 lib("lib/json2.js");
 lib("lib/underscore.js");
+lib("lib/mustache.js");
 lib("lib/timers.js");
 lib("lib/later.js");
 lib("lib/wd.js");
@@ -155,14 +156,6 @@ registerHandler("GET", "/refreshTests", function(out){
   loadTests();
 });
 
-registerHandler("GET",'/foo',function(out){
-  var klass = Packages.pt.webdetails.cpf.persistence.PersistenceEngine;
-
-  var methods = persistenceEngine.getClass().getMethods()
-  for(var m = 0; m < methods.length; m++) {
-    print(methods[m].toString());
-  }
-});
 lib("selftest.js");
 lib("queries.js");
 

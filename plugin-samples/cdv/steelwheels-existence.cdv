@@ -1,0 +1,44 @@
+cdv.registerTest({
+    id: 99999,
+    type: "query",
+    name: 'Existence of data',
+    group: "Steel-Wheels",
+    path: 'cdv/tests/steelwheels-existence.cdv',
+	createdBy: 'Webdetails',
+	createdAt: 1339430893246,
+    queries: [ 
+	{
+        cdaFile: "/plugin-samples/cdv/steelwheels-tests.cda", 
+        dataAccessId: "monthlyQuery" , 
+        parameters: {   
+            yearParameter: "2003"
+        }
+	}
+    ],
+    validations:[{
+        validationName: "Steel-Wheels Data Validation",
+        validationType: "custom",
+        validationFunction:  function(rs, conf) {
+            var success = true,
+            dif1 = [], dif2 = [];
+            
+            //Test existence of data
+            var i = rs[0].resultset.length;
+            if ( i < 16 ) {
+                return {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+            }
+            
+            
+            return success ? "OK" : {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+        }
+    }],
+    executionTimeValidation: {
+        expected: 100,
+        warnPercentage: 0.30,
+        errorPercentage: 0.70,
+        errorOnLow: false
+    },
+ 
+
+    cron: "0 0 10 * ? *" 
+});

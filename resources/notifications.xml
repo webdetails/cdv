@@ -2,10 +2,10 @@
   <outlets>
     <outlet name='email' class='pt.webdetails.cdv.notifications.EmailOutlet' defaultThreshold='WARN'>
       <conf>
-        <property name='to' value='metrics-alerts@mozilla.com'/>
-        <property name='smtp' value='mail.google.com'/>
-        <property name='cc' value='pdpinheiro@gmail.com'/>
-        <property name='plain-text' value='true'/>
+        <!-- Change these! -->
+        <property name='to' value='example@example.com'/>
+        <property name='smtp' value='mail.example.com'/>
+        <property name='cc' value='example@example.com'/>
       </conf>
     </outlet>
     <outlet name='logger' class='pt.webdetails.cdv.notifications.LoggingOutlet' >
