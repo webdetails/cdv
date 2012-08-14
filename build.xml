@@ -176,7 +176,7 @@
     </copy>
 
     <zip zipfile="${dist.dir}/${plugin.samples.zipfile}"
-         basedir="${samples.stage.dir}"
+         basedir="${samples.stage.dir}/plugin-samples/"
          includes="**/*"
          excludes="**/Thumbs.db"
         />
