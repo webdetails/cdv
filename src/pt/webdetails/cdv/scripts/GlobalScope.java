@@ -155,27 +155,33 @@ public class GlobalScope extends ImporterTopLevel {
 //        ISolutionFile dir = solutionRepository.getSolutionFile(testPath, ISolutionRepository.ACTION_EXECUTE);
         RepositoryAccess repository = RepositoryAccess.getRepository();
         ISolutionFile testDir = repository.getSolutionFile(testPath, FileAccess.EXECUTE);
-        ISolutionFile files[] = testDir.listFiles();
 
-        /* For each test file, read it into a stream and execute it. */
-        for (ISolutionFile file : files) {
-            if(file.isDirectory())
-                continue;
-            String path = file.getFullPath();
-            // workaround for http://jira.pentaho.com/browse/BISERVER-3538
-            path = StringUtils.removeStart(path, "/solution");
-            InputStream stream = null;
+        if (testDir != null) {
 
-            try {
-                stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);
-                cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+            ISolutionFile files[] = testDir.listFiles();
 
-            } catch (Exception e) {
-                logger.error(e);
-            } finally {
-                IOUtils.closeQuietly(stream);
+            /* For each test file, read it into a stream and execute it. */
+            for (ISolutionFile file : files) {
+                if (file.isDirectory()) {
+                    continue;
+                }
+                String path = file.getFullPath();
+                // workaround for http://jira.pentaho.com/browse/BISERVER-3538
+                path = StringUtils.removeStart(path, "/solution");
+                InputStream stream = null;
+
+                try {
+                    stream = repository.getResourceInputStream(path, FileAccess.EXECUTE, false);
+                    cx.evaluateReader(thisObj, new InputStreamReader(stream), path, 1, null);
+
+                } catch (Exception e) {
+                    logger.error(e);
+                } finally {
+                    IOUtils.closeQuietly(stream);
+                }
             }
         }
+
         // Get the paths ot the necessary files: dependencies and the main script.
         return Context.toBoolean(true);
     }
@@ -195,7 +201,7 @@ public class GlobalScope extends ImporterTopLevel {
         } catch (Exception e) {
             logger.error(e);
         } finally {
-          IOUtils.closeQuietly(stream);        
+            IOUtils.closeQuietly(stream);
         }
     }
 
