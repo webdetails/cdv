@@ -25,9 +25,9 @@ Very often we want that several questions related to the data would be answered 
 * Do we have peaks or valleys in the data? (due to double process or no process)
 * Is the data stalled? (eg: number of twitter followers not updating)
 * Did the data format change?
-* We need a way to handleknow effects (eg: Christmas dip)
+* We need a way to handle know effects (eg: Christmas dip)
 * We need to correlate independent datasources
-* Be able to validade big chnks of reprocessing
+* Be able to validade big chunks of reprocessing
 * Do we have clearly wrong rows in resultset? (eg: a `<null>` line there)
 * etc
 
