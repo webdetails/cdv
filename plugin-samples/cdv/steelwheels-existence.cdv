@@ -1,5 +1,5 @@
 cdv.registerTest({
-    id: 1,
+    id: 99999,
     type: "query",
     name: 'Existence of data',
     group: "Steel-Wheels",
@@ -36,7 +36,7 @@ cdv.registerTest({
         expected: 100,
         warnPercentage: 0.30,
         errorPercentage: 0.70,
-        errorOnLow: true
+        errorOnLow: false
     },
  
 

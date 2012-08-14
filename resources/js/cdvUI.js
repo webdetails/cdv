@@ -526,78 +526,102 @@ wd.cdvUI = wd.cdvUI ||{
 };
 
 
-wd.cdvUI.newValidation = function () {
+    wd.cdvUI.newValidation = function () {
 
 
-     // Also generate a textEditorComponent
+        // Also generate a textEditorComponent
      
-     var popupTextEditor = Dashboards.getComponent("popupTextEditorComponent");
-     if (!popupTextEditor) {
-        popupTextEditor = {
-            name: "popupTextEditorComponent", 
-            type: "popupTextEditor", 
-            file: undefined, // will be set later
-            saveCallback: function(){
-             // We want to refresh CDV
-                $.ajax({
-                    url: "refreshTests",
-                    type: "GET",
-                    async: true,
-                    success: function(){
-                        Dashboards.fireChange("editorFileSaved","xxx");
-                    }
-                })
-            }
-        };
-        // Call cdf comp
-        Dashboards.addComponents([popupTextEditor]);
-        popupTextEditor.update();
-    }
-
-
-    var txt = 'New Test name: <input id="testName" type="text" placeholder="newTest"></input>';                                                            
-    var callBackFunction = function (v,m,f) {
-        if(v !== undefined){
-            if (v === "ok"){                                
-                var newFileName = m.children()[0].value;     
-                                
-                if (newFileName.length == 0) {
-                    alert("Please enter a file name");
-                } else {
+        var popupTextEditor = Dashboards.getComponent("popupTextEditorComponent");
+        if (!popupTextEditor) {
+            popupTextEditor = {
+                name: "popupTextEditorComponent", 
+                type: "popupTextEditor", 
+                file: undefined, // will be set later
+                saveCallback: function(){
+                    // We want to refresh CDV
                     $.ajax({
-                        url: "newTest",
-                        data: {newName: newFileName},
+                        url: "refreshTests",
                         type: "GET",
                         async: true,
-                        success: function(response){
-                            if (response && response.success == "true") {
-
-                                popupTextEditor.setFile(response.path);
-                                popupTextEditor.update();
-                                popupTextEditor.show();                            
-                            } else {
-                                alert("Error while creating new test");
-                            }  
+                        success: function(){
+                            Dashboards.fireChange("editorFileSaved","xxx");
                         }
-                    });                                                        
+                    })
                 }
-			}	
-		}
-    };
+            };
+            // Call cdf comp
+            Dashboards.addComponents([popupTextEditor]);
+            popupTextEditor.update();
+        }
 
-    var promptConfig = {
-        callback: callBackFunction,
-        buttons: {
-            Cancel: 'cancel'
-        },
-        loaded: function(){}
-    };
+
+        var txt = 'New Test name: <input id="testName" type="text" placeholder="newTest"></input>';                                                            
+        var callBackFunction = function (v,m,f) {
+            if(v !== undefined){
+                if (v === "ok"){                                
+                    var newFileName = m.children()[0].value;     
+                                
+                    if (newFileName.length == 0) {
+                        alert("Please enter a file name");
+                    } else {
+                        $.ajax({
+                            url: "newTest",
+                            data: {
+                                newName: newFileName
+                            },
+                            type: "GET",
+                            async: true,
+                            success: function(response){
+                                if (response && response.success == "true") {
+
+                                    popupTextEditor.setFile(response.path);
+                                    popupTextEditor.update();
+                                    popupTextEditor.show();                            
+                                } else {
+                                    alert("Error while creating new test");
+                                }  
+                            }
+                        });                                                        
+                    }
+                }	
+            }
+        };
+
+        var promptConfig = {
+            callback: callBackFunction,
+            buttons: {
+                Cancel: 'cancel'
+            },
+            loaded: function(){}
+        };
         
-    promptConfig.buttons['New'] = "ok";    
-    $.prompt(txt,promptConfig);                                                            
-};
+        promptConfig.buttons['New'] = "ok";    
+        $.prompt(txt,promptConfig);                                                            
+    };
 
-   wd.cdvUI.alertDescriptionAddin = {
+
+
+    /* Copy samples from cdv to sample tests */
+
+    wd.cdvUI.copyCDVTests = function(){
+        
+        $.ajax({
+            url: "copyCDVTests",
+            type: "GET",
+            async: true,
+            success: function(response){
+                if (response && response.success == "true") {
+                    Dashboards.fireChange("tableChanged","foo");
+                } else {
+                    alert("Error while copying tests");
+                }  
+            }
+        });  
+        
+    };
+
+
+    wd.cdvUI.alertDescriptionAddin = {
         name: "alertDescription",
         label: "alertDescription",
         defaults: {
@@ -626,7 +650,7 @@ wd.cdvUI.newValidation = function () {
             }
             
             var template = "<div class='alertPopup'>" + 
-              "<div class='cda'><div class='cdaFile'>" +
+            "<div class='cda'><div class='cdaFile'>" +
             "<span class='cdaPath' title='{{popup}}'>{{val}}</span>" + 
             "</div></div></div>";
 
@@ -772,13 +796,13 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationFileAd
                 callback: function(testName){
                     Dashboards.log("Clicked on Edit for " + testName);
                 }
-            },
+            }/*,
             {
                 name: "Delete", 
                 callback: function(testName){
                     Dashboards.log("Clicked on Delete for " + testName);
                 }
-            }
+            }*/
             ]  
         },
         init: function(){
@@ -845,17 +869,17 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                     var myself = this;
                     Dashboards.incrementRunningCalls();
                     setTimeout(function(){
-                      $.getJSON('runTest',
-                      {
-                          name: test.name,
-                          group: test.group
-                      },
-                      function(result){
-                          alert(JSON.stringify(result,null,2));
-                          Dashboards.fireChange("tableChanged",true);
-                          Dashboards.decrementRunningCalls();
-                          myself.popup.hide();
-                      });
+                        $.getJSON('runTest',
+                        {
+                            name: test.name,
+                            group: test.group
+                        },
+                        function(result){
+                            alert(JSON.stringify(result,null,2));
+                            Dashboards.fireChange("tableChanged",true);
+                            Dashboards.decrementRunningCalls();
+                            myself.popup.hide();
+                        });
                     }, 1);
                 }
             },
@@ -875,7 +899,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                     Dashboards.log("View Previous Executions " + test.group + "test.name");
                     document.location.href="alerts?cdvGroup=" + encodeURIComponent(test.group) + "&cdvName=" + encodeURIComponent(test.name);
                 }
-            },
+            },/*
             {
                 name: "Delete Test", 
                 callback: function(test){
@@ -884,15 +908,15 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                         alert("Todo: Delete the test");
                     }
                 }
-            },
-      {
+            },*/
+            {
                 name: "Duplicate Test", 
                 callback: function(test){
                     Dashboards.log("Clicked on Duplicate for " + test.id);                    
 
                     var myself= this;
                     var txt = 'New file name: <input id="testName" type="text" placeholder="New Test Name"></input>';                                                            
-                	var callBackFunction = function (v,m,f) {
+                    var callBackFunction = function (v,m,f) {
                         if(v !== undefined){
                             if (v === "ok"){                                
                                 var newFileName = m.children()[0].value;     
@@ -902,22 +926,25 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                                 } else {
                                     $.ajax({
                                         url: "duplicateTest",
-                                        data: {path: test.path, newName: newFileName},
+                                        data: {
+                                            path: test.path, 
+                                            newName: newFileName
+                                        },
                                         type: "GET",
                                         async: true,
                                         success: function(response){
-                                          if (response && response.success == "true") {
-                                              myself.editFile(response.path);
-                                              myself.popup.hide();                                
-                                          } else {
-                                            alert("Error while duplicating");
-                                          }  
+                                            if (response && response.success == "true") {
+                                                myself.editFile(response.path);
+                                                myself.popup.hide();                                
+                                            } else {
+                                                alert("Error while duplicating");
+                                            }  
                                         }
                                     });                                                        
                                 }
-				            }	
-			            }
-                	};
+                            }	
+                        }
+                    };
 
                     var promptConfig = {
                         callback: callBackFunction,
@@ -1192,7 +1219,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.cdaPopupAddIn));
                     
                 }
             }
-          ]          
+            ]          
         },
                 
         focusOnTest: function(test){
@@ -1267,7 +1294,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
         name: "elapsedTime",
         label: "elapsedTime",
         defaults: {
-          longFormat: true
+            longFormat: true
         },
         init: function(){
         
@@ -1289,106 +1316,112 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertsAddIn));
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.elapsedTimeAddIn));
 
-// Group date
-wd.cdvUI.alertTypeAddIn = {
-    name: "alertType",
-    label: "alertType",
-    defaults: {
+    // Group date
+    wd.cdvUI.alertTypeAddIn = {
+        name: "alertType",
+        label: "alertType",
+        defaults: {
     
-    },
-    init: function(){
+        },
+        init: function(){
     
-        // Register this for datatables sort
-        var myself = this;
-        $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
-        $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
-    }, 
+            // Register this for datatables sort
+            var myself = this;
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['numeric-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['numeric-desc'];
+        }, 
 
-    implementation: function (tgt, st, opt) {
+        implementation: function (tgt, st, opt) {
     
-        // encapsulate this
-        var $t = $(tgt);
-        var text = st.value;
+            // encapsulate this
+            var $t = $(tgt);
+            var text = st.value;
         
-        $t.parent("tr").addClass('alert' + text.toLowerCase());
+            $t.parent("tr").addClass('alert' + text.toLowerCase());
 
-    }
-};
+        }
+    };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertTypeAddIn));
 
-wd.cdvUI.testResultAddIn = {
-    name: "testResult",
-    label: "TestResult",
-    defaults: {
+    wd.cdvUI.testResultAddIn = {
+        name: "testResult",
+        label: "TestResult",
+        defaults: {
     
-    },
-    init: function(){
+        },
+        init: function(){
     
-        // Register this for datatables sort
-        $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
-        $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
-    }, 
-    sort: function(a,b){
-        return this.sumStrArray(a) - this.sumStrArray(b);
-    }, 
+            // Register this for datatables sort
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = $.fn.dataTableExt.oSort['string-asc'];
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = $.fn.dataTableExt.oSort['string-desc'];
+        }, 
+        sort: function(a,b){
+            return this.sumStrArray(a) - this.sumStrArray(b);
+        }, 
 
-    implementation: function (tgt, st, opt) {
+        implementation: function (tgt, st, opt) {
     
-        // encapsulate this
+            // encapsulate this
     
-        var $t = $(tgt).empty();
-        var result = st.value.split('|');
-        var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
-        $elem.tipsy({
-            gravity: 's', 
-            html:true
-        });
+            var $t = $(tgt).empty();
+            var result = st.value.split('|');
+            var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
+            $elem.tipsy({
+                gravity: 's', 
+                html:true
+            });
 
-    }
-};
-
-Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
-
-wd.cdvUI.testResultAddIn = {
-    name: "testResult",
-    label: "TestResult",
-    defaults: {
-    
-    },
-    init: function(){
-        var levels = ["OK", "WARN", "ERROR", "CRITICAL"],
-            compare = function(a,b) {return levels.indexOf(a) - levels.indexOf(b);};
-        
-        // Register this for datatables sort
-        $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){return compare(a,b);};
-        $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){return compare(b,a);};
-    }, 
-    sort: function(a,b){
-        return this.sumStrArray(a) - this.sumStrArray(b);
-    }, 
-
-    implementation: function (tgt, st, opt) {
-    
-        // encapsulate this
-    
-        var $t = $(tgt).empty();
-        var result = st.value.split('|');
-        $t.parent("tr").addClass('alert' + result[0].toLowerCase());
-        var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
-        if(result.length > 1) {
-          $elem.tipsy({
-              gravity: 's', 
-              html:true
-          });
         }
-    }
-};
+    };
 
 Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
 
-$.fn.dataTableExt.oPagination.splitWithDescription = {
-/*
+    wd.cdvUI.testResultAddIn = {
+        name: "testResult",
+        label: "TestResult",
+        defaults: {
+    
+        },
+        init: function(){
+            var levels = ["OK", "WARN", "ERROR", "CRITICAL"],
+            compare = function(a,b) {
+                return levels.indexOf(a) - levels.indexOf(b);
+            };
+        
+            // Register this for datatables sort
+            $.fn.dataTableExt.oSort[this.name+'-asc'] = function(a,b){
+                return compare(a,b);
+            };
+            $.fn.dataTableExt.oSort[this.name+'-desc'] = function(a,b){
+                return compare(b,a);
+            };
+        }, 
+        sort: function(a,b){
+            return this.sumStrArray(a) - this.sumStrArray(b);
+        }, 
+
+        implementation: function (tgt, st, opt) {
+    
+            // encapsulate this
+    
+            var $t = $(tgt).empty();
+            var result = st.value.split('|');
+            $t.parent("tr").addClass('alert' + result[0].toLowerCase());
+            var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
+            if(result.length > 1) {
+                $elem.tipsy({
+                    gravity: 's', 
+                    html:true
+                });
+            }
+        }
+    };
+
+Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn));
+
+    $.fn.dataTableExt.oPagination.splitWithDescription = {
+        /*
        * Function: oPagination.full_numbers.fnInit
        * Purpose:  Initalise dom elements required for pagination with a list of the pages
        * Returns:  -
@@ -1396,134 +1429,140 @@ $.fn.dataTableExt.oPagination.splitWithDescription = {
        *           node:nPaging - the DIV which contains this pagination control
        *           function:fnCallbackDraw - draw function which must be called on update
        */
-      "fnInit": function ( oSettings, nPaging, fnCallbackDraw )
-      {
-        var nList = document.createElement( 'span' );
-        var nNext = document.createElement( 'span' );
-        var nPrevious = document.createElement( 'span' );
-        
-        nPrevious.innerHTML = "&nbsp;";
-        nNext.innerHTML = "&nbsp;";
-        
-        var oClasses = oSettings.oClasses;
-        nPrevious.className = oClasses.sPageButton+" "+oClasses.sPagePrevious;
-        nNext.className= oClasses.sPageButton+" "+oClasses.sPageNext;
-        
-        nPaging.appendChild( nPrevious );
-        nPaging.appendChild( nList );
-        nPaging.appendChild( nNext );
-        
-        $(nPrevious).click( function() {
-          if ( oSettings.oApi._fnPageChange( oSettings, "previous" ) )
-          {
-            fnCallbackDraw( oSettings );
-          }
-        } );
-        
-        $(nNext).click( function() {
-          if ( oSettings.oApi._fnPageChange( oSettings, "next" ) )
-          {
-            fnCallbackDraw( oSettings );
-          }
-        } );
-        
-        /* Take the brutal approach to cancelling text selection */
-        $('span', nPaging)
-          .bind( 'mousedown', function () { return false; } )
-          .bind( 'selectstart', function () { return false; } );
-        
-        /* ID the first elements only */
-        if ( oSettings.sTableId !== '' && typeof oSettings.aanFeatures.p == "undefined" )
+        "fnInit": function ( oSettings, nPaging, fnCallbackDraw )
         {
-          nPaging.setAttribute( 'id', oSettings.sTableId+'_paginate' );
-          nPrevious.setAttribute( 'id', oSettings.sTableId+'_previous' );
-          nList.setAttribute( 'id', oSettings.sTableId+'_list' );
-          nNext.setAttribute( 'id', oSettings.sTableId+'_next' );
-        }
-      },
+            var nList = document.createElement( 'span' );
+            var nNext = document.createElement( 'span' );
+            var nPrevious = document.createElement( 'span' );
+        
+            nPrevious.innerHTML = "&nbsp;";
+            nNext.innerHTML = "&nbsp;";
+        
+            var oClasses = oSettings.oClasses;
+            nPrevious.className = oClasses.sPageButton+" "+oClasses.sPagePrevious;
+            nNext.className= oClasses.sPageButton+" "+oClasses.sPageNext;
+        
+            nPaging.appendChild( nPrevious );
+            nPaging.appendChild( nList );
+            nPaging.appendChild( nNext );
+        
+            $(nPrevious).click( function() {
+                if ( oSettings.oApi._fnPageChange( oSettings, "previous" ) )
+                {
+                    fnCallbackDraw( oSettings );
+                }
+            } );
+        
+            $(nNext).click( function() {
+                if ( oSettings.oApi._fnPageChange( oSettings, "next" ) )
+                {
+                    fnCallbackDraw( oSettings );
+                }
+            } );
+        
+            /* Take the brutal approach to cancelling text selection */
+            $('span', nPaging)
+            .bind( 'mousedown', function () {
+                return false;
+            } )
+            .bind( 'selectstart', function () {
+                return false;
+            } );
+        
+            /* ID the first elements only */
+            if ( oSettings.sTableId !== '' && typeof oSettings.aanFeatures.p == "undefined" )
+            {
+                nPaging.setAttribute( 'id', oSettings.sTableId+'_paginate' );
+                nPrevious.setAttribute( 'id', oSettings.sTableId+'_previous' );
+                nList.setAttribute( 'id', oSettings.sTableId+'_list' );
+                nNext.setAttribute( 'id', oSettings.sTableId+'_next' );
+            }
+        },
       
-      /*
+        /*
        * Function: oPagination.full_numbers.fnUpdate
        * Purpose:  Update the list of page buttons shows
        * Returns:  -
        * Inputs:   object:oSettings - dataTables settings object
        *           function:fnCallbackDraw - draw function to call on page change
        */
-      "fnUpdate": function ( oSettings, fnCallbackDraw )
-      {
-        if ( !oSettings.aanFeatures.p )
+        "fnUpdate": function ( oSettings, fnCallbackDraw )
         {
-          return;
-        }
-        
-        var iPageCount = 5;
-        var iPageCountHalf = Math.floor(iPageCount / 2);
-        var iPages = Math.ceil((oSettings.fnRecordsDisplay()) / oSettings._iDisplayLength);
-        var iCurrentPage = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
-        var sList = "";
-        var iStartButton, iEndButton, i, iLen;
-        var oClasses = oSettings.oClasses;
-        
-
-        var templ = "Showing entries {{start}}-{{end}} of {{total}}",
-            opts = {
-              total: oSettings.fnRecordsDisplay(),
-              start: oSettings._iDisplayStart + 1,
-              end: oSettings._iDisplayStart + oSettings._iDisplayLength
+            if ( !oSettings.aanFeatures.p )
+            {
+                return;
             }
-        $('#'+oSettings.sTableId+'_list').text(Mustache.render(templ, opts));
         
+            var iPageCount = 5;
+            var iPageCountHalf = Math.floor(iPageCount / 2);
+            var iPages = Math.ceil((oSettings.fnRecordsDisplay()) / oSettings._iDisplayLength);
+            var iCurrentPage = Math.ceil(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
+            var sList = "";
+            var iStartButton, iEndButton, i, iLen;
+            var oClasses = oSettings.oClasses;
         
-        /* Loop over each instance of the pager */
-        var an = oSettings.aanFeatures.p;
-        var anButtons, anStatic, nPaginateList;
-        var fnClick = function() {
-          /* Use the information in the element to jump to the required page */
-          var iTarget = (this.innerHTML * 1) - 1;
-          oSettings._iDisplayStart = iTarget * oSettings._iDisplayLength;
-          fnCallbackDraw( oSettings );
-          return false;
-        };
-        var fnFalse = function () { return false; };
-        
-        for ( i=0, iLen=an.length ; i<iLen ; i++ )
-        {
-          if ( an[i].childNodes.length === 0 )
-          {
-            continue;
-          }
-          
-          /* Build up the dynamic list forst - html and listeners */
-          var qjPaginateList = $('span:eq(2)', an[i]);
-          qjPaginateList.html( sList );
-          $('span', qjPaginateList).click( fnClick ).bind( 'mousedown', fnFalse )
-            .bind( 'selectstart', fnFalse );
-          
-          /* Update the 'premanent botton's classes */
-          anButtons = an[i].getElementsByTagName('span');
-          $(anButtons[1]).addClass('description');
-          anStatic = [
-            anButtons[0], anButtons[anButtons.length-1]
-          ];
-          $(anStatic).removeClass( oClasses.sPageButton+" "+oClasses.sPageButtonActive+" "+oClasses.sPageButtonStaticDisabled );
-          if ( iCurrentPage == 1 )
-          {
-            anStatic[0].className += " "+oClasses.sPageButtonStaticDisabled;
-          }
-          else
-          {
-            anStatic[0].className += " "+oClasses.sPageButton;
-          }
-          
-          if ( iPages === 0 || iCurrentPage == iPages || oSettings._iDisplayLength == -1 )
-          {
-            anStatic[1].className += " "+oClasses.sPageButtonStaticDisabled;
-          }
-          else
-          {
-            anStatic[1].className += " "+oClasses.sPageButton;
-          }
-        }
-      }
 
-}
+            var templ = "Showing entries {{start}}-{{end}} of {{total}}",
+            opts = {
+                total: oSettings.fnRecordsDisplay(),
+                start: oSettings._iDisplayStart + 1,
+                end: oSettings._iDisplayStart + oSettings._iDisplayLength
+            }
+            $('#'+oSettings.sTableId+'_list').text(Mustache.render(templ, opts));
+        
+        
+            /* Loop over each instance of the pager */
+            var an = oSettings.aanFeatures.p;
+            var anButtons, anStatic, nPaginateList;
+            var fnClick = function() {
+                /* Use the information in the element to jump to the required page */
+                var iTarget = (this.innerHTML * 1) - 1;
+                oSettings._iDisplayStart = iTarget * oSettings._iDisplayLength;
+                fnCallbackDraw( oSettings );
+                return false;
+            };
+            var fnFalse = function () {
+                return false;
+            };
+        
+            for ( i=0, iLen=an.length ; i<iLen ; i++ )
+            {
+                if ( an[i].childNodes.length === 0 )
+                {
+                    continue;
+                }
+          
+                /* Build up the dynamic list forst - html and listeners */
+                var qjPaginateList = $('span:eq(2)', an[i]);
+                qjPaginateList.html( sList );
+                $('span', qjPaginateList).click( fnClick ).bind( 'mousedown', fnFalse )
+                .bind( 'selectstart', fnFalse );
+          
+                /* Update the 'premanent botton's classes */
+                anButtons = an[i].getElementsByTagName('span');
+                $(anButtons[1]).addClass('description');
+                anStatic = [
+                anButtons[0], anButtons[anButtons.length-1]
+                ];
+                $(anStatic).removeClass( oClasses.sPageButton+" "+oClasses.sPageButtonActive+" "+oClasses.sPageButtonStaticDisabled );
+                if ( iCurrentPage == 1 )
+                {
+                    anStatic[0].className += " "+oClasses.sPageButtonStaticDisabled;
+                }
+                else
+                {
+                    anStatic[0].className += " "+oClasses.sPageButton;
+                }
+          
+                if ( iPages === 0 || iCurrentPage == iPages || oSettings._iDisplayLength == -1 )
+                {
+                    anStatic[1].className += " "+oClasses.sPageButtonStaticDisabled;
+                }
+                else
+                {
+                    anStatic[1].className += " "+oClasses.sPageButton;
+                }
+            }
+        }
+
+    }
