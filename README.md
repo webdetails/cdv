@@ -33,6 +33,9 @@ Very often we want that several questions related to the data would be answered 
 
 So we decide to build CDV - a data validator that periodically do a set of tests that answer all the above questions.
 
+You can see the [Original RFC for CDV](http://pedroalves-bi.blogspot.com/2012/05/cdv-request-for-comments.html). Note
+that not every feature has been implemented
+
 
 User interface
 --------------
@@ -65,52 +68,9 @@ These are the features in the main user interface (this is the ultimate goal, th
 	* Duration 
 	* Incidents 
 
-Validations
------------
-
-There are 4 possible types of tests:
-
-* CDA based query validation 
-* ETL monitoring 
-* Datawarehouse validation (a specific set of the cda based query validation) 
-* Dashboard validation (we may opt to leave this one out for now as we'll try to infer the errors from CDA's 405) 
-
-### CDA based query
-
-#### Workflow
-
-We want to select one or more cda / dataAccessId from our system, define the input parameters and select the type of validation we need.
-
-The shape of the function will be:  `f( [ query, [params] ], validationFunction )`
-
-The generic test will be the implementation of the validation function: 
-`validationFunction = function ( [ {metadata: [] , resultset: [[]]} ] ) :  value`
-
-### ETL monitoring query
-
-The workflow defined here has to match with the previous section. We'll build specific CDA queries that
-will read the kettle log files. From that point on, specific validations will have to be built for this logs.
-
-We'll need, in pentaho, to define which connection refers to the kettle logging tables. Either by defining
-a special jndi or specifying in the settings.
-
-We'll need to test for:
-
-* Time 
-* Start /end time 
-* Amount of data processed 
-
-### Datawarehouse schema validation
-
-There are some specific tests we can do on the sanity of a datawarehouse.
-
-* Coherent amount of data on a daily / hourly basis 
-* Test the same as before with specific breakdowns 
-* Test for the amount of 'unknowns' on dimensions 
 
 Creating New Validations
 ------------------------
-
 
 
 All the validations created will be stored in `solution/cdv/tests/`
@@ -163,81 +123,51 @@ months and quarters to detect peaks or valleys in the data due to double process
 
 For that here is an test as example using the CDA file with the MDX query shown above:
 
-
-
-		cdv.registerTest({
-			id: 1,
-			type: "query",
-			name: 'Existence of data and variation',
-			group: "Steel-Wheels",
-			path: 'cdv/tests/monyhlyVariation.cdv',
-			createdBy: 'Webdetails',
-			createdAt: 1339430893246,
-			queries: [ 
-			{
-				cdaFile: "/steel-wheels/steel-wheels-tests.cda", 
-				dataAccessId: "monthlyQuery" , 
-				parameters: {   
-					yearParameter: "2003"
-				}
-			}
-			],
-			validations:[{
-				validationName: "Steel-Wheels Data Validation",
-				validationType: "custom",
-				validationFunction:  function(rs, conf) {
-					var success = true,
-					dif1 = [], dif2 = [];
-					
-					//Test existence of data
-					var i = rs[0].resultset.length;
-					if ( i < 16 ) {
-						return {type: "ERROR", description: "Missing data in Steels-Wheels!"};
-					}
-					
-					//Test quarter variations
-					var quarter = [];
-					for ( i = 0; i < rs[0].resultset.length; i+=4){
-						quarter.push(rs[0].resultset[i]);
-					}
-					for (i = 0; i < quarter.length - 1; i++){
-						dif1[i] = (quarter[i+1][1]/quarter[i][1] - 1) * 100;
-						dif2[i] = (quarter[i+1][2]/quarter[i][2] - 1) * 100;
-						if ( Math.abs(dif1[i]) < 10 || Math.abs(dif2[i]) < 10 ){
-							return {type: "WARN", description: "Variation by quarter is lower than expected!"};
-						}
-					}
-					
-					//Test monthly variations
-					var months = []; dif1 = []; dif2 = [];
-					for ( i = 1; i < rs[0].resultset.length; i+=4){
-						months.push(rs[0].resultset[i]);
-						months.push(rs[0].resultset[i+1]);
-						months.push(rs[0].resultset[i+2]);
-					}
-					
-					for (i = 0; i < months.length - 1; i++){
-						dif1[i] = (months[i+1][1]/months[i][1] - 1) * 100;
-						dif2[i] = (months[i+1][2]/months[i][2] - 1) * 100;
-						if ( Math.abs(dif1[i]) > 200 || Math.abs(dif2[i]) > 200 ){
-							return {type: "WARN", description: "Variation by months is greater than expected!"};
-						}
-					}
-					
-					return success ? "OK" : {type: "ERROR", description: "Missing data in Steels-Wheels!"};
-				}
-			}],
-			executionTimeValidation: {
-				expected: 100,
-				warnPercentage: 0.30,
-				errorPercentage: 0.70,
-				errorOnLow: true
-			},
-		 
-
-			cron: "0 0 10 * ? *" 
-		});
 		
+	cdv.registerTest({
+		id: 99999,
+		type: "query",
+		name: 'Existence of data',
+		group: "Steel-Wheels",
+		path: 'cdv/tests/steelwheels-existence.cdv',
+		createdBy: 'Webdetails',
+		createdAt: 1339430893246,
+		queries: [ 
+		{
+			cdaFile: "/plugin-samples/cdv/steelwheels-tests.cda", 
+			dataAccessId: "monthlyQuery" , 
+			parameters: {   
+				yearParameter: "2003"
+			}
+		}
+		],
+		validations:[{
+			validationName: "Steel-Wheels Data Validation",
+			validationType: "custom",
+			validationFunction:  function(rs, conf) {
+				var success = true,
+				dif1 = [], dif2 = [];
+				
+				//Test existence of data
+				var i = rs[0].resultset.length;
+				if ( i < 16 ) {
+					return {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+				}
+				
+				
+				return success ? "OK" : {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+			}
+		}],
+		executionTimeValidation: {
+			expected: 100,
+			warnPercentage: 0.30,
+			errorPercentage: 0.70,
+			errorOnLow: false
+		},
+	 
+
+		cron: "0 0 10 * ? *" 
+	});
 
 
 Since the resultset is supposed to show all quarters and months of a year, we expect that it has 16 rows,
@@ -273,13 +203,8 @@ There are 2 ways to call the validations:
 * By url request 
 * Scheduled calls 
 
-Url will be based on the id / query name (tbd). The schedule calls will be cron based, with the following presets:
+Url will be based on the id / query name (tbd). The schedule calls is cron based
 
-* Every hour 
-* Every day 
-* Every week 
-* Every month 
-* Custom cron 
 
 Alerts
 ------
