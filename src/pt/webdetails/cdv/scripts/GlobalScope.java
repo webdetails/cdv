@@ -184,11 +184,14 @@ public class GlobalScope extends ImporterTopLevel {
 
     public static void executeScript(Context cx, String path, Scriptable scope) {
         cx.setLanguageVersion(Context.VERSION_1_7);
+        InputStream stream = null;
         try {
-            InputStream stream = RepositoryAccess.getRepository().getResourceInputStream(path, FileAccess.EXECUTE, false);
+            stream = RepositoryAccess.getRepository().getResourceInputStream(path, FileAccess.EXECUTE, false);
             cx.evaluateReader(scope, new InputStreamReader(stream), path, START_LINE, null);
         } catch (Exception e) {
             logger.error(e);
+        } finally {
+          IOUtils.closeQuietly(stream);        
         }
     }
 
