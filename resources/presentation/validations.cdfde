@@ -1105,7 +1105,7 @@
      },
      {
       "name": "displayLength",
-      "value": "10",
+      "value": "50",
       "type": "Integer"
      },
      {
@@ -1155,7 +1155,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function() {\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n}",
+      "value": "function f() {\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n    this.chartDefinition.oLanguage =  \n        { \"sEmptyTable\":\"No tests defined. <a href='javascript:wd.cdvUI.copyCDVTests();'>Click here</a> to copy steel-wheels samples from CDV\"};\n}",
       "type": "JavaScript"
      },
      {

@@ -1,5 +1,5 @@
 cdv.registerTest({
-    id: 2,
+    id: 99998,
     type: "query",
     name: 'Variation',
     group: "Steel-Wheels",
@@ -59,7 +59,7 @@ cdv.registerTest({
         expected: 100,
         warnPercentage: 0.30,
         errorPercentage: 0.70,
-        errorOnLow: true
+        errorOnLow: false
     },
  
 

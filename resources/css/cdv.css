@@ -70,6 +70,16 @@ body{
 div.container  {
 }
 
+/* generic stuff */
+
+div.container a{
+    color: grey;
+}
+
+div.container a:focus, div.container a:hover{
+    color: #444;
+}
+
 /* =============================================================================
    2. HEADER 
    ========================================================================== */
