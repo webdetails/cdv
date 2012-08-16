@@ -70,15 +70,6 @@ body{
 div.container  {
 }
 
-/* generic stuff */
-
-div.container a{
-    color: grey;
-}
-
-div.container a:focus, div.container a:hover{
-    color: #444;
-}
 
 /* =============================================================================
    2. HEADER 
@@ -675,6 +666,16 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 .WDdataCellBody  thead th .trend.neutral {
 }
 
+
+/* generic stuff */
+
+td.dataTables_empty a{
+    color: grey;
+}
+
+td.dataTables_empty a:focus, td.dataTables_empty a:hover{
+    color: #444;
+}
 
 
 /* =============================================================================
