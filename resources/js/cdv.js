@@ -615,7 +615,7 @@ wd.cdv = wd.cdv||{};
                       group: test.group, 
                       name: test.name
                   }).toJSON();
-                }, test.cron);
+                }, test.cron, test.group, test.name);
               } else {
                 wd.log("Test scheduling skipped");
               }

@@ -288,6 +288,18 @@ registerHandler("GET", "/deleteAlert", function(out,pathParams,requestParams){
     }
 });
 
+registerHandler("GET", "/listSchedules", function(out,pathParams,requestParams){
+    
+
+    try {        
+      out.write(new java.lang.String(JSON.stringify(scheduler.listSchedules())).getBytes("utf-8"));
+
+
+    } catch (e) {
+        print(e);
+    }
+});
+
 registerHandler("GET", "/deleteAllAlerts", function(out,pathParams,requestParams){
     
 
