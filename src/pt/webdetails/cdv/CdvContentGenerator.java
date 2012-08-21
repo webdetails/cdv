@@ -131,7 +131,10 @@ public class CdvContentGenerator extends RestContentGenerator {
             if (repAccess.canWrite(destination)) {
 
                 List<String> extensions = new ArrayList<String>();
+                
+                // Once again, the cool diferences between dbbase and filebase rep :S
                 extensions.add("cdv");
+                extensions.add(".cdv");
                 ISolutionFile[] tests = repAccess.listSolutionFiles(origin, RepositoryAccess.FileAccess.READ, false, extensions);
                 for (ISolutionFile test : tests) {
                     repAccess.copySolutionFile(test.getSolutionPath() + "/"+ test.getFileName(), destination + test.getFileName());

@@ -18,7 +18,7 @@
     reschedule();
   }
   
-  myself.scheduleTask = function(task, schedule) {
+  myself.scheduleTask = function(task, schedule, group, name) {
     var taskObj;
     if (arguments.length == 1) {
       taskObj = task;
@@ -27,6 +27,8 @@
       taskObj = {
         handler: function(){callWithDefaultSession(task);},
         schedule: schedule,
+        group: group,
+        name: name
       };
     }
     addTask(taskObj);
@@ -58,16 +60,17 @@
 
   myself.peek = function() {
     return _queue[0];
-  }
+  };
 
   myself.getCron = function(cronExpr) {
     return cron().parse(cronExpr,true);
-  }
+  };
 
   myself.pause = function() {
     clearTimeout(_timer);
     _timer = null;
   };
+
   myself.restart = function() {
     if (_timer === null) {
       reschedule();
@@ -79,5 +82,8 @@
     _queue = [];
   };
 
+  myself.listSchedules = function() {
+    return _(_queue).map(function(q){return {group: q.group, name: q.name, next: q.next};});
+  }
   global.scheduler = myself;
 }(this));
