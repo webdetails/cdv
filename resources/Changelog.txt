@@ -1,0 +1,8 @@
+12.09.05:
+    * Added Docs to samples
+    * Added the ability to get sample tests from CDV - Build.xml now publishes samples too
+    * Added sample tests - Added solution folder to plugin solutions
+    * Changed orient to 1.1.0
+    * Expose a setting to control whether the tests are scheduled or must be executed manually
+    * Harmonized table headers and widths
+    * Fixed issue with quotations inside strings on cda parameters
