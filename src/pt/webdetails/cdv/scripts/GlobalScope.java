@@ -241,22 +241,8 @@ public class GlobalScope extends ImporterTopLevel {
             IPentahoSession session = getAdminSession();   
             PentahoSessionHolder.setSession(session);
             
-            Thread t = new Thread (new Runnable () {
-
-              @Override
-              public void run() {
-                  Context ctx = Context.enter();
-                  try {
-                    
-                    callback.call(cx, GlobalScope.getInstance(), thisObj, null);                                      
-                  } finally {
-                    ctx.exit();
-                  }
-              }                        
-            });
-            
-            t.run();            
-//            HibernateUtil.closeSession();
+            callback.call(cx, GlobalScope.getInstance(), thisObj, null);                                      
+            HibernateUtil.closeSession();
         } catch (Exception e) {
             logger.error(e);
         } finally {
