@@ -3,7 +3,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 package pt.webdetails.cdv.scripts;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import org.apache.commons.io.IOUtils;
@@ -27,6 +26,7 @@ import org.pentaho.platform.engine.core.system.PentahoSystem;
 import org.pentaho.platform.engine.core.system.StandaloneSession;
 import org.pentaho.platform.engine.core.system.UserSession;
 import org.pentaho.platform.engine.security.SecurityHelper;
+import org.pentaho.platform.repository.hibernate.HibernateUtil;
 import org.springframework.security.Authentication;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
@@ -232,14 +232,17 @@ public class GlobalScope extends ImporterTopLevel {
         return Context.toBoolean(true);
     }
 
-    public static Object callWithDefaultSession(Context cx, Scriptable thisObj,
+    public static Object callWithDefaultSession(final Context cx, final Scriptable thisObj,
             Object[] args, Function funObj) {
-        Callable callback = (Callable) args[0];
+        final Callable callback = (Callable) args[0];
         IPentahoSession old = PentahoSessionHolder.getSession();
         try {
-            IPentahoSession session = getAdminSession();
+//            HibernateUtil.getSession();
+            IPentahoSession session = getAdminSession();   
             PentahoSessionHolder.setSession(session);
-            callback.call(cx, GlobalScope.getInstance(), thisObj, null);
+            
+            callback.call(cx, GlobalScope.getInstance(), thisObj, null);                                      
+            HibernateUtil.closeSession();
         } catch (Exception e) {
             logger.error(e);
         } finally {
