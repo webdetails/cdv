@@ -13,13 +13,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import pt.webdetails.cdv.notifications.Alert.Level;
-import pt.webdetails.cpf.persistence.Persistable;
 
 /**
  *
  * @author pdpi
  */
-public class TestResult implements Persistable {
+public class TestResult {
 
     private static Log logger = LogFactory.getLog(TestResult.class);
     private List<ValidationResult> results;
@@ -71,17 +70,8 @@ public class TestResult implements Persistable {
         }
     }
 
-    @Override
-    public JSONObject getKey() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public String getPersistenceClass() {
-        return "TestResult";
-    }
-
-    @Override
+    
+    
     public JSONObject toJSON() throws JSONException {
         JSONObject json = new JSONObject();
 

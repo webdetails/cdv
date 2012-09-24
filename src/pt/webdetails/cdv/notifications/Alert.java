@@ -9,7 +9,7 @@ import pt.webdetails.cpf.persistence.Persistable;
  *
  * @author pdpi
  */
-public class Alert implements Persistable {
+public class Alert {
 
     public enum Level {
 
