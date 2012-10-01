@@ -110,4 +110,11 @@ public class TestResult {
         TestResult result = new TestResult(json);
         return result;
     }
+    
+    
+    public String getPersistenceClass() {
+      return "TestResult";
+    }
+    
+    
 }
