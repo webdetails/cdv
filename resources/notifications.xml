@@ -12,10 +12,13 @@
     </outlet>
   </outlets>
   <alerts>
+<!-- Change outlet to 'email' after changing the to, smtp and cc to start receiving alert emails -->
     <alert outlet='logger'>
       <groups>
-        <group name='cda' threshold='WARN' />
-        <group name='*' threshold='*' />
+        <group name='cda' threshold='ERROR' />
+        <group name='*' threshold='CRITICAL' />
+        <group name='*' threshold='ERROR' />
+        <group name='*' threshold='WARN' />
       </groups>
     </alert>
   </alerts>
