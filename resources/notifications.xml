@@ -3,16 +3,16 @@
     <outlet name='email' class='pt.webdetails.cdv.notifications.EmailOutlet' defaultThreshold='WARN'>
       <conf>
         <!-- Change these! -->
+        <property name='from' value='example@example.com'/>
         <property name='to' value='example@example.com'/>
-        <property name='smtp' value='mail.example.com'/>
-        <property name='cc' value='example@example.com'/>
+        <!--property name='cc' value='example@example.com'/-->
       </conf>
     </outlet>
     <outlet name='logger' class='pt.webdetails.cdv.notifications.LoggingOutlet' >
     </outlet>
   </outlets>
   <alerts>
-<!-- Change outlet to 'email' after changing the to, smtp and cc to start receiving alert emails -->
+<!-- Change outlet to 'email' after changing the to, smtp (if necessary) and cc to start receiving alert emails -->
     <alert outlet='logger'>
       <groups>
         <group name='cda' threshold='ERROR' />
@@ -21,5 +21,16 @@
         <group name='*' threshold='WARN' />
       </groups>
     </alert>
+	<!-- This example override the defaults and specifies a different receiver for a specific group -->
+	<!--
+	<alert outlet='email'>
+		<conf>
+			<property name='to' value='someone@somewhere.com'/>
+		</conf>
+		<groups>
+			<group name='Steel-Wheels' threshold='ERROR' />
+		</groups>
+	</alert>
+	-->
   </alerts>
 </cdv>
