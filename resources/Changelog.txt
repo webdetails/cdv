@@ -1,3 +1,10 @@
+12.12.10:
+    * New notification examples
+    * changed default notifications settings. Fixed tab name and tooltip inside PUC
+    * Changed orient dependencies to 1.3.0
+    * Remove Persistable interface from classes that weren't implementing the newer version nor actually using the Persistable facilities.
+    * Solved bug in scheduled executions and hibernate connection leak
+
 12.09.05:
     * Added Docs to samples
     * Added the ability to get sample tests from CDV - Build.xml now publishes samples too
