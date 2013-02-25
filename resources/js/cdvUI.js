@@ -707,7 +707,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertDescription
                 return; // Done already
             }
         
-            var val = _.map(text.split(" ;"),function(e){
+            var val = _.map(text.split("; "),function(e){
     
                 var obj = {};
     
@@ -725,7 +725,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertDescription
     
                 var params = arr[3];
                 if(params){
-                    obj.params = _.map(params.substr(1,params.length-2).split(", "), function(param){
+                    obj.params = _.map(params.substr(1,params.length-2).split(new RegExp(", (?=\\w*:)")), function(param){
                         var a = param.split(": ");
                         return {
                             paramName: a[0], 
@@ -765,11 +765,13 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertDescription
         
             $t.find("a.params").tipsy({
                 gravity: 's', 
-                html:true
+                html:true,
+				delayIn: 100
             });
             $t.find("span.cdaPath").tipsy({
                 gravity: 's', 
-                html:true
+                html:true,
+				delayIn: 100
             });
     
         }
