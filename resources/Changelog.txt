@@ -1,3 +1,6 @@
+13.03.25:
+    * There were some edge cases where parameters were not being correctly parsed in cdv's validation dashboard
+
 12.12.10:
     * New notification examples
     * changed default notifications settings. Fixed tab name and tooltip inside PUC
