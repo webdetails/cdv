@@ -8,7 +8,6 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,8 @@ import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 import pt.webdetails.cpf.repository.RepositoryAccess;
+import pt.webdetails.cpf.utils.MimeTypes;
+import pt.webdetails.cpf.utils.PluginUtils;
 
 /**
  *
@@ -125,24 +126,28 @@ public class CdvContentGenerator extends RestContentGenerator {
 
             // 1. Get files from path - do I need to create the dir?
 
-            final String origin = "plugin-samples/cdv/";
+            final List<String> origins = new ArrayList<String>();
+            origins.add("plugin-samples/cdv/");
+            origins.add("system/cdv/sampleFiles/");
             final String destination = "cdv/tests/";
 
+            
             if (repAccess.canWrite(destination)) {
+                for(String origin : origins){
+                    List<String> extensions = new ArrayList<String>();
 
-                List<String> extensions = new ArrayList<String>();
-                
-                // Once again, the cool diferences between dbbase and filebase rep :S
-                extensions.add("cdv");
-                extensions.add(".cdv");
-                ISolutionFile[] tests = repAccess.listSolutionFiles(origin, RepositoryAccess.FileAccess.READ, false, extensions);
-                for (ISolutionFile test : tests) {
-                    repAccess.copySolutionFile(test.getSolutionPath() + "/"+ test.getFileName(), destination + test.getFileName());
+                    // Once again, the cool diferences between dbbase and filebase rep :S
+                    extensions.add("cdv");
+                    extensions.add(".cdv");
+                    ISolutionFile[] tests = repAccess.listSolutionFiles(origin, RepositoryAccess.FileAccess.READ, false, extensions);
+                    for (ISolutionFile test : tests) {
+                        repAccess.copySolutionFile(test.getSolutionPath() + "/"+ test.getFileName(), destination + test.getFileName());
 
+                    }
                 }
-
                 // Call Refresh tests - InterPluginCall to the same plugin is actually the simplest way
                 InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDV, "refreshTests");
+                
                 pluginCall.call();
 
 
@@ -163,14 +168,14 @@ public class CdvContentGenerator extends RestContentGenerator {
         
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeType.JSON)
+    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeTypes.JSON)
     public void newTest(OutputStream out) throws IOException, JSONException {
         String newName = getRequestParameters().getStringParameter("newName", null);
         JSONObject result = createTest("system/cdv/validationTemplate.cdv", newName);
         writeOut(out, result.toString(2));
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeType.JSON)
+    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeTypes.JSON)
     public void duplicateTest(OutputStream out) throws IOException, JSONException {
         String path = getRequestParameters().getStringParameter("path", null);
         String newName = getRequestParameters().getStringParameter("newName", null);
@@ -186,7 +191,7 @@ public class CdvContentGenerator extends RestContentGenerator {
         writeOut(out, result.toString(2));
     }
 
-    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeType.JSON)
+    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeTypes.JSON)
     public void copyCDVTests(OutputStream out) throws IOException, JSONException {
         JSONObject result;
 
@@ -195,7 +200,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     }
 
     //TODO: TEMP!
-    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.PLAIN_TEXT)
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeTypes.PLAIN_TEXT)
     public void deleteTable(OutputStream out) throws IOException {
         String classTable = getRequestParameters().getStringParameter("class", null);
         if (classTable != null) {
@@ -207,7 +212,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     }
 
     //TODO:TEMP!
-    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.JSON)
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeTypes.JSON)
     public void listTable(OutputStream out) throws IOException, JSONException {
         String classTable = getRequestParameters().getStringParameter("class", null);
 
@@ -219,7 +224,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     }
 
     //TODO:TEMP!
-    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeType.JSON)
+    @Exposed(accessLevel = AccessLevel.ADMIN, outputType = MimeTypes.JSON)
     public void listCda(OutputStream out) throws IOException, JSONException {
         String dataAccessId = getRequestParameters().getStringParameter("dataAccessId", null);
         String settingsId = getRequestParameters().getStringParameter("cdaSettingsId", null);
@@ -252,7 +257,7 @@ public class CdvContentGenerator extends RestContentGenerator {
         params.put("inferScheme", "false");
         params.put("root", root);
         IParameterProvider requestParams = getRequestParameters();
-        copyParametersFromProvider(params, requestParams);
+        PluginUtils.getInstance().copyParametersFromProvider(params, requestParams);
 
         if (requestParams.hasParameter("mode") && requestParams.getStringParameter("mode", "Render").equals("edit")) {
             redirectToCdeEditor(out, params);
