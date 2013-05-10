@@ -362,9 +362,10 @@ table.tableComponent{
 
 .tableComponent thead th{
     text-align: left;
-    font-size: 16px;
-    color: grey;
+    font-size: 12px;
+    color: #10282f;
     padding-top: 10px;
+    padding-bottom: 10px;
     min-height: 40px;
     background-color: white
 }
@@ -545,7 +546,9 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 
 .WDdataCellBody table {}
 
-
+#dataCell {
+	padding: 0px 0px 00px 0px;
+}
 /* Header */
 .WDdataCellBody  thead {}
 .WDdataCellBody thead tr {
@@ -806,8 +809,12 @@ margin-right: 12px;
     border: solid 1px #A6B0B5;
     box-shadow: none;
     height: 18px;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    font-size: 11px;
 }
 .pentaho-toggle-button-horizontal-last button {
 }
@@ -816,15 +823,21 @@ margin-right: 12px;
 .boxshadow .pentaho-toggle-button-down button {
     border: solid 1px #829299;
     box-shadow: none;
-    background: #cad3d6;
-    color: #0070a0
+    background: #10282f;
+    color: #f6f7f8;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 
 .boxshadow .pentaho-toggle-button:hover button{
     border: 1px solid transparent;
-    background-color: #cad3d6;
+    background-color: #ddd;
     color:  #0f1414;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 
@@ -995,7 +1008,7 @@ ul.siteMap li li li:hover ul{
 .siteMap {
     float:  left;
     width: 100%;
-    background: #57A32B;
+    background: #10282f;
     margin-top: 0px;
 }
 .siteMap a {
@@ -1009,7 +1022,7 @@ ul.siteMap li li li:hover ul{
 }
 
 .siteMap li.siteMapSelected a {
-    color: #fff;
+    color: #f6f7f8;
 }
 
 .siteMap >  li:last-child {
@@ -1018,12 +1031,12 @@ ul.siteMap li li li:hover ul{
 
 
 .siteMap a { /* visited pseudo selector so IE6 applies text colour*/
-    color: rgb(34, 34, 34);
+    color: #ddd;
     font-size: 13px;
 
 }
 .siteMap li {
-    background: #57A32B;
+    background: ##10282f;
     cursor:  pointer;
 }
 .siteMap li li {
@@ -1739,10 +1752,12 @@ div.textEditorRightPanel {
 
 
 div.textEditorControls{
-    background-color: rgb(87, 163, 43);
+    background-color: #10282f;
     border: 1px solid;
     padding: 5px;
     overflow: hidden;
+    color: #f6f7f8;
+	margin-right: 2px;
 }
 
 
@@ -1771,11 +1786,13 @@ div.textEditorNotification{
 
     min-height: 25px;
     background-color: white;
-    border: 1px solid rgb(130, 146, 153);
+    border: none;
+    border-top: 1px solid rgb(130, 146, 153);
+    border-bottom: 1px solid rgb(130, 146, 153);
     text-align: center;
     font-size: 13px;
     padding-top: 5px;
-
+	margin-right: 2px;
 }
 
 span.textEditorNotificationMsg{
