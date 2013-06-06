@@ -1,3 +1,7 @@
+13.06.05:
+    * New images and general layout fixes
+    * Fixed [REDMINE-2109] - Cannot copy samples to repository
+
 13.03.25:
     * There were some edge cases where parameters were not being correctly parsed in cdv's validation dashboard
 
