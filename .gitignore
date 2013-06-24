@@ -6,3 +6,12 @@ build/
 /lib/
 runtime-lib/
 override.properties
+
+#IntelliJ IDEA project files
+.idea
+*.iml
+
+#Eclipse project files
+.classpath
+.project
+.settings
