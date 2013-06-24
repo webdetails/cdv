@@ -247,7 +247,9 @@ public class CdvContentGenerator extends RestContentGenerator {
     private void callCDE(String file, OutputStream out) throws UnsupportedEncodingException, IOException {
 
         ServletRequest wrapper = getRequest();
-        String root = wrapper.getScheme() + "://" + wrapper.getServerName() + ":" + wrapper.getServerPort();
+        
+        // HINT: hack to correctly resolve resources paths behind web front-ends
+        // String root = wrapper.getScheme() + "://" + wrapper.getServerName() + ":" + wrapper.getServerPort();
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("solution", "system");
@@ -255,7 +257,10 @@ public class CdvContentGenerator extends RestContentGenerator {
         params.put("file", file);
         params.put("absolute", "true");
         params.put("inferScheme", "false");
-        params.put("root", root);
+        
+        // HINT: hack to correctly resolve resources paths behind web front-ends
+        params.put("root", "");
+        
         IParameterProvider requestParams = getRequestParameters();
         PluginUtils.getInstance().copyParametersFromProvider(params, requestParams);
 
