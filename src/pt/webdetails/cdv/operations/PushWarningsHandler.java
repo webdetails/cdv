@@ -21,7 +21,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import pt.webdetails.cdv.notifications.Alert;
 import pt.webdetails.cdv.notifications.EventManager;
 import pt.webdetails.cpf.JsonRequestHandler;
-import pt.webdetails.cpf.JsonSerializable;
+import pt.webdetails.cpf.messaging.JsonSerializable;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.messaging.PluginEvent;
 import pt.webdetails.cpf.persistence.PersistenceEngine;

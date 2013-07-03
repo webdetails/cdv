@@ -17,7 +17,8 @@ import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Node;
 import pt.webdetails.cdv.notifications.Alert.Level;
-import pt.webdetails.cpf.repository.RepositoryAccess;
+import pt.webdetails.cpf.repository.BaseRepositoryAccess;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 
 /**
  *
@@ -38,13 +39,13 @@ public class NotificationEngine {
             // We'll search first in the solution dir, then in the plugin dir
             
             String notificationFilePath = "";
-            if (RepositoryAccess.getRepository().hasAccess("/cdv/notifications.xml", RepositoryAccess.FileAccess.READ)) {
+            if (PentahoRepositoryAccess.getRepository().hasAccess("/cdv/notifications.xml", BaseRepositoryAccess.FileAccess.READ)) {
                 notificationFilePath = "/cdv/notifications.xml";
             } else {
                 notificationFilePath = "/system/cdv/notifications.xml";
             }
 
-            Document doc = RepositoryAccess.getRepository().getResourceAsDocument(notificationFilePath);
+            Document doc = PentahoRepositoryAccess.getRepository().getResourceAsDocument(notificationFilePath);
             listOutlets(doc);
             listAlerts(doc);
         } catch (IOException e) {

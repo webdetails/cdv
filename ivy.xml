@@ -37,10 +37,9 @@
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
                 
                 
-    <dependency org="pentaho" name="cpf"
-			rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>                   
+    <dependency org="pt.webdetails" name="cpf-core" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pt.webdetails" name="cpf-pentaho" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>        
                 
-<!--    <dependency org="pentaho" name="cpf" rev="TRUNK-SNAPSHOT" changing="true"/>-->
 
     <!--  OrientDB -->
 	<dependency org="com.orientechnologies" name="orient-commons" conf="runtime->default" rev="1.3.0"/>

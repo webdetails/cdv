@@ -24,7 +24,7 @@ import pt.webdetails.cdv.operations.PushWarningsHandler;
 import pt.webdetails.cdv.scripts.GlobalScope;
 import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
-import pt.webdetails.cpf.repository.RepositoryAccess;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 
 /**
  * This class inits Cdv plugin within the bi-platform
@@ -97,7 +97,7 @@ public class CdvLifecycleListener implements IPluginLifecycleListener {
     if (!solutionRepository.resourceExists("cdv/notifications.xml")) {
       try {
 
-        RepositoryAccess.getRepository().copySolutionFile("system/cdv/notifications.xml", "cdv/notifications.xml");
+        PentahoRepositoryAccess.getRepository().copySolutionFile("system/cdv/notifications.xml", "cdv/notifications.xml");
       } catch (IOException ioe) {
         logger.error("Error while creating default notifications.xml for CDV plugin. CDV will use the one at system/cdv", ioe);
       }      

@@ -34,8 +34,8 @@ import pt.webdetails.cdv.CdvContentGenerator;
 import pt.webdetails.cdv.Router;
 import pt.webdetails.cdv.datasources.DatasourceFactory;
 import pt.webdetails.cdv.notifications.EventManager;
-import pt.webdetails.cpf.repository.RepositoryAccess;
-import pt.webdetails.cpf.repository.RepositoryAccess.FileAccess;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
+import pt.webdetails.cpf.repository.BaseRepositoryAccess.FileAccess;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 
 /**
@@ -153,7 +153,7 @@ public class GlobalScope extends ImporterTopLevel {
         /* Get the repository, and get a listing of all the files in the test dir from it*/
 //        final ISolutionRepository solutionRepository = PentahoSystem.get(ISolutionRepository.class, PentahoSessionHolder.getSession());
 //        ISolutionFile dir = solutionRepository.getSolutionFile(testPath, ISolutionRepository.ACTION_EXECUTE);
-        RepositoryAccess repository = RepositoryAccess.getRepository();
+        PentahoRepositoryAccess repository = (PentahoRepositoryAccess) PentahoRepositoryAccess.getRepository();
         ISolutionFile testDir = repository.getSolutionFile(testPath, FileAccess.EXECUTE);
 
         if (testDir != null) {
@@ -196,7 +196,7 @@ public class GlobalScope extends ImporterTopLevel {
         cx.setLanguageVersion(Context.VERSION_1_7);
         InputStream stream = null;
         try {
-            stream = RepositoryAccess.getRepository().getResourceInputStream(path, FileAccess.EXECUTE, false);
+            stream = PentahoRepositoryAccess.getRepository().getResourceInputStream(path, FileAccess.EXECUTE, false);
             cx.evaluateReader(scope, new InputStreamReader(stream), path, START_LINE, null);
         } catch (Exception e) {
             logger.error(e);
