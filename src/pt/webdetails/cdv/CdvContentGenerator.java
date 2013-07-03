@@ -27,10 +27,13 @@ import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.RestContentGenerator;
 import pt.webdetails.cpf.RestRequestHandler;
 import pt.webdetails.cpf.Result;
+import pt.webdetails.cpf.WrapperUtils;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
-import pt.webdetails.cpf.repository.RepositoryAccess;
+import pt.webdetails.cpf.repository.BaseRepositoryAccess;
+import pt.webdetails.cpf.repository.IRepositoryAccess;
+import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 import pt.webdetails.cpf.utils.MimeTypes;
 import pt.webdetails.cpf.utils.PluginUtils;
 
@@ -93,7 +96,7 @@ public class CdvContentGenerator extends RestContentGenerator {
         }
         String newFileName = "cdv/tests/" + newPath;
 
-        RepositoryAccess repAccess = RepositoryAccess.getRepository();
+        PentahoRepositoryAccess repAccess = (PentahoRepositoryAccess) PentahoRepositoryAccess.getRepository();
         try {
             if (repAccess.resourceExists(newFileName)) {
                 logger.error("New File already exists, aborting creatio of new test");
@@ -121,7 +124,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     private JSONObject copyCDVTestsFromPluginSamples() throws JSONException {
 
         JSONObject result = new JSONObject();
-        RepositoryAccess repAccess = RepositoryAccess.getRepository();
+        PentahoRepositoryAccess repAccess = (PentahoRepositoryAccess)PentahoRepositoryAccess.getRepository();
         try {
 
             // 1. Get files from path - do I need to create the dir?
@@ -139,7 +142,7 @@ public class CdvContentGenerator extends RestContentGenerator {
                     // Once again, the cool diferences between dbbase and filebase rep :S
                     extensions.add("cdv");
                     extensions.add(".cdv");
-                    ISolutionFile[] tests = repAccess.listSolutionFiles(origin, RepositoryAccess.FileAccess.READ, false, extensions);
+                    ISolutionFile[] tests = repAccess.listSolutionFiles(origin, BaseRepositoryAccess.FileAccess.READ, false, extensions);
                     for (ISolutionFile test : tests) {
                         repAccess.copySolutionFile(test.getSolutionPath() + "/"+ test.getFileName(), destination + test.getFileName());
 
@@ -253,7 +256,7 @@ public class CdvContentGenerator extends RestContentGenerator {
         params.put("inferScheme", "false");
         
         IParameterProvider requestParams = getRequestParameters();
-        PluginUtils.getInstance().copyParametersFromProvider(params, requestParams);
+        PluginUtils.copyParametersFromProvider(params, WrapperUtils.wrapParamProvider(requestParams));
 
         if (requestParams.hasParameter("mode") && requestParams.getStringParameter("mode", "Render").equals("edit")) {
             redirectToCdeEditor(out, params);
