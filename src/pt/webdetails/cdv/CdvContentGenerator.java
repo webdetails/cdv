@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,14 @@ import org.pentaho.platform.api.engine.IParameterProvider;
 import org.pentaho.platform.api.engine.ISolutionFile;
 import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
 import pt.webdetails.cdv.operations.PushWarningsHandler;
+import pt.webdetails.cdv.plugin.CdvConfig;
 import pt.webdetails.cpf.InterPluginCall;
 import pt.webdetails.cpf.RestContentGenerator;
 import pt.webdetails.cpf.RestRequestHandler;
 import pt.webdetails.cpf.Result;
+import pt.webdetails.cpf.VersionChecker;
+import static pt.webdetails.cpf.VersionChecker.Branch.STABLE;
+import static pt.webdetails.cpf.VersionChecker.Branch.TRUNK;
 import pt.webdetails.cpf.WrapperUtils;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
@@ -47,6 +52,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     public static final String CDW_EXTENSION = ".cdw";
     public static final String PLUGIN_NAME = "cdv";
     public static final String PLUGIN_PATH = "system/" + CdvContentGenerator.PLUGIN_NAME + "/";
+    private static final String UI_PATH = "cdv/presentation/";
 
     @Override
     public String getPluginName() {
@@ -293,4 +299,75 @@ public class CdvContentGenerator extends RestContentGenerator {
     public RestRequestHandler getRequestHandler() {
         return Router.getBaseRouter();
     }
+    
+    @Exposed(accessLevel = AccessLevel.PUBLIC, outputType = MimeTypes.JSON)
+    public void about(OutputStream out) throws IOException, JSONException {
+        renderInCde(out, getRenderRequestParameters("cdvAbout.wcdf")); 
+        
+    }
+    
+    
+    private Map<String, Object> getRenderRequestParameters(String dashboardName) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("solution", "system");
+        params.put("path", UI_PATH);
+        params.put("file", dashboardName);
+        params.put("bypassCache", "true");
+        params.put("absolute", "true");
+        params.put("inferScheme", "false");
+        params.put("root", getRoot());
+
+        //add request parameters
+        ServletRequest request = getRequest();
+        @SuppressWarnings("unchecked")//should always be String
+        Enumeration<String> originalParams =  request.getParameterNames();
+        // Iterate and put the values there
+        while(originalParams.hasMoreElements()) {
+            String originalParam = originalParams.nextElement();
+            params.put(originalParam, request.getParameter(originalParam));
+        }
+        
+        return params;
+    }
+    private void renderInCde(OutputStream out, Map<String, Object> params) throws IOException {
+      InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDE, "Render", params);
+      pluginCall.setResponse(getResponse());
+      pluginCall.setOutputStream(out);
+      pluginCall.run();
+    }
+    private String getRoot() {
+        
+        ServletRequest wrapper = getRequest();
+        String root = wrapper.getScheme() + "://"+ wrapper.getServerName() + ":" + wrapper.getServerPort();
+
+        return root;
+    }
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void checkVersion(OutputStream out) throws IOException, JSONException {
+      writeOut(out, getVersionChecker().checkVersion());
+    }
+    @Exposed(accessLevel = AccessLevel.PUBLIC)
+    public void getVersion(OutputStream out) throws IOException, JSONException {
+      writeOut(out, getVersionChecker().getVersion());
+    }
+    public VersionChecker getVersionChecker() {
+      
+      return new VersionChecker(CdvConfig.getConfig()){
+
+        @Override
+        protected String getVersionCheckUrl(VersionChecker.Branch branch) {
+          switch(branch){
+            case TRUNK:
+              return "http://ci.analytical-labs.com/job/Webdetails-CDV/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            case STABLE:
+              return "http://ci.analytical-labs.com/job/Webdetails-CDV-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            default:
+              return null;
+          }
+          
+        }
+        
+      };
+    }
+    
 }

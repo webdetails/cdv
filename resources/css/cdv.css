@@ -47,11 +47,11 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    /*margin: 0;
-    padding: 0;
-    border: 0;
-            font-family: Open Sans, Arial, sans-serif;*/
-}
+/*margin: 0;
+padding: 0;
+border: 0;
+        font-family: Open Sans, Arial, sans-serif;*/
+  }
 
 
 
@@ -1160,16 +1160,21 @@ button, button *, input[type=button], input[type=button] * {
     margin-top: 50px;
 }
 
-.cdvSmall {
+div.cdvSmall {
+    float: right;
     font-size: 11px;
-    margin-top: 52px;
-    height: 15px;
+    font-weight: normal;
+    padding-top: 58px;
+    position: relative;
 }
 
-.cdvVersion {
+div.cdvVersion {
+    float: right;
     font-size: 11px;
-    color: #B3BFC4;
-    margin-top: 52px;
+    padding-top: 58px;
+    position: relative;
+    color: #829299;
+    margin-left: 5px;
     height: 15px;
 }
 
@@ -1966,3 +1971,53 @@ div.jqi .jqicontainer {
   background-image: url('img/arrowRight.png');
   margin-right:-1px;
 } 
+
+div.cdvBig {
+    background: url("img/cdv_logo.png") no-repeat scroll left bottom transparent;
+    float: right;
+    height: 15px;
+    padding-top: 55px;
+    position: relative;
+    width: 45px;
+}
+.aboutBody {
+    background-color: #05282C;
+    color: #DEE8EC;
+    margin-top: 3px;
+    vertical-align: text-bottom;
+    font-size: 16px;
+}
+
+.aboutBody .footer a {
+    color: #829299;
+    text-decoration: none;
+}
+
+.aboutBody .footer #footer1text {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom:2px dashed #829299;
+}
+
+.aboutBody #innerVersionObj {
+    color: #829299;
+    font-size: 13px;
+}
+
+.aboutBody #cdvName {
+    font-size:23px;
+}
+
+.aboutTitle {
+    line-height: 50px;
+    vertical-align: bottom;
+    color: #ffffff;
+}
+.versionCheck {
+    font-size: 18px;
+    color: #829299;
+}
+
+.versionCheck a {
+        color:#ffffff;
+}

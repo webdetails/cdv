@@ -845,3 +845,19 @@ wd.cdv.validators = (function (){
   return myself;
 }());
 
+wd.cdv.getDashboardLink = function(pageName){
+  
+        if(window.location.href.search('/pentaho-cdf-dd/') > -1) { //dev mode  
+            var debugMode = Dashboards.propertiesArrayToObject( window.location.search.slice(1).split('&').map(function(i){return i.split('=')})).debug;  
+            var debug = ( debugMode == 'true' ) ? "&debug=true" : "";
+            var solution = "CDV";
+    
+            var devName = 'cdv' + pageName.charAt(0).toUpperCase() + pageName.slice(1);
+            return 'Render?solution=' + solution + '&path=&file=' + devName + '.wcdf' + debug;
+    
+            }
+        else {
+            return pageName;
+            }
+    };
+

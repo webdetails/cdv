@@ -14,14 +14,14 @@
       "type": "Id"
      },
      {
-      "name": "resourceType",
-      "value": "Javascript",
-      "type": "Label"
-     },
-     {
       "name": "resourceFile",
       "value": "js/cdvUI.js",
       "type": "ResourceFile"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
      }
     ]
    },
@@ -37,14 +37,14 @@
       "type": "Id"
      },
      {
-      "name": "resourceType",
-      "value": "Css",
-      "type": "Label"
-     },
-     {
       "name": "resourceFile",
       "value": "css/cdv.css",
       "type": "ResourceFile"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
      }
     ]
    },
@@ -75,14 +75,14 @@
       "type": "RoundCorners"
      },
      {
-      "name": "cssClass",
-      "value": "WDheader",
-      "type": "String"
-     },
-     {
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDheader",
+      "type": "String"
      }
     ]
    },
@@ -133,6 +133,11 @@
       "type": "Boolean"
      },
      {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
       "name": "backgroundColor",
       "value": "",
       "type": "Color"
@@ -143,19 +148,14 @@
       "type": "RoundCorners"
      },
      {
-      "name": "height",
+      "name": "textAlign",
       "value": "",
-      "type": "Integer"
+      "type": "TextAlign"
      },
      {
       "name": "cssClass",
       "value": "cdvLogo",
       "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
      }
     ]
    },
@@ -206,6 +206,11 @@
       "type": "Boolean"
      },
      {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
       "name": "backgroundColor",
       "value": "",
       "type": "Color"
@@ -216,19 +221,14 @@
       "type": "RoundCorners"
      },
      {
-      "name": "height",
+      "name": "textAlign",
       "value": "",
-      "type": "Integer"
+      "type": "TextAlign"
      },
      {
       "name": "cssClass",
       "value": "cdvSmall",
       "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
      }
     ]
    },
@@ -249,14 +249,14 @@
       "type": "Html"
      },
      {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
       "name": "fontSize",
       "value": "",
       "type": "Integer"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
      },
      {
       "name": "cssClass",
@@ -312,6 +312,11 @@
       "type": "Boolean"
      },
      {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
       "name": "backgroundColor",
       "value": "",
       "type": "Color"
@@ -322,51 +327,13 @@
       "type": "RoundCorners"
      },
      {
-      "name": "height",
+      "name": "textAlign",
       "value": "",
-      "type": "Integer"
+      "type": "TextAlign"
      },
      {
       "name": "cssClass",
       "value": "cdvVersion",
-      "type": "String"
-     },
-     {
-      "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
-     }
-    ]
-   },
-   {
-    "id": "c14c28fc-3ae1-0219-adf7-4a7f9c5ccbbe",
-    "type": "LayoutHtml",
-    "typeDesc": "Html",
-    "parent": "4eaf456f-887c-73c3-901b-5f5c2d02b3d9",
-    "properties": [
-     {
-      "name": "name",
-      "value": "",
-      "type": "Id"
-     },
-     {
-      "name": "html",
-      "value": "v TRUNK-SNAPSHOT ",
-      "type": "Html"
-     },
-     {
-      "name": "color",
-      "value": "",
-      "type": "Color"
-     },
-     {
-      "name": "fontSize",
-      "value": "",
-      "type": "Integer"
-     },
-     {
-      "name": "cssClass",
-      "value": "",
       "type": "String"
      }
     ]
@@ -398,14 +365,14 @@
       "type": "RoundCorners"
      },
      {
-      "name": "cssClass",
-      "value": "",
-      "type": "String"
-     },
-     {
       "name": "textAlign",
       "value": "",
       "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
      }
     ]
    }
@@ -439,19 +406,29 @@
       "type": "Id"
      },
      {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
       "name": "xActionArrayParameter",
       "value": "[]",
       "type": "ValuesArray"
      },
      {
-      "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
      },
      {
       "name": "siteMapParameter",
       "value": "wd.cdvUI.siteMap",
       "type": "Parameter"
+     },
+     {
+      "name": "ajaxUrl",
+      "value": "",
+      "type": "String"
      },
      {
       "name": "siteMapSelectedParameter",
@@ -464,6 +441,64 @@
       "type": "HtmlObject"
      },
      {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     }
+    ]
+   },
+   {
+    "id": "2fa20f62-a459-0df3-2976-9d78ef44f0ab",
+    "type": "ComponentscurrentVersion",
+    "typeDesc": "Get Current Plugin Version",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "version",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "versionUrl",
+      "value": "/pentaho/content/cdv/getVersion",
+      "type": "String"
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "${p:cdvVersion}",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
       "name": "preExecution",
       "value": "",
       "type": "JavaScript"
@@ -474,9 +509,9 @@
       "type": "JavaScript"
      },
      {
-      "name": "listeners",
-      "value": "[]",
-      "type": "Listeners"
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
      }
     ]
    },
@@ -509,6 +544,11 @@
       "name": "propertyValue",
       "value": "Home",
       "type": "String"
+     },
+     {
+      "name": "parameterViewRole",
+      "value": "unused",
+      "type": "parameterViewRoleCustom"
      },
      {
       "name": "bookmarkable",
