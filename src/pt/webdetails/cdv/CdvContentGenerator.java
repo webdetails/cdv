@@ -36,7 +36,6 @@ import pt.webdetails.cpf.WrapperUtils;
 import pt.webdetails.cpf.annotations.AccessLevel;
 import pt.webdetails.cpf.annotations.Exposed;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
-import pt.webdetails.cpf.repository.BaseRepositoryAccess;
 import pt.webdetails.cpf.repository.IRepositoryAccess;
 import pt.webdetails.cpf.repository.PentahoRepositoryAccess;
 import pt.webdetails.cpf.utils.MimeTypes;
@@ -148,7 +147,7 @@ public class CdvContentGenerator extends RestContentGenerator {
                     // Once again, the cool diferences between dbbase and filebase rep :S
                     extensions.add("cdv");
                     extensions.add(".cdv");
-                    ISolutionFile[] tests = repAccess.listSolutionFiles(origin, BaseRepositoryAccess.FileAccess.READ, false, extensions);
+                    ISolutionFile[] tests = repAccess.listSolutionFiles(origin, IRepositoryAccess.FileAccess.READ, false, extensions);
                     for (ISolutionFile test : tests) {
                         repAccess.copySolutionFile(test.getSolutionPath() + "/"+ test.getFileName(), destination + test.getFileName());
 
