@@ -1,3 +1,7 @@
+13.09.10:
+    * Revamped About screen
+    * CDV now uses CPF-Core and CPF-Pentaho
+
 13.06.05:
     * New images and general layout fixes
     * Fixed [REDMINE-2109] - Cannot copy samples to repository
