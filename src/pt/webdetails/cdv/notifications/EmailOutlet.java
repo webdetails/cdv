@@ -4,12 +4,13 @@
  */
 package pt.webdetails.cdv.notifications;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.Node;
+import org.pentaho.metadata.messages.LocaleHelper;
+import org.pentaho.platform.engine.core.system.PentahoSystem;
+
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -23,13 +24,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.Node;
-import org.pentaho.metadata.messages.LocaleHelper;
-import org.pentaho.platform.api.repository.IContentItem;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  *

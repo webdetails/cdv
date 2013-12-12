@@ -1702,7 +1702,7 @@
      },
      {
       "name": "preExecution",
-      "value": "function f(){\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"clippedText\",{\n        style:{\"max-width\": \"134px\"},\n        showTooltip: true,\n        useTipsy: true\n    });\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    if(cdvGroup && cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
+      "value": "function f(){\n    this.chartDefinition.paginationType = \"splitWithDescription\";\n    this.setAddInOptions(\"colType\",\"groupHeaders\",{columnHeadersInGroups: true});\n    this.setAddInOptions(\"colType\",\"clippedText\",{\n        style:{\"max-width\": \"134px\"},\n        showTooltip: true,\n        useTipsy: true\n    });\n    this.setAddInOptions(\"colType\",\"elapsedTime\",{longFormat: false});\n    if(cdvGroup || cdvName){\n        $(\"#focusedTestName\").text(cdvGroup + \": \" + cdvName);\n        $(\"#focusedTest\").removeClass(\"collapsed\");\n    }\n    else{\n        $(\"#focusedTest\").addClass(\"collapsed\");\n    }\n\n}\n\n\n",
       "type": "JavaScript"
      },
      {

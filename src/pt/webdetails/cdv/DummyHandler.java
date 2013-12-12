@@ -4,27 +4,35 @@
 
 package pt.webdetails.cdv;
 
+import pt.webdetails.cpf.RequestHandler;
+import pt.webdetails.cpf.http.ICommonParameterProvider;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.pentaho.platform.api.engine.IParameterProvider;
-
-import pt.webdetails.cpf.RequestHandler;
 
 /**
  *
  * @author pdpi
  */
-public class DummyHandler implements RequestHandler{
+public class DummyHandler implements RequestHandler {
 
-    @Override
+    /*@Override
     public void call(OutputStream out, IParameterProvider pathParams, IParameterProvider requestParams) {
         try {
             out.write("Hello World".getBytes("utf-8"));
         } catch (IOException ex) {
             Logger.getLogger(DummyHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+    } */
+
+  @Override
+  public void call( OutputStream out, ICommonParameterProvider pathParams, ICommonParameterProvider requestParams ) {
+    try {
+      out.write("Hello World".getBytes("utf-8"));
+    } catch (IOException ex) {
+      Logger.getLogger(DummyHandler.class.getName()).log(Level.SEVERE, null, ex);
     }
-    
+  }
 }

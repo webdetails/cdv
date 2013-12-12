@@ -573,7 +573,14 @@ wd.cdvUI = wd.cdvUI ||{
                             async: true,
                             success: function(response){
                                 if (response && response.success == "true") {
-
+                                    $.ajax({
+                                        url: "refreshTests",
+                                        type: "GET",
+                                        async: true,
+                                        success: function(){
+                                            Dashboards.fireChange("editorFileSaved","xxx");
+                                        }
+                                    })
                                     popupTextEditor.setFile(response.path);
                                     popupTextEditor.update();
                                     popupTextEditor.show();                            
@@ -936,6 +943,14 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                                         async: true,
                                         success: function(response){
                                             if (response && response.success == "true") {
+                                                $.ajax({
+                                                    url: "refreshTests",
+                                                    type: "GET",
+                                                    async: true,
+                                                    success: function(){
+                                                        Dashboards.fireChange("editorFileSaved","xxx");
+                                                    }
+                                                })
                                                 myself.editFile(response.path);
                                                 myself.popup.hide();                                
                                             } else {

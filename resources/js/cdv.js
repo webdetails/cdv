@@ -409,8 +409,7 @@ wd.cdv = wd.cdv||{};
         // Main function to make the tests
     
         myself.runTest = function(test, opts){
-        
-            // Opts is an object with specific options to this test. 
+            // Opts is an object with specific options to this test.
             // Supported options:
             // * callback(result): Function called when the test is done with the result
             
@@ -434,7 +433,8 @@ wd.cdv = wd.cdv||{};
             var resultSpec = {
                 test:test
             };
-        
+
+
             // 1. Parse duration
             // 2. make test
             // 3. return
@@ -469,7 +469,6 @@ wd.cdv = wd.cdv||{};
 
                 return "OK";
             }
-
 
             // Add duration information
             var durationResult =  parseDuration(test,duration);
@@ -544,7 +543,7 @@ wd.cdv = wd.cdv||{};
             // Do we have a user callback?
             if( opts && typeof opts.callback === 'function'){
                 opts.callback(testResult);
-            } 
+            }
         }
     
 
@@ -553,8 +552,7 @@ wd.cdv = wd.cdv||{};
         myself.executeQuery = function(test, opts, callback){
         
             var startTime = new Date().getTime();
-        
-        
+
             // Make the queries asynchronosly
             var count = 0,
             total= test.queries.length,
@@ -579,7 +577,6 @@ wd.cdv = wd.cdv||{};
             
             
                 var validationCallback = function(json){
-
                     count++;
                     rs[idx] = json;
                 

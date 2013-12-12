@@ -39,13 +39,14 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
             
         }
         
-        if( !isEmpty(cdvGroup) && !isEmpty(cdvName) ){
+        if( !isEmpty(cdvGroup) || !isEmpty(cdvName) ){
             viewHistory = true;
         }
 
-        console.log("cdvGroup: " + (cdvName==null) + "; ViewHistory: " + viewHistory);
+        console.log("cdvGroup: " + (cdvGroup==null) + "; ViewHistory: " + viewHistory);
+        console.log("cdvName:  " + (cdvName));
         
-        // params.put("alertType", alertType);
+        //params.put("alertType", alertType);
         params.put("cdvGroup", cdvGroup);
         params.put("cdvName", cdvName);
         params.put("showCda", showCda);
@@ -54,7 +55,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
         
         var results;
         
-        console.log("Alert filters: DISABLED FOR NOW UNTIL WE MAKE THIS WORK ");
+        //console.log("Alert filters: DISABLED FOR NOW UNTIL WE MAKE THIS WORK");
         
         var where = "";
         if(viewHistory){
@@ -83,7 +84,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
                 
         }
         var query;
-        if(alertType && false){
+        if(alertType && false) {
             query = "select timestamp, group, name, summary, message, userid, level, @rid as rid" +
                 " from Alert where level in [ :alertType ] " + where + " order by timestamp desc limit 100";
             

@@ -3,6 +3,7 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 package pt.webdetails.cdv.operations;
 
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
 import pt.webdetails.cdv.notifications.Alert;
 import pt.webdetails.cdv.notifications.EventManager;
 import pt.webdetails.cpf.JsonRequestHandler;
+import pt.webdetails.cpf.http.ICommonParameterProvider;
 import pt.webdetails.cpf.messaging.JsonSerializable;
 import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.messaging.PluginEvent;
@@ -161,7 +163,12 @@ public class PushWarningsHandler extends JsonRequestHandler {
     
     return json;
   }
-  
+
+  @Override
+  public void call( OutputStream out, ICommonParameterProvider pathParams, ICommonParameterProvider requestParams ) {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
+
   static class JsonKeyIterable implements Iterable<String> {
 
     JSONObject object;

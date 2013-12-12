@@ -3,58 +3,69 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 package pt.webdetails.cdv.datasources;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import pt.webdetails.cpf.PentahoLegacyInterPluginCall;
+import pt.webdetails.cpf.plugin.CorePlugin;
+import pt.webdetails.cpf.web.CpfHttpServletResponse;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import pt.webdetails.cpf.InterPluginCall;
 
 /**
- *
  * @author pdpi
  */
 public class CdaDatasource implements Datasource {
 
-    private Map<String, Object> requestMap = new HashMap<String, Object>();
-    private static final Log logger = LogFactory.getLog(CdaDatasource.class);
+  private Map<String, Object> requestMap = new HashMap<String, Object>();
+  private static final Log logger = LogFactory.getLog( CdaDatasource.class );
 
-    public CdaDatasource() {
-    }
+  public CdaDatasource() {
+  }
 
-    private String getQueryData() {
+  private String getQueryData() {
 
-        InterPluginCall pluginCall = new InterPluginCall(InterPluginCall.CDA, "doQuery", requestMap);
-        //TODO:response
-        return pluginCall.callInPluginClassLoader();
-    }
-    
-    public String execute() {
-        return getQueryData();
-    }
+    PentahoLegacyInterPluginCall pluginCall = new PentahoLegacyInterPluginCall();
+    pluginCall.init( CorePlugin.CDA, "doQuery", requestMap );
+    pluginCall.callInPluginClassLoader();
+    CpfHttpServletResponse response = (CpfHttpServletResponse) pluginCall.getResponse();
 
-    public void setParameter(String param, String val) {
-        requestMap.put("param" + param, val);
+    try {
+      return response.getContentAsString();
+    } catch ( UnsupportedEncodingException e ) {
     }
+    return "";
+  }
 
-    public void setParameter(String param, String[] val) {
-        requestMap.put("param" + param, val);
-    }
+  public String execute() {
+    String result = getQueryData();
+    return result;
+  }
 
-    public void setParameter(String param, Date val) {
-        requestMap.put("param" + param, val);
-    }
+  public void setParameter( String param, String val ) {
+    requestMap.put( "param" + param, val );
+  }
 
-    public void setParameter(String param, List<Object> val) {
-        requestMap.put("param" + param, val.toArray());
-    }
+  public void setParameter( String param, String[] val ) {
+    requestMap.put( "param" + param, val );
+  }
 
-    public void setDataAccessId(String id) {
-        requestMap.put("dataAccessId", id);
-    }
+  public void setParameter( String param, Date val ) {
+    requestMap.put( "param" + param, val );
+  }
 
-    public void setDefinitionFile(String file) {
-        requestMap.put("path", file);
-    }
+  public void setParameter( String param, List<Object> val ) {
+    requestMap.put( "param" + param, val.toArray() );
+  }
+
+  public void setDataAccessId( String id ) {
+    requestMap.put( "dataAccessId", id );
+  }
+
+  public void setDefinitionFile( String file ) {
+    requestMap.put( "path", file );
+  }
 }
