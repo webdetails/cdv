@@ -1,0 +1,67 @@
+cdv.registerTest({
+    id: 99998,
+    type: "query",
+    name: 'Variation',
+    group: "Steel-Wheels",
+    path: 'cdv/tests/steelwheels-variation.cdv',
+	createdBy: 'Webdetails',
+	createdAt: 1339430893246,
+    queries: [ 
+	{
+        cdaFile: "/plugin-samples/cdv/steelwheels-tests.cda", 
+        dataAccessId: "monthlyQuery" , 
+        parameters: {   
+            yearParameter: "2003"
+        }
+	}
+    ],
+    validations:[{
+        validationName: "Steel-Wheels Data Validation",
+        validationType: "custom",
+        validationFunction:  function(rs, conf) {
+            var success = true,
+            dif1 = [], dif2 = [];
+            
+            
+            //Test quarter variations
+            var quarter = [];
+            for ( i = 0; i < rs[0].resultset.length; i+=4){
+                quarter.push(rs[0].resultset[i]);
+            }
+            for (i = 0; i < quarter.length - 1; i++){
+                dif1[i] = (quarter[i+1][1]/quarter[i][1] - 1) * 100;
+                dif2[i] = (quarter[i+1][2]/quarter[i][2] - 1) * 100;
+                if ( Math.abs(dif1[i]) < 10 || Math.abs(dif2[i]) < 10 ){
+                    return {type: "WARN", description: "Variation by quarter is lower than expected!"};
+                }
+            }
+            
+            //Test monthly variations
+            var months = []; dif1 = []; dif2 = [];
+            for ( i = 1; i < rs[0].resultset.length; i+=4){
+                months.push(rs[0].resultset[i]);
+                months.push(rs[0].resultset[i+1]);
+                months.push(rs[0].resultset[i+2]);
+            }
+            
+            for (i = 0; i < months.length - 1; i++){
+                dif1[i] = (months[i+1][1]/months[i][1] - 1) * 100;
+                dif2[i] = (months[i+1][2]/months[i][2] - 1) * 100;
+                if ( Math.abs(dif1[i]) > 200 || Math.abs(dif2[i]) > 200 ){
+                    return {type: "WARN", description: "Variation by months is greater than expected!"};
+                }
+            }
+            
+            return success ? "OK" : {type: "ERROR", description: "Missing data in Steels-Wheels!"};
+        }
+    }],
+    executionTimeValidation: {
+        expected: 100,
+        warnPercentage: 0.30,
+        errorPercentage: 0.70,
+        errorOnLow: false
+    },
+ 
+
+    cron: "0 0 10 * ? *" 
+});

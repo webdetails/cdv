@@ -375,6 +375,249 @@
       "type": "String"
      }
     ]
+   },
+   {
+    "id": "8b03fd9c-d5da-f906-aaf2-98cd4c8c7bcc",
+    "type": "LayoutSpace",
+    "typeDesc": "Space",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "height",
+      "value": "40",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "fbbe52b3-801d-8991-8f6c-efe1fdd22d37",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDdataCellHeader",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e7a0e22b-bd20-4239-72ac-18c193a36390",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "fbbe52b3-801d-8991-8f6c-efe1fdd22d37",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": "Notification Settings ",
+      "type": "Html"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e5df7d95-b63d-19de-ec63-9aae0e5f3fe6",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "dataCell",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDdataCellBody",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "1d15f791-8c51-ab30-abae-722f0db97c6f",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "e5df7d95-b63d-19de-ec63-9aae0e5f3fe6",
+    "properties": [
+     {
+      "name": "name",
+      "value": "colWrapper",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "24",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "e2286a14-3049-0bc0-8e65-e897d33d2ac5",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "1d15f791-8c51-ab30-abae-722f0db97c6f",
+    "properties": [
+     {
+      "name": "name",
+      "value": "editor",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "500",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
    }
   ]
  },
@@ -411,7 +654,7 @@
       "type": "Listeners"
      },
      {
-      "name": "xActionArrayParameter",
+      "name": "parameters",
       "value": "[]",
       "type": "ValuesArray"
      },
@@ -458,7 +701,7 @@
     ]
    },
    {
-    "id": "2fa20f62-a459-0df3-2976-9d78ef44f0ab",
+    "id": "2a88e01e-893a-8c18-c2c3-83aad7bc2344",
     "type": "ComponentscurrentVersion",
     "typeDesc": "Get Current Plugin Version",
     "parent": "CUSTOMCOMPONENTS",
@@ -532,7 +775,7 @@
    {
     "id": "ca6d5507-bdd6-1a01-1d01-9b39b89de5c4",
     "type": "ComponentsParameter",
-    "typeDesc": "Parameter",
+    "typeDesc": "Simple parameter",
     "parent": "GENERIC",
     "properties": [
      {
@@ -542,7 +785,7 @@
      },
      {
       "name": "propertyValue",
-      "value": "Home",
+      "value": "Notification Settings",
       "type": "String"
      },
      {
@@ -556,11 +799,118 @@
       "type": "Boolean"
      }
     ]
+   },
+   {
+    "id": "OTHERCOMPONENTS",
+    "name": "Others",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Others",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "faf0f719-315a-4cc4-3324-a52d628de4a7",
+    "type": "Componentsfreeform",
+    "typeDesc": "Freeform Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "textEditor",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "customfunction",
+      "value": "function f(){\n    \n       \n       if(!this.isInitialized){\n           \n           this.textEditor = {\n                name: \"textEditorComponent\", \n                type: \"textEditor\", \n                file: \"/public/cdv/notifications.xml\",  // will be set later\n                htmlObject: this.htmlObject,\n                saveCallback: function(){\n                        // We want to refresh CDV\n                        $.ajax({\n      type: \"GET\",\n                      url: \"refreshNotifications\",\n                            async: true,\n                            success: function(){\n                                Dashboards.fireChange(\"editorFileSaved\",\"xxx\");\n                            }\n                        });\n                    }\n\n            };\n    \n            Dashboards.addComponents([this.textEditor]);\n            this.isInitialized = true;\n       }\n\n       Dashboards.update(this.textEditor);\n    \n}",
+      "type": "JavaScript"
+     },
+     {
+      "name": "parameters",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "manageCallee",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": ""
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "width",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "editor",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postFetch",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "preChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postChange",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
    }
   ]
  },
  "datasources": {
   "rows": []
  },
- "filename": "/system/cdv/presentation/home.cdfde"
+ "filename": "/system/cdv/presentation/notificationSettings.cdfde"
 }

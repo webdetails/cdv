@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="listTestsFlatten" type="scripting.scripting">
+         <Initscript></Initscript>
+         <Language>beanshell</Language>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="false" cacheDuration="3600"
+               connection="listTestsFlatten"
+               id="listTestsFlatten"
+               type="scriptable">
+      <Columns>
+         <Column idx="8">
+            <Name>Files</Name>
+         </Column>
+         <CalculatedColumn>
+            <Name>Popup</Name>
+            <Formula>="O"</Formula>
+         </CalculatedColumn>
+      </Columns>
+      <Output indexes="1,12,9,10,8,15,11,0" mode="include"/>
+      <Parameters/>
+      <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
+import pt.webdetails.cda.utils.InterPluginUtils;
+
+TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "listTestsFlatten");
+return model;</Query>
+   </DataAccess>
+</CDADescriptor>

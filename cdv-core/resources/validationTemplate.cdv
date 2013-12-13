@@ -1,0 +1,38 @@
+cdv.registerTest({
+	id: 1,
+    type: "query",
+
+    name: "name",
+
+    group: "",
+
+	path: "",
+
+	createdBy: "",
+
+	createdAt: 1339430893246,
+
+    queries: [ 
+	{
+        cdaFile: "", 
+        dataAccessId: "" , 
+        parameters: {   
+        }
+	}
+    ],
+    validations:[{
+        validationName: "",
+        validationType: "",
+        validationFunction:  function(rs, conf) {
+        }
+    }],
+    executionTimeValidation: {
+        expected: 100,
+        warnPercentage: 0.30,
+        errorPercentage: 0.70,
+        errorOnLow: true
+    },
+ 
+
+    cron: "0 0 10 * ? *" 
+});

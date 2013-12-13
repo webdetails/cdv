@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="alerts" type="scripting.scripting">
+         <Initscript></Initscript>
+         <Language>beanshell</Language>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="false" cacheDuration="3600" connection="alerts"
+               id="alerts"
+               type="scriptable">
+      <Columns/>
+      <Output indexes="0,6,2,3,5,4,1,7,8" mode="include"/>
+      <Parameters>
+         <Parameter default="" name="alertType" type="StringArray"/>
+         <Parameter default="" name="cdvGroup" type="String"/>
+         <Parameter default="" name="cdvName" type="String"/>
+         <Parameter default="" name="showCda" type="String"/>
+      </Parameters>
+      <Query>import org.pentaho.reporting.engine.classic.core.util.TypedTableModel;
+import pt.webdetails.cda.utils.InterPluginUtils;
+
+
+System.out.println("Parameters to getAlerts: " + dataRow.get("alertType") + 
+" - " + dataRow.get("cdvGroup") + ":" +  dataRow.get("cdvName") );
+
+// String[] params = {"timestamp","file", "parameters","message"};
+HashMap params = new HashMap();
+params.put("columns", new String[]{
+    "timestampGroup", "level", "group", "name", "summary", "userid", "timestamp", "rid", "message"
+});
+params.put("alertType", dataRow.get("alertType"));
+params.put("cdvGroup", dataRow.get("cdvGroup"));
+params.put("cdvName", dataRow.get("cdvName"));
+params.put("showCda", dataRow.get("showCda"));
+
+TypedTableModel model = InterPluginUtils.getTableModelFromJsonPluginCall("cdv", "getAlerts", params);
+return model;</Query>
+   </DataAccess>
+</CDADescriptor>
