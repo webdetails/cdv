@@ -16,7 +16,7 @@
   <overlays>
     <overlay id="startup.cdv" resourcebundle="plugin/cdv/api/resources/lang/messages">
       <menubar id="toolsmenu">
-        <menuitem id="cdv" label="cdv" command="mantleXulHandler.openUrl('cdv','cdv','plugin/cdv/api/home')"/>
+        <menuitem id="CDV" label="CDV" command="mantleXulHandler.openUrl('CDV','CDV','plugin/cdv/api/home')"/>
       </menubar>
     </overlay>
   </overlays>
