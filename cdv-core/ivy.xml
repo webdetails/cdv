@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 
-  <info organisation="pentaho" module="cdv" revision="${project.revision}"/>
+  <info organisation="pentaho" module="cdv-core" revision="${project.revision}"/>
 
   <configurations>
     <conf name="default"/>
@@ -33,7 +33,7 @@
     <dependency org="org.springframework"           name="spring-context"       rev="3.0.3.RELEASE"/>
 
     <!--  Webdetails -->
-    <dependency org="pentaho" name="cpf-core" rev="REFACTOR-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cpf-core" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
 
     <!--  OrientDB -->
     <dependency org="com.orientechnologies" name="orient-commons" conf="runtime->default" rev="1.5.0"/>
