@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 
-  <info organisation="pentaho" module="cdv-pentaho5" revision="${project.revision}"/>
+  <info organisation="pentaho" module="cdv" revision="${project.revision}"/>
 
   <configurations>
     <conf name="default"/>
