@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
 
-  <info organisation="pentaho" module="cdv" revision="${project.revision}"/>
+  <info organisation="pentaho" module="cdv-pentaho" revision="${project.revision}"/>
 
   <configurations>
     <conf name="default"/>
@@ -37,9 +37,9 @@
                 rev="${dependency.bi-platform.revision}" transitive="false"  changing="true"/>
                 
                 
-    <dependency org="pentaho" name="cpf-core" rev="REFACTOR-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
-    <dependency org="pentaho" name="cpf-pentaho" rev="REFACTOR-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
-    <dependency org="pentaho" name="cdv-core" rev="TRUNK-SNAPSHOT" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cpf-core" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cpf-pentaho" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cdv-core" rev="${project.revision}" transitive="false" changing="true" conf='runtime->default'/>
 
 
     <!--  OrientDB -->
