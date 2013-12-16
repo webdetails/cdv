@@ -13,14 +13,7 @@
 
 package pt.webdetails.cdv.operations;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -28,18 +21,23 @@ import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.orientechnologies.orient.core.record.impl.ODocument;
-
 import pt.webdetails.cdv.notifications.Alert;
 import pt.webdetails.cdv.notifications.EventManager;
 import pt.webdetails.cpf.JsonRequestHandler;
+import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.http.ICommonParameterProvider;
 import pt.webdetails.cpf.messaging.JsonSerializable;
-import pt.webdetails.cpf.Result;
 import pt.webdetails.cpf.messaging.PluginEvent;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
 import pt.webdetails.cpf.utils.CharsetHelper;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class PushWarningsHandler extends JsonRequestHandler {
   
@@ -101,7 +99,7 @@ public class PushWarningsHandler extends JsonRequestHandler {
 
   /**
    * @param event
-   * @throws JSONException
+   * @throws org.json.JSONException
    */
   private void logEvent(PluginEvent event, JSONObject jsonEvent) throws JSONException {
     logger.info("[" + event.getPlugin() + ":" + event.getEventType() + "] " +
@@ -244,11 +242,11 @@ public class PushWarningsHandler extends JsonRequestHandler {
         msg = "Query " + queryInfo.getString("dataAccessId") + " in " + request.getString("name") + 
                 " has failed with exception " + request.getString("message") + " \n\n" +
                 "Stack Trace: ";
-        
-        
-        Object[] sTrace = (Object[]) request.get("stackTrace");
-        for (int i=0; i < sTrace.length; i++){
-            msg += "\n" + sTrace[i].toString();
+
+
+        JSONArray sTrace = (JSONArray) request.get("stackTrace");
+        for (int i=0; i < sTrace.length(); i++){
+            msg += "\n" + sTrace.getString( i );
         }
         msg += "\n\n Actual Query: " + queryInfo.getString("query")+ " \n\nParameters: " + 
                 queryInfo.getString("parameters"); 

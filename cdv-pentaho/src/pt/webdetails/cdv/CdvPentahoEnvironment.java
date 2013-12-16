@@ -14,6 +14,17 @@ package pt.webdetails.cdv;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.mozilla.javascript.Callable;
+import org.pentaho.platform.api.engine.IPentahoSession;
+import org.pentaho.platform.api.engine.IUserDetailsRoleListService;
+import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
+import org.pentaho.platform.engine.core.system.PentahoSystem;
+import org.pentaho.platform.engine.core.system.UserSession;
+import org.pentaho.platform.engine.security.SecurityHelper;
+import org.pentaho.platform.repository.hibernate.HibernateUtil;
+import org.springframework.security.Authentication;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import pt.webdetails.cdv.bean.factory.ICdvBeanFactory;
 import pt.webdetails.cpf.PentahoPluginEnvironment;
 import pt.webdetails.cpf.exceptions.InitializationException;
@@ -70,6 +81,6 @@ public class CdvPentahoEnvironment extends PentahoPluginEnvironment implements I
 
   @Override
   public void ensureDefaultDirAndFilesExists() {
-    CdvEngine.getInstance().ensureBasicDirsAndFiles();
+    CdvEngine.getInstance().ensureBasicDirsAndFiles("");
   }
 }

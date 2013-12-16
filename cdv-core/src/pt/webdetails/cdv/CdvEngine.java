@@ -13,6 +13,7 @@
 
 package pt.webdetails.cdv;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import pt.webdetails.cdv.bean.factory.CoreBeanFactory;
@@ -22,6 +23,7 @@ import pt.webdetails.cpf.Util;
 import pt.webdetails.cpf.exceptions.InitializationException;
 import pt.webdetails.cpf.repository.api.IRWAccess;
 import pt.webdetails.cpf.repository.api.IReadAccess;
+import pt.webdetails.cpf.repository.api.IUserContentAccess;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,42 +72,49 @@ public class CdvEngine {
     }
   }
 
-  public void ensureBasicDirsAndFiles()
+  public void ensureBasicDirsAndFiles( String baseSolution )
   {
-    instance.ensureBasicDirs();
-    instance.ensureBasicFiles();
+    instance.ensureBasicDirs(baseSolution);
+    instance.ensureBasicFiles(baseSolution);
   }
 
-  private void ensureBasicDirs() {
-    if ( !ensureDirExists( CdvConstants.SolutionFolders.TESTS ) ) {
+  private void ensureBasicDirs( String baseSolution ) {
+    if ( !ensureDirExists( Util.joinPath( baseSolution , CdvConstants.SolutionFolders.HOME ))) {
+      logger.error( "Couldn't find or create cdv plugin repository folder." );
+    }
+    if ( !ensureDirExists( Util.joinPath( baseSolution, CdvConstants.SolutionFolders.HOME,
+      CdvConstants.SolutionFolders.TESTS ))) {
       logger.error( "Couldn't find or create cdv/TESTS plugin repository folder." );
     }
   }
 
   private boolean ensureDirExists( String relPath ) {
-    IRWAccess repoBase = CdvEnvironment.getPluginRepositoryWriter();
+    IUserContentAccess repoBase = CdvEnvironment.getUserContentAccess();
     return repoBase.fileExists( relPath ) || repoBase.createFolder( relPath );
   }
 
-  private void ensureBasicFiles() {
-    if ( !ensureFileExists( CdvConstants.SolutionFiles.NOTIFCATIONS ) ) {
+  private void ensureBasicFiles( String baseSolution ) {
+    if ( !ensureFileExists( Util.joinPath( baseSolution, CdvConstants.SolutionFolders.HOME,
+      CdvConstants.SolutionFiles.NOTIFCATIONS ), CdvConstants.SolutionFiles.NOTIFCATIONS) ) {
       logger.error( "Couldn't find or create cdv/notifications.xml plugin repository file." );
     }
   }
 
-  private boolean ensureFileExists( String fileName ) {
-    IReadAccess readAccess = CdvEnvironment.getPluginSystemWriter();
-    IRWAccess writeAccess = CdvEnvironment.getPluginRepositoryWriter();
+  private boolean ensureFileExists( String fileName, String systemFileName ) {
+    IUserContentAccess repoBase = CdvEnvironment.getUserContentAccess();
 
-    try {
-      if ( readAccess.fileExists( fileName ) ) {
-        InputStream stream = readAccess.getFileInputStream( fileName );
-        return writeAccess.fileExists( fileName ) || writeAccess.saveFile( fileName, stream );
+    if ( !repoBase.fileExists( fileName ) )
+    {
+      IReadAccess readAccess = CdvEnvironment.getPluginSystemWriter();
+
+      try {
+        InputStream stream = readAccess.getFileInputStream( systemFileName );
+        return repoBase.fileExists( fileName ) || repoBase.saveFile( fileName, stream );
+      } catch ( IOException e ) {
+        return false;
       }
-    } catch ( IOException e ) {
     }
-
-    return false;
+    return true;
   }
 
   public static ICdvEnvironment getEnv() {
