@@ -1,0 +1,71 @@
+cdv.registerTest({
+	id: 1,
+    type: "query",
+    name: "Test 1",
+    group: "CDV Sample Tests",
+	path: "/public/cdv/tests/test.cdv",
+	createdBy: "Pedro",
+	createdAt: 1339430893246,
+    queries: [ 
+    {
+        cdaFile: "/public/plugin-samples/cda/cdafiles/sql-jndi.cda",
+        dataAccessId: "1" , 
+        parameters: {}
+    },
+    {
+        cdaFile: "/public/plugin-samples/cda/cdafiles/sql-jndi.cda",
+        dataAccessId: "1" , 
+        parameters: {
+            status:"Cancelled"
+        }
+    }
+    ],
+    validations:[ 
+    {
+        validationName: "Test Existence",
+        validationType: "custom",
+        validationFunction:  function(rs, conf) {
+            
+            var _conf = {testAll: true};
+            conf = _.extend({},_conf,conf);
+            var exists = !!conf.testAll;
+
+			exists = _.reduce(_.map(rs,function(r){
+						return r.resultset.length > 0
+						}),function(prev, curr, exists){
+					return conf.testAll ? (curr && prev) : (curr || prev);
+					});
+
+            return exists ? "ERROR" : "OK";
+        
+        }
+    },
+    {
+        validationName: "Test Existence 2",
+        validationType: "custom",
+        validationFunction:  function(rs, conf) {
+            
+            var _conf = {testAll: true};
+            conf = _.extend({},_conf,conf);
+            var exists = !!conf.testAll;
+
+			exists = _.reduce(_.map(rs,function(r){
+						return r.resultset.length > 0
+						}),function(prev, curr, exists){
+					return conf.testAll ? (curr && prev) : (curr || prev);
+					});
+
+            return exists ? "OK" : "ERROR";
+        
+        }
+    }],
+    executionTimeValidation: {
+        expected: 100,
+        warnPercentage: 0.30,
+        errorPercentage: 0.70,
+        errorOnLow: true
+    },
+
+    cron: "0 2 * * ? *" 
+});
+
