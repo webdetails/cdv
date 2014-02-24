@@ -4,7 +4,7 @@ var setTimeout,
     clearInterval;
 
 (function (global) {
-    var timer = new java.util.Timer();
+    var timer = new java.util.Timer(true);
     var counter = 1; 
     var ids = {};
 
