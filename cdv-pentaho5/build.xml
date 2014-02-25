@@ -15,8 +15,15 @@
     and works with the common_build.xml file.
   </description>
 
-  <!-- Import the common_build.xml file which contains all the default tasks -->
-  <import file="build-res/subfloor-pkg.xml" id="subfloor"/>
+  <property file="../override.properties"
+            description="Top level Properties customized for your development environment belong in this file.  This file will never be checked into the SCM." />
+  <property file="../build.properties"
+            description="Top level Properties customized for your particular project belong in this file." />
+
+
+  <!-- Import subfloor.xml which contains all the default tasks -->
+  <import file="../build-res/subfloor-pkg.xml"/>
+
 
   <!--
       AS STATED ABOVE, THE ONLY TASKS THAT SHOULD EXIST IN THIS BUILD FILE ARE
@@ -147,7 +154,7 @@
 	<property name="sequential.build.id" value="manual-${DSTAMP}"/>
 
 
-	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='TRUNK' buildId='${sequential.build.id}'>${distribution.version}&lt;/version>"/>		       
+	<echo file="${stage.dir}/${plugin.name}/version.xml" message="&lt;version branch='${project.stage}' buildId='${sequential.build.id}'>${distribution.version}&lt;/version>"/>		       
 
 
     <!-- create a zip file -->
@@ -159,13 +166,13 @@
 
        
 	<echo file="${dist.dir}/marketplace.xml">&lt;version>
-    	    &lt;branch>TRUNK&lt;/branch>
+    	    &lt;branch>${project.stage}&lt;/branch>
 	    	&lt;version>${distribution.version}&lt;/version>
-		    &lt;name>Trunk&lt;/name>
-            &lt;package_url>http://ci.pentaho.com/job/pentaho-cdv/lastSuccessfulBuild/artifact/cdv-pentaho5/dist/cdv-TRUNK-SNAPSHOT.zip&lt;/package_url>
-            &lt;description>Build for Pentaho 5.0&lt;/description>
+		    &lt;name>${marketplace.metadata.name}&lt;/name>
+            &lt;package_url>${marketplace.metadata.package_url}&lt;/package_url>
+            &lt;description>${marketplace.metadata.description}&lt;/description>
             &lt;build_id>${sequential.build.id}&lt;/build_id>
-            &lt;min_parent_version>5.0&lt;/min_parent_version>
+            &lt;min_parent_version>${marketplace.metadata.min_parent_version}&lt;/min_parent_version>
 		&lt;/version>	</echo>         
 
 

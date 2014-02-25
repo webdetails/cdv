@@ -67,9 +67,7 @@ public class CdvLifecycleListener extends SimpleLifeCycleListener {
     logger.debug( "Load for CDV" );
   }
 
-  public void unLoaded() throws PluginLifecycleException {
-    logger.debug( "Unload for CDV" );
-  }
+
 
   @Override
   public PluginEnvironment getEnvironment() {
