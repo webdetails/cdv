@@ -1,0 +1,566 @@
+{
+ "layout": {
+  "title": "CDF - Sample structure",
+  "rows": [
+   {
+    "id": "0ee64b35-51ab-3cb8-c686-de9b5c884556",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvUIJS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceFile",
+      "value": "js/cdvUI.js",
+      "type": "ResourceFile"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "eac87dd2-daa2-6b17-8727-8b5c653c72d1",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvCSS",
+      "type": "Id"
+     },
+     {
+      "name": "resourceFile",
+      "value": "css/cdv.css",
+      "type": "ResourceFile"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "acdaca59-3c15-1e03-a2cd-c8a96e41b83b",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "Header",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "WDheader",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "21cdc25f-2395-7c96-6272-86163b281578",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "acdaca59-3c15-1e03-a2cd-c8a96e41b83b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvLogo",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "18",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdvLogo",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "68d642c7-6b66-a4a3-25a8-4e4fa6bad217",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "acdaca59-3c15-1e03-a2cd-c8a96e41b83b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvText",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "4",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdvSmall",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "cfaf6c10-5814-9c6b-87bb-9fe3c9865932",
+    "type": "LayoutHtml",
+    "typeDesc": "Html",
+    "parent": "68d642c7-6b66-a4a3-25a8-4e4fa6bad217",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "html",
+      "value": ".Community Data Validation ",
+      "type": "Html"
+     },
+     {
+      "name": "fontSize",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "color",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "4eaf456f-887c-73c3-901b-5f5c2d02b3d9",
+    "type": "LayoutColumn",
+    "typeDesc": "Column",
+    "parent": "acdaca59-3c15-1e03-a2cd-c8a96e41b83b",
+    "properties": [
+     {
+      "name": "name",
+      "value": "cdvVersion",
+      "type": "Id"
+     },
+     {
+      "name": "columnSpan",
+      "value": "3",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrepend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnAppend",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "columnPrependTop",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnAppendBottom",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "columnBigBorder",
+      "value": "false",
+      "type": "Boolean"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "cdvVersion",
+      "type": "String"
+     }
+    ]
+   },
+   {
+    "id": "4c8a038c-1f04-8bf3-95f8-f52a57db1be6",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "siteMap",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   }
+  ]
+ },
+ "components": {
+  "rows": [
+   {
+    "id": "CUSTOMCOMPONENTS",
+    "name": "Custom",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Custom",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "3973b826-02e5-1a64-b6bd-b021ec35de46",
+    "type": "ComponentssiteMap",
+    "typeDesc": "Site Map links",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "siteMap",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "xActionArrayParameter",
+      "value": "[]",
+      "type": "ValuesArray"
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "siteMapParameter",
+      "value": "wd.cdvUI.siteMap",
+      "type": "Parameter"
+     },
+     {
+      "name": "ajaxUrl",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "siteMapSelectedParameter",
+      "value": "siteMapSelected",
+      "type": "Parameter"
+     },
+     {
+      "name": "htmlObject",
+      "value": "siteMap",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     }
+    ]
+   },
+   {
+    "id": "2fa20f62-a459-0df3-2976-9d78ef44f0ab",
+    "type": "ComponentscurrentVersion",
+    "typeDesc": "Get Current Plugin Version",
+    "parent": "CUSTOMCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "version",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[]",
+      "type": "Listeners"
+     },
+     {
+      "name": "versionUrl",
+      "value": "/pentaho/plugin/cdv/api/getVersion",
+      "type": "String"
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "${p:cdvVersion}",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ]
+   },
+   {
+    "id": "GENERIC",
+    "name": "Generic",
+    "type": "Label",
+    "typeDesc": "<i>Group</i>",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "Group",
+      "value": "Generic",
+      "type": "Label"
+     }
+    ]
+   },
+   {
+    "id": "ca6d5507-bdd6-1a01-1d01-9b39b89de5c4",
+    "type": "ComponentsParameter",
+    "typeDesc": "Parameter",
+    "parent": "GENERIC",
+    "properties": [
+     {
+      "name": "name",
+      "value": "siteMapSelected",
+      "type": "Id"
+     },
+     {
+      "name": "propertyValue",
+      "value": "Home",
+      "type": "String"
+     },
+     {
+      "name": "parameterViewRole",
+      "value": "unused",
+      "type": "parameterViewRoleCustom"
+     },
+     {
+      "name": "bookmarkable",
+      "value": "false",
+      "type": "Boolean"
+     }
+    ]
+   }
+  ]
+ },
+ "datasources": {
+  "rows": []
+ },
+ "filename": "/system/cdv/presentation/home.cdfde"
+}

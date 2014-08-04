@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="monthlyQuery" type="mondrian.jndi">
+         <Catalog>steel-wheels/analysis/steelwheels.mondrian.xml</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="true" cacheDuration="3600" connection="monthlyQuery"
+               id="monthlyQuery"
+               type="mdx">
+      <BandedMode>compact</BandedMode>
+      <Columns/>
+      <Parameters>
+         <Parameter default="2003" name="yearParameter" type="String"/>
+      </Parameters>
+      <Query>select NON EMPTY {[Measures].[Quantity], [Measures].[Sales]} ON COLUMNS,
+{Descendants 
+   ( [Time].[${yearParameter}], 
+     [Time].[${yearParameter}], AFTER
+   )  
+} ON ROWS
+from [SteelWheelsSales]</Query>
+   </DataAccess>
+</CDADescriptor>
