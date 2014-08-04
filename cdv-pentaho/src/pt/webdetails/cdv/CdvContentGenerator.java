@@ -331,7 +331,7 @@ public class CdvContentGenerator extends RestContentGenerator {
     params.put( "file", dashboardName );
     params.put( "bypassCache", "true" );
     params.put( "absolute", "true" );
-    params.put( "inferScheme", "false" );
+    params.put( "inferScheme", "true" );
     params.put( "root", getRoot() );
 
     //add request parameters
@@ -357,7 +357,7 @@ public class CdvContentGenerator extends RestContentGenerator {
   private String getRoot() {
 
     ServletRequest wrapper = getRequest();
-    String root = wrapper.getScheme() + "://" + wrapper.getServerName() + ":" + wrapper.getServerPort();
+    String root = wrapper.getServerName() + ":" + wrapper.getServerPort();
 
     return root;
   }
@@ -384,10 +384,11 @@ public class CdvContentGenerator extends RestContentGenerator {
       protected String getVersionCheckUrl( VersionChecker.Branch branch ) {
         switch( branch ) {
           case TRUNK:
-            return "http://ci.analytical-labs.com/job/Webdetails-CDV/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return "http://ci.pentaho.com/job/pentaho-cdv-pentaho/lastSuccessfulBuild/artifact/"
+              + "cdv-pentaho/dist/marketplace.xml";
           case STABLE:
-            return "http://ci.analytical-labs" +
-              ".com/job/Webdetails-CDV-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return "http://ci.pentaho" +
+              ".com/job/pentaho-cdv-release/lastSuccessfulBuild/artifact/cdv-pentaho/dist/marketplace.xml";
           default:
             return null;
         }

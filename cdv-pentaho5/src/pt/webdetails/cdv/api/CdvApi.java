@@ -416,10 +416,10 @@ public class CdvApi {
 
   @GET
   @Path( "/checkVersion" )
-  @Produces( MimeTypes.JSON )
-  public void checkVersion( @Context HttpServletResponse response ) throws IOException, JSONException {
+  public String checkVersion( @Context HttpServletResponse response ) throws IOException, JSONException {
     JSONObject result = getVersionChecker().checkVersion().toJSON();
-    JsonUtils.buildJsonResult( response.getOutputStream(), result != null, result );
+
+    return  result.toString( 2 );
   }
 
   @GET
@@ -436,10 +436,10 @@ public class CdvApi {
       protected String getVersionCheckUrl( VersionChecker.Branch branch ) {
         switch( branch ) {
           case TRUNK:
-            return "http://ci.analytical-labs.com/job/Webdetails-CDV/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return "http://ci.pentaho.com/job/pentaho-cdv/lastSuccessfulBuild/artifact/cdv-pentaho5/dist/marketplace.xml";
           case STABLE:
-            return "http://ci.analytical-labs" +
-              ".com/job/Webdetails-CDV-Release/lastSuccessfulBuild/artifact/dist/marketplace.xml";
+            return "http://ci.pentaho" +
+              ".com/job/pentaho-cdv-release/lastSuccessfulBuild/artifact/cdv-pentaho5/dist/marketplace.xml";
           default:
             return null;
         }
