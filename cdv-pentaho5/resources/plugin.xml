@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin title="cdv" loader="DEFAULT">
+<plugin title="cdv">
+
+
+  <overlays>
+    <overlay id="startup.cdv" resourcebundle="content/cdv/lang/messages.properties">
+      <menubar id="toolsmenu">
+        <menuitem id="cdv" label="CDV" command="mantleXulHandler.openUrl('cdv','CDV','plugin/cdv/api/home')"/>
+      </menubar>
+    </overlay>
+  </overlays>
+
+
 
   <lifecycle-listener class="pt.webdetails.cdv.CdvLifecycleListener"/>
 
@@ -13,12 +24,7 @@
   <content-types>
   </content-types>
 
-  <overlays>
-    <overlay id="startup.cdv" resourcebundle="plugin/cdv/api/resources/lang/messages">
-      <menubar id="toolsmenu">
-        <menuitem id="CDV" label="CDV" command="mantleXulHandler.openUrl('CDV','CDV','plugin/cdv/api/home')"/>
-      </menubar>
-    </overlay>
-  </overlays>
+
+
 
 </plugin>

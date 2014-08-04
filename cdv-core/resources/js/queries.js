@@ -45,7 +45,7 @@ registerHandler("GET", "/getAlerts", function(out,pathParams,requestParams){
 
         console.log("cdvGroup: " + (cdvGroup==null) + "; ViewHistory: " + viewHistory);
         console.log("cdvName:  " + (cdvName));
-        
+
         //params.put("alertType", alertType);
         params.put("cdvGroup", cdvGroup);
         params.put("cdvName", cdvName);

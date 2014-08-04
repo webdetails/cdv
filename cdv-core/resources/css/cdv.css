@@ -523,7 +523,6 @@ table.tableComponent tr.even, table.tableComponent tr.odd{
 
 .alerts .dataTables_filter {
     position: absolute;
-    left: -200px;
     top: -27px;
 }
 
@@ -1964,12 +1963,22 @@ div.jqi .jqicontainer {
   height: 22px;
   float: left;
 }
+
+#tableObjTable_previous.paginate_button,
 .paginate_button.previous {
   background-image: url('img/arrowLeft.png');
-} 
+    border:0;
+    padding:0;
+    margin-left: 0;
+}
+
+#tableObjTable_next.paginate_button,
 .paginate_button.next {
   background-image: url('img/arrowRight.png');
   margin-right:-1px;
+    border:0;
+    padding:0;
+
 } 
 
 div.cdvBig {
