@@ -16,18 +16,14 @@ package pt.webdetails.cdv;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.pentaho.platform.api.engine.PluginLifecycleException;
-import org.pentaho.platform.engine.security.SecurityHelper;
 import pt.webdetails.cdv.notifications.NotificationEngine;
 import pt.webdetails.cdv.operations.PushWarningsHandler;
 import pt.webdetails.cdv.scripts.GlobalScope;
 import pt.webdetails.cdv.util.CdvEnvironment;
 import pt.webdetails.cpf.PluginEnvironment;
 import pt.webdetails.cpf.RestRequestHandler;
-import pt.webdetails.cpf.RestRequestHandler.HttpMethod;
 import pt.webdetails.cpf.SimpleLifeCycleListener;
 import pt.webdetails.cpf.persistence.PersistenceEngine;
-
-import java.util.concurrent.Callable;
 
 public class CdvLifecycleListener extends SimpleLifeCycleListener {
 
@@ -66,7 +62,6 @@ public class CdvLifecycleListener extends SimpleLifeCycleListener {
   public void loaded() throws PluginLifecycleException {
     logger.debug( "Load for CDV" );
   }
-
 
 
   @Override

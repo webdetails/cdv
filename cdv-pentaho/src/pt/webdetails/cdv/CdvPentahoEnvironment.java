@@ -81,6 +81,6 @@ public class CdvPentahoEnvironment extends PentahoPluginEnvironment implements I
 
   @Override
   public void ensureDefaultDirAndFilesExists() {
-    CdvEngine.getInstance().ensureBasicDirsAndFiles("");
+    CdvEngine.getInstance().ensureBasicDirsAndFiles();
   }
 }
