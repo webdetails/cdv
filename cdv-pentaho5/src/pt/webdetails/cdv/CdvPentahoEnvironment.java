@@ -77,7 +77,7 @@ public class CdvPentahoEnvironment extends PentahoPluginEnvironment implements I
     {
       SecurityHelper.getInstance().runAsSystem( new Callable<Object>() {
         @Override public Object call() throws Exception {
-          CdvEngine.getInstance().ensureBasicDirsAndFiles( "public" );
+          CdvEngine.getInstance().ensureBasicDirsAndFiles();
           return null;
         }
       } );

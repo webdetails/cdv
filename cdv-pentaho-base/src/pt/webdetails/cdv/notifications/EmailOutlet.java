@@ -17,7 +17,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Node;
-import org.pentaho.metadata.messages.LocaleHelper;
 import org.pentaho.platform.engine.core.system.PentahoSystem;
 
 import javax.mail.AuthenticationFailedException;
@@ -39,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import pt.webdetails.cpf.utils.CharsetHelper;
 
 public class EmailOutlet implements NotificationOutlet {
 
@@ -188,7 +189,7 @@ public class EmailOutlet implements NotificationOutlet {
         final String content = getMessageBody(alert);
 
         textBodyPart = new MimeBodyPart();
-        textBodyPart.setContent(content, "text/plain; charset=" + LocaleHelper.getSystemEncoding());
+        textBodyPart.setContent(content, "text/plain; charset=" + CharsetHelper.getEncoding());
         final MimeMultipart textMultipart = new MimeMultipart();
         textMultipart.addBodyPart(textBodyPart);
 
@@ -226,7 +227,7 @@ public class EmailOutlet implements NotificationOutlet {
         }
 
         if (subject != null) {
-            msg.setSubject(subject, LocaleHelper.getSystemEncoding());
+            msg.setSubject(subject, CharsetHelper.getEncoding());
 
 
         }
