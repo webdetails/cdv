@@ -1,5 +1,5 @@
 /*!
-* Copyright 2002 - 2013 Webdetails, a Pentaho company. All rights reserved.
+* Copyright 2002 - 2015 Webdetails, a Pentaho company. All rights reserved.
 *
 * This software was developed by Webdetails and is provided under the terms
 * of the Mozilla Public License, Version 2.0, or any later version. You may not use
@@ -70,17 +70,16 @@ public class CdvEngine {
     }
   }
 
-  public void ensureBasicDirsAndFiles()
-  {
+  public void ensureBasicDirsAndFiles() {
     instance.ensureBasicDirs();
     instance.ensureBasicFiles();
   }
 
   private void ensureBasicDirs() {
-    if ( !ensureDirExists( "" )) {
+    if ( !ensureDirExists( "" ) ) {
       logger.error( "Couldn't find or create cdv plugin repository folder." );
     }
-    if ( !ensureDirExists( Util.joinPath(CdvConstants.SolutionFolders.TESTS ))) {
+    if ( !ensureDirExists( Util.joinPath( CdvConstants.SolutionFolders.TESTS ) ) ) {
       logger.error( "Couldn't find or create cdv/TESTS plugin repository folder." );
     }
   }
@@ -92,8 +91,8 @@ public class CdvEngine {
   }
 
   private void ensureBasicFiles() {
-    if ( !ensureFileExists( Util.joinPath(
-      CdvConstants.SolutionFiles.NOTIFCATIONS ), CdvConstants.SolutionFiles.NOTIFCATIONS) ) {
+    if ( !ensureFileExists( Util.joinPath( CdvConstants.SolutionFiles.NOTIFCATIONS ),
+        CdvConstants.SolutionFiles.NOTIFCATIONS ) ) {
       logger.error( "Couldn't find or create cdv/notifications.xml plugin repository file." );
     }
   }
@@ -101,8 +100,7 @@ public class CdvEngine {
   private boolean ensureFileExists( String fileName, String systemFileName ) {
     IRWAccess repoBase = CdvEnvironment.getPluginRepositoryWriter();
 
-    if ( !repoBase.fileExists( fileName ) )
-    {
+    if ( !repoBase.fileExists( fileName ) ) {
       IReadAccess readAccess = CdvEnvironment.getPluginSystemWriter();
 
       try {
