@@ -1,5 +1,5 @@
 /*!
-* Copyright 2002 - 2013 Webdetails, a Pentaho company. All rights reserved.
+* Copyright 2002 - 2015 Webdetails, a Pentaho company. All rights reserved.
 *
 * This software was developed by Webdetails and is provided under the terms
 * of the Mozilla Public License, Version 2.0, or any later version. You may not use
@@ -10,21 +10,11 @@
 * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. Please refer to
 * the license for the specific language governing your rights and limitations.
 */
+
 package pt.webdetails.cdv;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mozilla.javascript.Callable;
-import org.pentaho.platform.api.engine.IPentahoSession;
-import org.pentaho.platform.api.engine.IUserDetailsRoleListService;
-import org.pentaho.platform.engine.core.system.PentahoSessionHolder;
-import org.pentaho.platform.engine.core.system.PentahoSystem;
-import org.pentaho.platform.engine.core.system.UserSession;
-import org.pentaho.platform.engine.security.SecurityHelper;
-import org.pentaho.platform.repository.hibernate.HibernateUtil;
-import org.springframework.security.Authentication;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.providers.anonymous.AnonymousAuthenticationToken;
 import pt.webdetails.cdv.bean.factory.ICdvBeanFactory;
 import pt.webdetails.cpf.PentahoPluginEnvironment;
 import pt.webdetails.cpf.exceptions.InitializationException;
