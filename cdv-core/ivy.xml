@@ -23,22 +23,23 @@
   <dependencies defaultconf="default->default">
 
     <!--  third party dependencies -->
-    <dependency org="commons-logging"               name="commons-logging"      rev="1.1.1" transitive="false"/>
-    <dependency org="dom4j"                         name="dom4j"                rev="1.6.1" transitive="false"/>
-    <dependency org="commons-lang"                  name="commons-lang"         rev="2.2"/>
-    <dependency org="org.slf4j"                     name="slf4j-api"            rev="1.7.5" />
-    <dependency org="org.json"                      name="json"                 rev="${dependency.json.revision}" />
-    <dependency org="javax.servlet"                 name="servlet-api"          rev="2.5" />
-    <dependency org="org.springframework"           name="spring-beans"         rev="3.0.3.RELEASE"/>
-    <dependency org="org.springframework"           name="spring-context"       rev="3.0.3.RELEASE"/>
+    <dependency org="commons-logging"     name="commons-logging" rev="1.1.1"                       transitive="false"/>
+    <dependency org="dom4j"               name="dom4j"           rev="1.6.1"                       transitive="false"/>
+    <dependency org="commons-lang"        name="commons-lang"    rev="2.2"                         transitive="false"/>
+    <dependency org="org.slf4j"           name="slf4j-api"       rev="1.7.5"                       transitive="false"/>
+    <dependency org="org.json"            name="json"            rev="${dependency.json.revision}" transitive="false"/>
+    <dependency org="javax.servlet"       name="servlet-api"     rev="2.5"                         transitive="false"/>
+    <dependency org="org.springframework" name="spring-core"     rev="3.0.3.RELEASE"               transitive="false"/>
+    <dependency org="org.springframework" name="spring-beans"    rev="3.0.3.RELEASE"               transitive="false"/>
+    <dependency org="org.springframework" name="spring-context"  rev="3.0.3.RELEASE"               transitive="false"/>
 
     <!--  Webdetails -->
-    <dependency org="pentaho" name="cpf-core" rev="${dependency.pentaho-cpf-plugin.revision}" transitive="false" changing="true" conf='runtime->default'/>
+    <dependency org="pentaho" name="cpf-core" rev="${dependency.pentaho-cpf-plugin.revision}" changing="true" conf="runtime->default" transitive="false"/>
 
     <!--  OrientDB -->
-    <dependency org="com.orientechnologies" name="orient-commons" conf="runtime->default" rev="1.5.0"/>
-    <dependency org="com.orientechnologies" name="orientdb-core" conf="runtime->default" rev="1.5.0"/>
-    <dependency org="com.orientechnologies" name="orientdb-server" conf="runtime->default" rev="1.5.0"/>
+    <dependency org="com.orientechnologies" name="orient-commons"  conf="runtime->default" rev="1.5.0" transitive="false"/>
+    <dependency org="com.orientechnologies" name="orientdb-core"   conf="runtime->default" rev="1.5.0" transitive="false"/>
+    <dependency org="com.orientechnologies" name="orientdb-server" conf="runtime->default" rev="1.5.0" transitive="false"/>
 
   </dependencies>
 
