@@ -556,7 +556,7 @@ wd.cdvUI = wd.cdvUI ||{
 
 
         var txt = 'New Test name: <input id="testName" type="text" placeholder="newTest"></input>';                                                            
-        var callBackFunction = function (v,m,f) {
+        var callBackFunction = function (e,v,m,f) {
             if(v !== undefined){
                 if (v === "ok"){                                
                     var newFileName = m.children()[0].value;     
@@ -595,14 +595,14 @@ wd.cdvUI = wd.cdvUI ||{
         };
 
         var promptConfig = {
-            callback: callBackFunction,
+            submit: callBackFunction,
             buttons: {
-                Cancel: 'cancel'
+                Cancel: 'cancel',
+                New: 'ok'
             },
             loaded: function(){}
         };
         
-        promptConfig.buttons['New'] = "ok";    
         $.prompt(txt,promptConfig);                                                            
     };
 
@@ -925,7 +925,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
 
                     var myself= this;
                     var txt = 'New file name: <input id="testName" type="text" placeholder="New Test Name"></input>';                                                            
-                    var callBackFunction = function (v,m,f) {
+                    var callBackFunction = function (e,v,m,f) {
                         if(v !== undefined){
                             if (v === "ok"){                                
                                 var newFileName = m.children()[0].value;     
@@ -964,14 +964,13 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.validationButton
                     };
 
                     var promptConfig = {
-                        callback: callBackFunction,
+                        submit: callBackFunction,
                         buttons: {
-                            Cancel: 'cancel'
+                            Cancel: 'cancel',
+                            Duplicate: 'ok'
                         },
                         loaded: function(){}
                     };
-        
-                    promptConfig.buttons['Duplicate'] = "ok";
                     this.popup.hide();
                     $.prompt(txt,promptConfig);                                                            
                 }
@@ -1352,7 +1351,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.elapsedTimeAddIn
     
             // encapsulate this
             var $t = $(tgt);
-            var text = st.value;
+            var text = st.value ? st.value : "";
         
             $t.parent("tr").addClass('alert' + text.toLowerCase());
 
@@ -1382,7 +1381,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.alertTypeAddIn))
             // encapsulate this
     
             var $t = $(tgt).empty();
-            var result = st.value.split('|');
+            var result = st.value ? st.value.split('|') : ["",""];
             var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
             $elem.tipsy({
                 gravity: 's', 
@@ -1423,7 +1422,7 @@ Dashboards.registerAddIn("Table", "colType", new AddIn(wd.cdvUI.testResultAddIn)
             // encapsulate this
     
             var $t = $(tgt).empty();
-            var result = st.value.split('|');
+            var result = st.value ? st.value.split('|') : ["",""];
             $t.parent("tr").addClass('alert' + result[0].toLowerCase());
             var $elem = $("<div></div>").appendTo($t).text(result[0]).attr('title',result[1]);
             if(result.length > 1) {
