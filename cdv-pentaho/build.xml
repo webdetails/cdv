@@ -185,7 +185,7 @@
         &lt;/development_stage&gt;
       &lt;/version&gt;</echo>
 
-    <move tofile="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip" file="${dist.dir}/${plugin.zipfile}"/>
+    <copy tofile="${dist.dir}/${ivy.artifact.id}-${project.revision}.zip" file="${dist.dir}/${plugin.zipfile}"/>
 
 
   </target>
