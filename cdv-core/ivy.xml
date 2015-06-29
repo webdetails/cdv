@@ -29,9 +29,6 @@
     <dependency org="org.slf4j"           name="slf4j-api"       rev="1.7.5"                       transitive="false"/>
     <dependency org="org.json"            name="json"            rev="${dependency.json.revision}" transitive="false"/>
     <dependency org="javax.servlet"       name="servlet-api"     rev="2.5"                         transitive="false"/>
-    <dependency org="org.springframework" name="spring-core"     rev="3.0.3.RELEASE"               transitive="false"/>
-    <dependency org="org.springframework" name="spring-beans"    rev="3.0.3.RELEASE"               transitive="false"/>
-    <dependency org="org.springframework" name="spring-context"  rev="3.0.3.RELEASE"               transitive="false"/>
 
     <!--  Webdetails -->
     <dependency org="pentaho" name="cpf-core" rev="${dependency.pentaho-cpf-plugin.revision}" changing="true" conf="runtime->default" transitive="false"/>
