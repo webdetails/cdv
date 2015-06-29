@@ -15,7 +15,7 @@ package pt.webdetails.cdv;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import pt.webdetails.cdv.bean.factory.ICdvBeanFactory;
+import pt.webdetails.cpf.bean.IBeanFactory;
 import pt.webdetails.cpf.PentahoPluginEnvironment;
 import pt.webdetails.cpf.exceptions.InitializationException;
 
@@ -29,9 +29,9 @@ public class CdvPentahoEnvironment extends PentahoPluginEnvironment implements I
   private static final String JS_DIR = "js/";
   private static final String TESTS_DIR = "cdv/tests/";
 
-  private ICdvBeanFactory factory;
+  private IBeanFactory factory;
 
-  public void init( ICdvBeanFactory factory ) throws InitializationException {
+  public void init( IBeanFactory factory ) throws InitializationException {
     this.factory = factory;
     init( this );
   }

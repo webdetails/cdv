@@ -15,10 +15,10 @@ package pt.webdetails.cdv;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import pt.webdetails.cdv.bean.factory.CoreBeanFactory;
-import pt.webdetails.cdv.bean.factory.ICdvBeanFactory;
 import pt.webdetails.cdv.util.CdvEnvironment;
 import pt.webdetails.cpf.Util;
+import pt.webdetails.cpf.bean.IBeanFactory;
+import pt.webdetails.cpf.bean.AbstractBeanFactory;
 import pt.webdetails.cpf.exceptions.InitializationException;
 import pt.webdetails.cpf.repository.api.IRWAccess;
 import pt.webdetails.cpf.repository.api.IReadAccess;
@@ -56,7 +56,10 @@ public class CdvEngine {
   private static void initialize() throws InitializationException {
     if ( instance.cdvEnv == null ) {
 
-      ICdvBeanFactory factory = new CoreBeanFactory();
+      IBeanFactory factory = new AbstractBeanFactory(){
+        @Override
+        public String getSpringXMLFilename(){ return "cdv.spring.xml"; }
+      };
 
       // try to get the environment from the configuration
       // will return the DefaultCdvEnvironment by default
@@ -117,7 +120,7 @@ public class CdvEngine {
     return getInstance().getEnvironment();
   }
 
-  protected synchronized ICdvEnvironment getConfiguredEnvironment( ICdvBeanFactory factory )
+  protected synchronized ICdvEnvironment getConfiguredEnvironment( IBeanFactory factory )
     throws InitializationException {
 
     Object obj = factory.getBean( ICdvEnvironment.class.getSimpleName() );

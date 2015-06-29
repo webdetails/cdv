@@ -13,13 +13,13 @@
 
 package pt.webdetails.cdv;
 
-import pt.webdetails.cdv.bean.factory.ICdvBeanFactory;
+import pt.webdetails.cpf.bean.IBeanFactory;
 import pt.webdetails.cpf.exceptions.InitializationException;
 import pt.webdetails.cpf.repository.api.IContentAccessFactory;
 
 public interface ICdvEnvironment {
 
-  public void init( ICdvBeanFactory factory ) throws InitializationException;
+  public void init( IBeanFactory factory ) throws InitializationException;
 
   public void refresh();
 
