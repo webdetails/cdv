@@ -65,7 +65,7 @@
     </dependency>                      
                 
     <dependency org="pentaho" name="cpf-core"     rev="${dependency.pentaho-cpf-plugin.revision}" changing="true" conf="runtime->default" transitive="false"/>
-    <dependency org="pentaho" name="cpf-pentaho5" rev="${dependency.pentaho-cpf-plugin.revision}" changing="true" conf="runtime->default" transitive="false"/>
+    <dependency org="pentaho" name="cpf-pentaho" rev="${dependency.pentaho-cpf-plugin.revision}" changing="true" conf="runtime->default" transitive="false"/>
     <dependency org="pentaho" name="cdv-core"     rev="${project.revision}"                       changing="true" conf="runtime->default" transitive="false"/>
     
     <dependency org="com.sun.jersey" name="jersey-core" rev="1.16"    transitive="false"/>
